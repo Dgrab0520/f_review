@@ -558,6 +558,80 @@ class _SubPageState extends State<SubPage> {
               ),
               SizedBox(height:30),
               Container(
+                padding:EdgeInsets.only(left:10,right:10),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text('Sponsor',
+                        style:TextStyle(
+                          fontSize:15,
+                          fontFamily: 'NotoSansKR-Bold',
+                        ),
+                    ),
+                    Container(
+                      width:25,
+                      height:2.5,
+                      color:Color(0xFFFFAD00),
+                    ),
+                    SizedBox(height:15),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Image.asset('assets/sponsor_1.png'),
+                              Container(
+                                child: Text('[하남 미사점] 1만원 무료쿠폰 10명',
+                                  style:TextStyle(
+                                    fontSize:12,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(width:10),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Image.asset('assets/sponsor_2.png'),
+                              Container(
+                                child: Text('[하남 미사점] 카페라떼 무료쿠폰 20명',
+                                  style:TextStyle(
+                                    fontSize:12,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height:15),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text('*해당제품들은 플루닛 인증마크 이용자들 중 추첨을 통해 상품을 제공 해드립니다.',
+                          style:TextStyle(
+                            fontSize:8,
+                            color:Color(0xFF9D9D9D),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height:20),
+              Container(
+                width:Get.width,
+                height:7,
+                color:Color(0xFFFBF9FF),
+              ),
+              SizedBox(height:20),
+              Container(
                 padding:EdgeInsets.only(left:10,right:10,bottom:30),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -576,143 +650,282 @@ class _SubPageState extends State<SubPage> {
                     ),
                     SizedBox(height:15),
                     Container(
-                      padding:EdgeInsets.only(left:10,bottom:10),
+                      padding:EdgeInsets.only(left:10,right:10,bottom:5),
                       width:Get.width,
-                      height:200,
-                      decoration:BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        image: DecorationImage(
-                          image: AssetImage(
-                              'assets/category_1.png'
-                          ),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text('하남 카페 리뷰',
-                            style:TextStyle(
-                              color:Colors.white,
-                              fontSize:18,
-                              fontFamily: 'NotoSansKR-Medium',
-                            ),
-                          ),
-                          Text('다양한 카페 리뷰를 참고해보세요!',
-                            style:TextStyle(
-                              color:Colors.white,
-                              fontSize:11,
-                              fontFamily: 'NotoSansKR-Regular',
-                            ),
+                      height:330,
+                      decoration: BoxDecoration(
+                        color:Color(0xFFFBF9FF),
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xFFdbdbdb).withOpacity(0.5),
+                            spreadRadius: 2,
+                            blurRadius: 5,
+                            offset: Offset(2, 4), // changes position of shadow
                           ),
                         ],
+                      ),
+                      child: Container(
+                        padding: EdgeInsets.only(top:15),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Image.asset('assets/avatar_1.png',width:40,height:40),
+                                SizedBox(width:10),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text('유라희',
+                                          style:TextStyle(
+                                            color:Color(0xFf2a2a2a),
+                                            fontSize:15,
+                                            fontFamily: 'NotoSansKR-Bold',
+                                          ),
+                                        ),
+                                        SizedBox(width:5),
+                                        Image.asset('assets/mark.png',width:15,height:15),
+                                      ],
+                                    ),
+                                    Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text('사진리뷰 5   6.12.일',
+                                          style:TextStyle(
+                                            color:Color(0xFF8D8D8D),
+                                            fontSize:11,
+                                          ),
+                                        ),
+
+                                        Text('카페·서울 하남',
+                                          style:TextStyle(
+                                            color:Color(0xFF2a2a2a),
+                                            fontSize:11,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height:10),
+                              ],
+                            ),
+                            Container(
+                              width:Get.width,
+                              height:150,
+                              decoration: BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage(
+                                      'assets/sub_img.png'
+                                  ),
+                                ),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Container(
+                                      padding: EdgeInsets.only(top:20,right:10),
+                                      child: Column(
+                                        children: [
+                                          Image.asset('assets/heart.png',width:20),
+                                          SizedBox(height:1),
+                                          Text('1.4K',
+                                            style: TextStyle(
+                                              color:Color(0xFF362C5E),
+                                              fontSize:10,
+                                              fontFamily: 'NotoSansKR-Medium',
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              child: Row(
+                                children: [
+                                  Text('마시랑게',
+                                    style:TextStyle(
+                                      fontSize:15,
+                                      fontFamily: 'NotoSansKR-Bold',
+                                      color:Color(0xFF2a2a2a),
+                                    ),
+                                  ),
+                                  SizedBox(width:2),
+                                  Icon(Icons.arrow_forward_ios,size:15,color:Color(0xFF2a2a2a)),
+                                ],
+                              ),
+                            ),
+                            Container(
+                              child: Text('매장도 예쁘고 디저트도 맛있어요 ㅎㅎ 포토존도 따로 있는데 사람이 많아서 줄 서서 기다려야되용.. 그래도 그만큼 사진도 너무 잘나오고 ...',
+                                style:TextStyle(
+                                  color:Color(0xFF2a2a2a),
+                                  fontSize:11
+                                ),
+                              ),
+                            ),
+                            SizedBox(height:25),
+                            Row(
+                              children: [
+                                Container(
+                                  width:90,
+                                  height:25,
+                                  decoration:BoxDecoration(
+                                    color:Color(0xFFEAE5F9),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Center(
+                                    child: Text('#하남카페',
+                                      style:TextStyle(
+                                        color:Color(0xFF2a2a2a),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width:10),
+                                Container(
+                                  width:80,
+                                  height:25,
+                                  decoration:BoxDecoration(
+                                    color:Color(0xFFEAE5F9),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Center(
+                                    child: Text('#포토존',
+                                      style:TextStyle(
+                                        color:Color(0xFF2a2a2a),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                SizedBox(width:10),
+                                Container(
+                                  width:100,
+                                  height:25,
+                                  decoration:BoxDecoration(
+                                    color:Color(0xFFEAE5F9),
+                                    borderRadius: BorderRadius.circular(5),
+                                  ),
+                                  child: Center(
+                                    child: Text('#비쥬얼맛집',
+                                      style:TextStyle(
+                                        color:Color(0xFF2a2a2a),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                    SizedBox(height:15),
+                    SizedBox(height:40),
                     Container(
-                      padding:EdgeInsets.only(left:10,bottom:10),
                       width:Get.width,
-                      height:200,
-                      decoration:BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        image: DecorationImage(
-                          image: AssetImage(
-                              'assets/category_2.png'
-                          ),
-                          fit: BoxFit.cover,
+                      height:10,
+                      color:Color(0xFFFBF9FF),
+                    ),
+                    SizedBox(height:30),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('REVIEW',
+                                style:TextStyle(
+                                  fontSize:15,
+                                  fontFamily: 'NotoSansKR-Bold',
+                                )
+                            ),
+                            Container(
+                              width:25,
+                              height:2.5,
+                              color:Color(0xFFFFAD00),
+                            ),
+                          ],
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text('잠실 맛집 리뷰',
-                            style:TextStyle(
-                              color:Colors.white,
-                              fontSize:18,
-                              fontFamily: 'NotoSansKR-Medium',
+                        Row(
+                          children: [
+                            Text('최신순',
+                              style:TextStyle(
+                                fontFamily: 'NotoSansKR-Regular',
+                              )
                             ),
-                          ),
-                          Text('잠실 맛집 리뷰를 참고해보세요!',
-                            style:TextStyle(
-                              color:Colors.white,
-                              fontSize:11,
-                              fontFamily: 'NotoSansKR-Regular',
-                            ),
-                          ),
-                        ],
-                      ),
+                            Icon(Icons.keyboard_arrow_down),
+                          ],
+                        ),
+                      ],
                     ),
                     SizedBox(height:15),
-                    Container(
-                      padding:EdgeInsets.only(left:10,bottom:10),
-                      width:Get.width,
-                      height:200,
-                      decoration:BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        image: DecorationImage(
-                          image: AssetImage(
-                              'assets/category_3.png'
-                          ),
-                          fit: BoxFit.cover,
+                    Column(
+                      children: [
+                        Row(
+                          children: [
+                            Image.asset('assets/avatar_2.png',width:40,height:40),
+                            SizedBox(width:10),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text('유그린',
+                                      style:TextStyle(
+                                        color:Color(0xFf2a2a2a),
+                                        fontSize:15,
+                                        fontFamily: 'NotoSansKR-Bold',
+                                      ),
+                                    ),
+                                    SizedBox(width:5),
+                                    Image.asset('assets/mark.png',width:15,height:15),
+                                  ],
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('사진리뷰 5   6.12.일',
+                                      style:TextStyle(
+                                        color:Color(0xFF8D8D8D),
+                                        fontSize:11,
+                                      ),
+                                    ),
+
+                                    Text('카페·서울 하남',
+                                      style:TextStyle(
+                                        color:Color(0xFF2a2a2a),
+                                        fontSize:11,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+
+                          ],
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text('대학로 공방 리뷰',
-                            style:TextStyle(
-                              color:Colors.white,
-                              fontSize:18,
-                              fontFamily: 'NotoSansKR-Medium',
-                            ),
+                        SizedBox(height:10),
+                        Container(
+                          child: Row(
+                            children: [
+                              Expanded(flex:1, child: Image.asset('assets/g_img1.png')),
+                              Expanded(
+                                child: Column(
+                                  children: [
+                                    Image.asset('assets/g_img2.png'),
+                                    Image.asset('assets/g_img3.png'),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                          Text('대학로 공방 리뷰를 참고해보세요!',
-                            style:TextStyle(
-                              color:Colors.white,
-                              fontSize:11,
-                              fontFamily: 'NotoSansKR-Regular',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height:15),
-                    Container(
-                      padding:EdgeInsets.only(left:10,bottom:10),
-                      width:Get.width,
-                      height:200,
-                      decoration:BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        image: DecorationImage(
-                          image: AssetImage(
-                              'assets/category_4.png'
-                          ),
-                          fit: BoxFit.cover,
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text('일산 네일샵 리뷰',
-                            style:TextStyle(
-                              color:Colors.white,
-                              fontSize:18,
-                              fontFamily: 'NotoSansKR-Medium',
-                            ),
-                          ),
-                          Text('일산 네일샵 리뷰를 참고해보세요!',
-                            style:TextStyle(
-                              color:Colors.white,
-                              fontSize:11,
-                              fontFamily: 'NotoSansKR-Regular',
-                            ),
-                          ),
-                        ],
-                      ),
+                      ],
                     ),
                   ],
                 ),
