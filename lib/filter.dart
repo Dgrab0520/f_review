@@ -1,19 +1,45 @@
-import 'package:f_review/filter.dart';
 import 'package:f_review/profile_page.dart';
 import 'package:f_review/sub_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-class MainPage extends StatefulWidget {
-  const MainPage({Key? key}) : super(key: key);
+class filterPage extends StatefulWidget {
+  const filterPage({Key? key}) : super(key: key);
 
   @override
-  _MainPageState createState() => _MainPageState();
+  _filterPageState createState() => _filterPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _filterPageState extends State<filterPage> {
+  DateTime selectedDate = DateTime.now();
+  DateTime selectedDate2 = DateTime.now();
+
+  _selectDate(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate, // Refer step 1
+      firstDate: DateTime(2022),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null && picked != selectedDate)
+      setState(() {
+        selectedDate = picked;
+      });
+  }
+
+  _selectDate2(BuildContext context) async {
+    final DateTime? picked = await showDatePicker(
+      context: context,
+      initialDate: selectedDate2, // Refer step 1
+      firstDate: DateTime(2022),
+      lastDate: DateTime(2025),
+    );
+    if (picked != null && picked != selectedDate2)
+      setState(() {
+        selectedDate2 = picked;
+      });
+  }
+
   bool _areaPressed = false;
   bool _areaPressed2 = false;
   bool _areaPressed3 = false;
@@ -21,6 +47,14 @@ class _MainPageState extends State<MainPage> {
   bool _areaPressed5 = false;
   bool _areaPressed6 = false;
   bool _areaPressed7 = false;
+
+  bool _areaPressed_1 = false;
+  bool _areaPressed2_1 = false;
+  bool _areaPressed3_1 = false;
+  bool _areaPressed4_1 = false;
+  bool _areaPressed5_1 = false;
+  bool _areaPressed6_1 = false;
+  bool _areaPressed7_1 = false;
 
   bool _categoryPressed = false;
   bool _categoryPressed2 = false;
@@ -32,10 +66,6 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    var _controller = TextEditingController();
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -48,8 +78,15 @@ class _MainPageState extends State<MainPage> {
         )),
         leading: Container(
             padding: EdgeInsets.only(left: 10),
-            child: Image.asset(
-              'assets/menu.png',
+            child: InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: Color(0xFF362C5E),
+                size: 23,
+              ),
             )),
         leadingWidth: 35,
         actions: [
@@ -79,85 +116,33 @@ class _MainPageState extends State<MainPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text('리뷰 페이지',
+                    Text('필터',
                         style: TextStyle(
                           fontSize: 23,
                           fontFamily: 'NotoSansKR-Bold',
                         )),
                     Text(
-                      '실제로 작성한 리뷰를 참고하세요.',
+                      '원하시는 카테고리를 선택해주세요.',
                       style: TextStyle(
                         color: Color(0xFF8D8D8D),
                         fontSize: 12,
                       ),
                     ),
                     SizedBox(height: 40),
-                    Row(
-                      children: [
-                        Expanded(
-                          flex: 9,
-                          child: Container(
-                            padding:
-                                EdgeInsets.only(left: 20, right: 5, bottom: 5),
-                            width: Get.width,
-                            height: 45,
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(30),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Color(0xFFdbdbdb).withOpacity(0.5),
-                                  spreadRadius: 2,
-                                  blurRadius: 5,
-                                  offset: Offset(
-                                      2, 4), // changes position of shadow
-                                ),
-                              ],
-                            ),
-                            child: TextField(
-                                controller: _controller,
-                                decoration: InputDecoration(
-                                  hintText: '원하는 내용을 검색해보세요',
-                                  hintStyle: TextStyle(
-                                    color: Color(0xFFBFBFBF),
-                                    fontSize: 13,
-                                  ),
-                                  suffixIcon: IconButton(
-                                    onPressed: _controller.clear,
-                                    icon: Icon(Icons.clear),
-                                  ),
-                                  counterText: '',
-                                  enabledBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.transparent),
-                                  ),
-                                  focusedBorder: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.transparent),
-                                  ),
-                                  border: UnderlineInputBorder(
-                                    borderSide:
-                                        BorderSide(color: Colors.transparent),
-                                  ),
-                                )),
-                          ),
-                        ),
-                        SizedBox(width: 20),
-                        Expanded(
-                          flex: 1,
-                          child: InkWell(
-                            onTap: () {
-                              Get.to(filterPage());
-                            },
-                            child: Container(
-                              height: 25,
-                              child: Image.asset('assets/filter.png'),
-                            ),
-                          ),
-                        ),
-                      ],
+                    Container(
+                      width: Get.width,
+                      height: 7,
+                      color: Color(0xFFFBF9FF),
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 30),
+                    Text(
+                      '지역',
+                      style: TextStyle(
+                        fontFamily: 'NotoSansKR-Bold',
+                        fontSize: 13,
+                      ),
+                    ),
+                    SizedBox(height: 5),
                     Container(
                       width: Get.width,
                       height: 28,
@@ -398,7 +383,263 @@ class _MainPageState extends State<MainPage> {
                         ],
                       ),
                     ),
-                    SizedBox(height: 10),
+                    SizedBox(height: 30),
+                    Text(
+                      '상세 지역',
+                      style: TextStyle(
+                        fontFamily: 'NotoSansKR-Bold',
+                        fontSize: 13,
+                      ),
+                    ),
+                    SizedBox(height: 5),
+                    Container(
+                      width: Get.width,
+                      height: 28,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          Container(
+                            child: SizedBox(
+                              width: 60,
+                              height: 20,
+                              child: RaisedButton(
+                                child: new Text(
+                                  '구리',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                elevation: 0,
+                                textColor: _areaPressed_1
+                                    ? Colors.white
+                                    : Color(0xFF362C5E),
+                                // 2
+                                color: _areaPressed_1
+                                    ? Color(0xFF362C5E)
+                                    : Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(20.0),
+                                  side: BorderSide(color: Color(0xFF362C5E)),
+                                ),
+                                // 3
+                                onPressed: () => {
+                                  setState(() {
+                                    _areaPressed_1 = !_areaPressed_1;
+                                  })
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 7),
+                          Container(
+                            child: SizedBox(
+                              width: 60,
+                              height: 20,
+                              child: RaisedButton(
+                                child: new Text(
+                                  '하남',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                elevation: 0,
+                                textColor: _areaPressed2_1
+                                    ? Colors.white
+                                    : Color(0xFF362C5E),
+                                // 2
+                                color: _areaPressed2_1
+                                    ? Color(0xFF362C5E)
+                                    : Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(20.0),
+                                  side: BorderSide(color: Color(0xFF362C5E)),
+                                ),
+                                // 3
+                                onPressed: () => {
+                                  setState(() {
+                                    _areaPressed2_1 = !_areaPressed2_1;
+                                  })
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 7),
+                          Container(
+                            child: SizedBox(
+                              width: 60,
+                              height: 20,
+                              child: RaisedButton(
+                                child: new Text(
+                                  '고양',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                elevation: 0,
+                                textColor: _areaPressed3_1
+                                    ? Colors.white
+                                    : Color(0xFF362C5E),
+                                // 2
+                                color: _areaPressed3_1
+                                    ? Color(0xFF362C5E)
+                                    : Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(20.0),
+                                  side: BorderSide(color: Color(0xFF362C5E)),
+                                ),
+                                // 3
+                                onPressed: () {
+                                  setState(() {
+                                    _areaPressed3_1 = !_areaPressed3_1;
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 7),
+                          Container(
+                            child: SizedBox(
+                              width: 60,
+                              height: 20,
+                              child: RaisedButton(
+                                child: new Text(
+                                  '수원',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                elevation: 0,
+                                textColor: _areaPressed4_1
+                                    ? Colors.white
+                                    : Color(0xFF362C5E),
+                                // 2
+                                color: _areaPressed4_1
+                                    ? Color(0xFF362C5E)
+                                    : Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(20.0),
+                                  side: BorderSide(color: Color(0xFF362C5E)),
+                                ),
+                                // 3
+                                onPressed: () => {
+                                  setState(() {
+                                    _areaPressed4_1 = !_areaPressed4_1;
+                                  })
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 7),
+                          Container(
+                            child: SizedBox(
+                              width: 60,
+                              height: 20,
+                              child: RaisedButton(
+                                child: new Text(
+                                  '용인',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                elevation: 0,
+                                textColor: _areaPressed5_1
+                                    ? Colors.white
+                                    : Color(0xFF362C5E),
+                                // 2
+                                color: _areaPressed5_1
+                                    ? Color(0xFF362C5E)
+                                    : Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(20.0),
+                                  side: BorderSide(color: Color(0xFF362C5E)),
+                                ),
+                                // 3
+                                onPressed: () => {
+                                  setState(() {
+                                    _areaPressed5_1 = !_areaPressed5_1;
+                                  })
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 7),
+                          Container(
+                            child: SizedBox(
+                              width: 60,
+                              height: 20,
+                              child: RaisedButton(
+                                child: new Text(
+                                  '안산',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                elevation: 0,
+                                textColor: _areaPressed6_1
+                                    ? Colors.white
+                                    : Color(0xFF362C5E),
+                                // 2
+                                color: _areaPressed6_1
+                                    ? Color(0xFF362C5E)
+                                    : Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(20.0),
+                                  side: BorderSide(color: Color(0xFF362C5E)),
+                                ),
+                                // 3
+                                onPressed: () => {
+                                  setState(() {
+                                    _areaPressed6_1 = !_areaPressed6_1;
+                                  })
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(width: 7),
+                          Container(
+                            child: SizedBox(
+                              width: 70,
+                              height: 20,
+                              child: RaisedButton(
+                                child: new Text(
+                                  '남양주',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                elevation: 0,
+                                textColor: _areaPressed7_1
+                                    ? Colors.white
+                                    : Color(0xFF362C5E),
+                                // 2
+                                color: _areaPressed7_1
+                                    ? Color(0xFF362C5E)
+                                    : Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: new BorderRadius.circular(20.0),
+                                  side: BorderSide(color: Color(0xFF362C5E)),
+                                ),
+                                // 3
+                                onPressed: () => {
+                                  setState(() {
+                                    _areaPressed7_1 = !_areaPressed7_1;
+                                  })
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 30),
+                    Text(
+                      '카테고리',
+                      style: TextStyle(
+                        fontFamily: 'NotoSansKR-Bold',
+                        fontSize: 13,
+                      ),
+                    ),
+                    SizedBox(height: 5),
                     Container(
                       width: Get.width,
                       height: 28,
@@ -638,170 +879,102 @@ class _MainPageState extends State<MainPage> {
                         ],
                       ),
                     ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 30),
-              Container(
-                width: Get.width,
-                height: 7,
-                color: Color(0xFFFBF9FF),
-              ),
-              SizedBox(height: 30),
-              Container(
-                padding: EdgeInsets.only(left: 10, right: 10, bottom: 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text('BEST REVIEW',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontFamily: 'NotoSansKR-Bold',
-                        )),
-                    Container(
-                      width: 25,
-                      height: 2.5,
-                      color: Color(0xFFFFAD00),
-                    ),
-                    SizedBox(height: 15),
-                    Container(
-                      padding: EdgeInsets.only(left: 10, bottom: 10),
-                      width: Get.width,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        image: DecorationImage(
-                          image: AssetImage('assets/category_1.png'),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '하남 카페 리뷰',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontFamily: 'NotoSansKR-Medium',
-                            ),
-                          ),
-                          Text(
-                            '다양한 카페 리뷰를 참고해보세요!',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontFamily: 'NotoSansKR-Regular',
-                            ),
-                          ),
-                        ],
+                    SizedBox(height: 30),
+                    Text(
+                      '날짜',
+                      style: TextStyle(
+                        fontFamily: 'NotoSansKR-Bold',
+                        fontSize: 13,
                       ),
                     ),
-                    SizedBox(height: 15),
-                    Container(
-                      padding: EdgeInsets.only(left: 10, bottom: 10),
-                      width: Get.width,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        image: DecorationImage(
-                          image: AssetImage('assets/category_2.png'),
-                          fit: BoxFit.cover,
+                    SizedBox(height: 5),
+                    Row(
+                      children: [
+                        Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              InkWell(
+                                onTap: () => _selectDate(context),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Container(
+                                      child: Icon(
+                                        Icons.calendar_today,
+                                        color: Color(0xFF2a2a2a),
+                                        size: 15,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10.0,
+                                    ),
+                                    Text(
+                                      "${selectedDate.toLocal()}".split(' ')[0],
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20.0,
+                              ),
+                              Text('~'),
+                              SizedBox(
+                                width: 20.0,
+                              ),
+                              InkWell(
+                                onTap: () => _selectDate2(context),
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: <Widget>[
+                                    Container(
+                                      child: Icon(
+                                        Icons.calendar_today,
+                                        color: Color(0xFF2a2a2a),
+                                        size: 17,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10.0,
+                                    ),
+                                    Text(
+                                      "${selectedDate2.toLocal()}"
+                                          .split(' ')[0],
+                                      style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '잠실 맛집 리뷰',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontFamily: 'NotoSansKR-Medium',
-                            ),
-                          ),
-                          Text(
-                            '잠실 맛집 리뷰를 참고해보세요!',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontFamily: 'NotoSansKR-Regular',
-                            ),
-                          ),
-                        ],
-                      ),
+                      ],
                     ),
-                    SizedBox(height: 15),
-                    Container(
-                      padding: EdgeInsets.only(left: 10, bottom: 10),
-                      width: Get.width,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        image: DecorationImage(
-                          image: AssetImage('assets/category_3.png'),
-                          fit: BoxFit.cover,
+                    SizedBox(height: 120),
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        width: Get.width,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Color(0xFF363057),
+                          borderRadius: BorderRadius.circular(5),
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '대학로 공방 리뷰',
+                        child: Center(
+                          child: Text(
+                            '등록하기',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: 18,
-                              fontFamily: 'NotoSansKR-Medium',
+                              fontFamily: 'NotoSansKR-Bold',
+                              fontSize: 15,
                             ),
                           ),
-                          Text(
-                            '대학로 공방 리뷰를 참고해보세요!',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontFamily: 'NotoSansKR-Regular',
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 15),
-                    Container(
-                      padding: EdgeInsets.only(left: 10, bottom: 10),
-                      width: Get.width,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        image: DecorationImage(
-                          image: AssetImage('assets/category_4.png'),
-                          fit: BoxFit.cover,
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '일산 네일샵 리뷰',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontFamily: 'NotoSansKR-Medium',
-                            ),
-                          ),
-                          Text(
-                            '일산 네일샵 리뷰를 참고해보세요!',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontFamily: 'NotoSansKR-Regular',
-                            ),
-                          ),
-                        ],
                       ),
                     ),
                   ],
