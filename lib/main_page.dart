@@ -665,143 +665,157 @@ class _MainPageState extends State<MainPage> {
                       color: Color(0xFFFFAD00),
                     ),
                     SizedBox(height: 15),
-                    Container(
-                      padding: EdgeInsets.only(left: 10, bottom: 10),
-                      width: Get.width,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        image: DecorationImage(
-                          image: AssetImage('assets/category_1.png'),
-                          fit: BoxFit.cover,
+                    InkWell(
+                      onTap: () {
+                        Get.to(SubPage());
+                      },
+                      child: Container(
+                        padding: EdgeInsets.only(left: 10, bottom: 10),
+                        width: Get.width,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          image: DecorationImage(
+                            image: AssetImage('assets/category_1.png'),
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '하남 카페 리뷰',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontFamily: 'NotoSansKR-Medium',
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              '하남 카페 리뷰',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontFamily: 'NotoSansKR-Medium',
+                              ),
                             ),
-                          ),
-                          Text(
-                            '다양한 카페 리뷰를 참고해보세요!',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontFamily: 'NotoSansKR-Regular',
+                            Text(
+                              '다양한 카페 리뷰를 참고해보세요!',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 11,
+                                fontFamily: 'NotoSansKR-Regular',
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(height: 15),
-                    Container(
-                      padding: EdgeInsets.only(left: 10, bottom: 10),
-                      width: Get.width,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        image: DecorationImage(
-                          image: AssetImage('assets/category_2.png'),
-                          fit: BoxFit.cover,
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        padding: EdgeInsets.only(left: 10, bottom: 10),
+                        width: Get.width,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          image: DecorationImage(
+                            image: AssetImage('assets/category_2.png'),
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '잠실 맛집 리뷰',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontFamily: 'NotoSansKR-Medium',
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              '잠실 맛집 리뷰',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontFamily: 'NotoSansKR-Medium',
+                              ),
                             ),
-                          ),
-                          Text(
-                            '잠실 맛집 리뷰를 참고해보세요!',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontFamily: 'NotoSansKR-Regular',
+                            Text(
+                              '잠실 맛집 리뷰를 참고해보세요!',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 11,
+                                fontFamily: 'NotoSansKR-Regular',
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(height: 15),
-                    Container(
-                      padding: EdgeInsets.only(left: 10, bottom: 10),
-                      width: Get.width,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        image: DecorationImage(
-                          image: AssetImage('assets/category_3.png'),
-                          fit: BoxFit.cover,
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        padding: EdgeInsets.only(left: 10, bottom: 10),
+                        width: Get.width,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          image: DecorationImage(
+                            image: AssetImage('assets/category_3.png'),
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '대학로 공방 리뷰',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontFamily: 'NotoSansKR-Medium',
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              '대학로 공방 리뷰',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontFamily: 'NotoSansKR-Medium',
+                              ),
                             ),
-                          ),
-                          Text(
-                            '대학로 공방 리뷰를 참고해보세요!',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontFamily: 'NotoSansKR-Regular',
+                            Text(
+                              '대학로 공방 리뷰를 참고해보세요!',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 11,
+                                fontFamily: 'NotoSansKR-Regular',
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                     SizedBox(height: 15),
-                    Container(
-                      padding: EdgeInsets.only(left: 10, bottom: 10),
-                      width: Get.width,
-                      height: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        image: DecorationImage(
-                          image: AssetImage('assets/category_4.png'),
-                          fit: BoxFit.cover,
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        padding: EdgeInsets.only(left: 10, bottom: 10),
+                        width: Get.width,
+                        height: 200,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.0),
+                          image: DecorationImage(
+                            image: AssetImage('assets/category_4.png'),
+                            fit: BoxFit.cover,
+                          ),
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          Text(
-                            '일산 네일샵 리뷰',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontFamily: 'NotoSansKR-Medium',
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Text(
+                              '일산 네일샵 리뷰',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontFamily: 'NotoSansKR-Medium',
+                              ),
                             ),
-                          ),
-                          Text(
-                            '일산 네일샵 리뷰를 참고해보세요!',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontFamily: 'NotoSansKR-Regular',
+                            Text(
+                              '일산 네일샵 리뷰를 참고해보세요!',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 11,
+                                fontFamily: 'NotoSansKR-Regular',
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ],
