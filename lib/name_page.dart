@@ -1,3 +1,5 @@
+import 'package:card_swiper/card_swiper.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -10,6 +12,268 @@ class NamePage extends StatefulWidget {
 }
 
 class _NamePageState extends State<NamePage> {
+  List<Widget> images = [
+    Container(
+      padding: EdgeInsets.only(bottom: 5, top: 10, right: 10),
+      margin: EdgeInsets.only(
+        bottom: 25,
+      ),
+      width: Get.width,
+      height: 200,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        image: DecorationImage(
+          image: AssetImage(
+            'assets/name_img1.png',
+          ),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Container(
+            child: Image.asset(
+              'assets/heart.png',
+              width: 17,
+            ),
+          ),
+          Container(
+            child: Text(
+              '1.4K',
+              style: TextStyle(
+                  color: Color(0xFF362C5E),
+                  fontSize: 10,
+                  fontFamily: 'NotoSansKR-Medium'),
+            ),
+          ),
+        ],
+      ),
+    ),
+    Container(
+      padding: EdgeInsets.only(bottom: 5, top: 10, right: 10),
+      margin: EdgeInsets.only(
+        bottom: 25,
+      ),
+      width: Get.width,
+      height: 200,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        image: DecorationImage(
+          image: AssetImage(
+            'assets/name_img1.png',
+          ),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Container(
+            child: Image.asset(
+              'assets/heart.png',
+              width: 17,
+            ),
+          ),
+          Container(
+            child: Text(
+              '1.4K',
+              style: TextStyle(
+                  color: Color(0xFF362C5E),
+                  fontSize: 10,
+                  fontFamily: 'NotoSansKR-Medium'),
+            ),
+          ),
+        ],
+      ),
+    ),
+    Container(
+      padding: EdgeInsets.only(bottom: 5, top: 10, right: 10),
+      margin: EdgeInsets.only(
+        bottom: 25,
+      ),
+      width: Get.width,
+      height: 200,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        image: DecorationImage(
+          image: AssetImage(
+            'assets/name_img1.png',
+          ),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Container(
+            child: Image.asset(
+              'assets/heart.png',
+              width: 17,
+            ),
+          ),
+          Container(
+            child: Text(
+              '1.4K',
+              style: TextStyle(
+                  color: Color(0xFF362C5E),
+                  fontSize: 10,
+                  fontFamily: 'NotoSansKR-Medium'),
+            ),
+          ),
+        ],
+      ),
+    ),
+  ];
+
+  List<Widget> images2 = [
+    Container(
+      padding: EdgeInsets.only(bottom: 5, top: 10, right: 10),
+      margin: EdgeInsets.only(
+        bottom: 25,
+      ),
+      width: Get.width,
+      height: 200,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        image: DecorationImage(
+          image: AssetImage(
+            'assets/name_img2.png',
+          ),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Container(
+            child: Image.asset(
+              'assets/n_heart.png',
+              width: 17,
+            ),
+          ),
+          Container(
+            child: Text(
+              '20K',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontFamily: 'NotoSansKR-Medium'),
+            ),
+          ),
+        ],
+      ),
+    ),
+    Container(
+      padding: EdgeInsets.only(bottom: 5, top: 10, right: 10),
+      margin: EdgeInsets.only(
+        bottom: 25,
+      ),
+      width: Get.width,
+      height: 200,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        image: DecorationImage(
+          image: AssetImage(
+            'assets/name_img2.png',
+          ),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Container(
+            child: Image.asset(
+              'assets/n_heart.png',
+              width: 17,
+            ),
+          ),
+          Container(
+            child: Text(
+              '20K',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontFamily: 'NotoSansKR-Medium'),
+            ),
+          ),
+        ],
+      ),
+    ),
+    Container(
+      padding: EdgeInsets.only(bottom: 5, top: 10, right: 10),
+      margin: EdgeInsets.only(
+        bottom: 25,
+      ),
+      width: Get.width,
+      height: 200,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        image: DecorationImage(
+          image: AssetImage(
+            'assets/name_img2.png',
+          ),
+          fit: BoxFit.cover,
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Container(
+            child: Image.asset(
+              'assets/n_heart.png',
+              width: 17,
+            ),
+          ),
+          Container(
+            child: Text(
+              '20K',
+              style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 10,
+                  fontFamily: 'NotoSansKR-Medium'),
+            ),
+          ),
+        ],
+      ),
+    ),
+  ];
+
+  String? selectedValue;
+  List<String> items = [
+    '조회수',
+    '최신순',
+    '추천순',
+  ];
+
+  List<Widget> render(BuildContext context, List<List<String>> children) {
+    return ListTile.divideTiles(
+      context: context,
+      tiles: children.map((data) {
+        return buildListTile(context, data[0], data[1], data[2]);
+      }),
+    ).toList();
+  }
+
+  Widget buildListTile(
+      BuildContext context, String title, String subtitle, String url) {
+    return ListTile(
+      onTap: () {
+        Navigator.of(context).pushNamed(url);
+      },
+      isThreeLine: true,
+      dense: false,
+      leading: null,
+      title: Text(title),
+      subtitle: Text(subtitle),
+      trailing: const Icon(
+        Icons.arrow_right,
+        color: Colors.blueAccent,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -170,37 +434,26 @@ class _NamePageState extends State<NamePage> {
                         ),
                         SizedBox(height: 10),
                         Container(
-                          padding: EdgeInsets.all(10),
                           width: Get.width,
                           height: 200,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.0),
-                            image: DecorationImage(
-                              image: AssetImage(
-                                'assets/name_img1.png',
+                          child: Swiper(
+                            itemBuilder: (BuildContext context, int index) {
+                              return images[index];
+                            },
+                            itemCount: 3,
+                            viewportFraction: 1.0,
+                            scale: 0.9,
+                            pagination: const SwiperPagination(
+                              margin: EdgeInsets.only(top: 40),
+                              alignment: Alignment.bottomCenter,
+                              builder: DotSwiperPaginationBuilder(
+                                color: Colors.grey,
+                                activeColor: Color(0xff362C5E),
+                                size: 7,
                               ),
-                              fit: BoxFit.cover,
                             ),
-                          ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Container(
-                                child: Image.asset(
-                                  'assets/heart.png',
-                                  width: 17,
-                                ),
-                              ),
-                              Container(
-                                child: Text(
-                                  '1.4K',
-                                  style: TextStyle(
-                                      color: Color(0xFF362C5E),
-                                      fontSize: 10,
-                                      fontFamily: 'NotoSansKR-Medium'),
-                                ),
-                              ),
-                            ],
+                            autoplay: true,
+                            duration: 1000,
                           ),
                         ),
                         SizedBox(height: 10),
@@ -324,14 +577,36 @@ class _NamePageState extends State<NamePage> {
                         ),
                       ],
                     ),
-                    Row(
-                      children: [
-                        Text('추천 많은 순',
-                            style: TextStyle(
-                              fontFamily: 'NotoSansKR-Regular',
-                            )),
-                        Icon(Icons.keyboard_arrow_down),
-                      ],
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton2(
+                        hint: Text(
+                          '추천순',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Theme.of(context).hintColor,
+                          ),
+                        ),
+                        items: items
+                            .map((item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
+                        value: selectedValue,
+                        onChanged: (value) {
+                          setState(() {
+                            selectedValue = value as String;
+                          });
+                        },
+                        buttonHeight: 40,
+                        buttonWidth: 75,
+                        itemHeight: 40,
+                      ),
                     ),
                   ],
                 ),
@@ -394,37 +669,26 @@ class _NamePageState extends State<NamePage> {
                     ),
                     SizedBox(height: 10),
                     Container(
-                      padding: EdgeInsets.all(10),
                       width: Get.width,
                       height: 200,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10.0),
-                        image: DecorationImage(
-                          image: AssetImage(
-                            'assets/name_img2.png',
+                      child: Swiper(
+                        itemBuilder: (BuildContext context, int index) {
+                          return images2[index];
+                        },
+                        itemCount: 3,
+                        viewportFraction: 1.0,
+                        scale: 0.9,
+                        pagination: const SwiperPagination(
+                          margin: EdgeInsets.only(top: 40),
+                          alignment: Alignment.bottomCenter,
+                          builder: DotSwiperPaginationBuilder(
+                            color: Colors.grey,
+                            activeColor: Color(0xff362C5E),
+                            size: 7,
                           ),
-                          fit: BoxFit.cover,
                         ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Container(
-                            child: Image.asset(
-                              'assets/n_heart.png',
-                              width: 17,
-                            ),
-                          ),
-                          Container(
-                            child: Text(
-                              '20K',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontFamily: 'NotoSansKR-Medium'),
-                            ),
-                          ),
-                        ],
+                        autoplay: true,
+                        duration: 1000,
                       ),
                     ),
                     SizedBox(height: 10),

@@ -1,3 +1,5 @@
+import 'package:card_swiper/card_swiper.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:f_review/filter.dart';
 import 'package:f_review/profile_page.dart';
 import 'package:flutter/material.dart';
@@ -28,12 +30,614 @@ class _SubPageState extends State<SubPage> {
   bool _categoryPressed6 = false;
   bool _categoryPressed7 = false;
 
+  List<Widget> images = [
+    Container(
+      padding: EdgeInsets.only(left: 10, right: 10, bottom: 5, top: 10),
+      margin: EdgeInsets.only(
+        bottom: 25,
+      ),
+      width: Get.width,
+      decoration: BoxDecoration(
+        color: Color(0xFFFBF9FF),
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xFFdbdbdb).withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(2, 4), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Container(
+        padding: EdgeInsets.only(top: 15),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Image.asset('assets/avatar_1.png', width: 40, height: 40),
+                SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          '유라희',
+                          style: TextStyle(
+                            color: Color(0xFf2a2a2a),
+                            fontSize: 15,
+                            fontFamily: 'NotoSansKR-Bold',
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        Image.asset('assets/mark.png', width: 15, height: 15),
+                      ],
+                    ),
+                    Container(
+                      width: 260,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '사진리뷰 5   6.12.일',
+                            style: TextStyle(
+                              color: Color(0xFF8D8D8D),
+                              fontSize: 11,
+                            ),
+                          ),
+                          Text(
+                            '카페·서울 하남',
+                            style: TextStyle(
+                              color: Color(0xFF2a2a2a),
+                              fontSize: 11,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+              ],
+            ),
+            Container(
+              width: Get.width,
+              height: 150,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/sub_img.png'),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(top: 30, right: 5),
+                    child: Column(
+                      children: [
+                        Image.asset('assets/heart.png', width: 15),
+                        SizedBox(height: 1),
+                        Text(
+                          '1.4K',
+                          style: TextStyle(
+                            color: Color(0xFF362C5E),
+                            fontSize: 10,
+                            fontFamily: 'NotoSansKR-Medium',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              child: Row(
+                children: [
+                  Text(
+                    '마시랑게',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: 'NotoSansKR-Bold',
+                      color: Color(0xFF2a2a2a),
+                    ),
+                  ),
+                  SizedBox(width: 2),
+                  Icon(Icons.arrow_forward_ios,
+                      size: 15, color: Color(0xFF2a2a2a)),
+                ],
+              ),
+            ),
+            SizedBox(height: 2),
+            Container(
+              child: Text(
+                '매장도 예쁘고 디저트도 맛있어요 ㅎㅎ 포토존도 따로 있는데 사람이 많아서 줄 서서 기다려야되용.. 그래도 그만큼 사진도 너무 잘나오고 ...',
+                style: TextStyle(color: Color(0xFF2a2a2a), fontSize: 11),
+              ),
+            ),
+            SizedBox(height: 25),
+            Row(
+              children: [
+                Container(
+                  width: 80,
+                  height: 23,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFEAE5F9),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '#하남카페',
+                      style: TextStyle(
+                          color: Color(0xFF2a2a2a),
+                          fontSize: 12,
+                          fontFamily: 'NotoSansKR-Regular'),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Container(
+                  width: 70,
+                  height: 23,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFEAE5F9),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '#포토존',
+                      style: TextStyle(
+                          color: Color(0xFF2a2a2a),
+                          fontSize: 12,
+                          fontFamily: 'NotoSansKR-Regular'),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Container(
+                  width: 90,
+                  height: 23,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFEAE5F9),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '#비쥬얼맛집',
+                      style: TextStyle(
+                          color: Color(0xFF2a2a2a),
+                          fontSize: 12,
+                          fontFamily: 'NotoSansKR-Regular'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+    Container(
+      padding: EdgeInsets.only(left: 10, right: 10, bottom: 5, top: 10),
+      margin: EdgeInsets.only(
+        bottom: 25,
+      ),
+      width: Get.width,
+      decoration: BoxDecoration(
+        color: Color(0xFFFBF9FF),
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xFFdbdbdb).withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(2, 4), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Container(
+        padding: EdgeInsets.only(top: 15),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Image.asset('assets/avatar_1.png', width: 40, height: 40),
+                SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          '유라희',
+                          style: TextStyle(
+                            color: Color(0xFf2a2a2a),
+                            fontSize: 15,
+                            fontFamily: 'NotoSansKR-Bold',
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        Image.asset('assets/mark.png', width: 15, height: 15),
+                      ],
+                    ),
+                    Container(
+                      width: 260,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '사진리뷰 5   6.12.일',
+                            style: TextStyle(
+                              color: Color(0xFF8D8D8D),
+                              fontSize: 11,
+                            ),
+                          ),
+                          Text(
+                            '카페·서울 하남',
+                            style: TextStyle(
+                              color: Color(0xFF2a2a2a),
+                              fontSize: 11,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+              ],
+            ),
+            Container(
+              width: Get.width,
+              height: 150,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/sub_img.png'),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(top: 30, right: 5),
+                    child: Column(
+                      children: [
+                        Image.asset('assets/heart.png', width: 15),
+                        SizedBox(height: 1),
+                        Text(
+                          '1.4K',
+                          style: TextStyle(
+                            color: Color(0xFF362C5E),
+                            fontSize: 10,
+                            fontFamily: 'NotoSansKR-Medium',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              child: Row(
+                children: [
+                  Text(
+                    '마시랑게',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: 'NotoSansKR-Bold',
+                      color: Color(0xFF2a2a2a),
+                    ),
+                  ),
+                  SizedBox(width: 2),
+                  Icon(Icons.arrow_forward_ios,
+                      size: 15, color: Color(0xFF2a2a2a)),
+                ],
+              ),
+            ),
+            SizedBox(height: 2),
+            Container(
+              child: Text(
+                '매장도 예쁘고 디저트도 맛있어요 ㅎㅎ 포토존도 따로 있는데 사람이 많아서 줄 서서 기다려야되용.. 그래도 그만큼 사진도 너무 잘나오고 ...',
+                style: TextStyle(color: Color(0xFF2a2a2a), fontSize: 11),
+              ),
+            ),
+            SizedBox(height: 25),
+            Row(
+              children: [
+                Container(
+                  width: 80,
+                  height: 23,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFEAE5F9),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '#하남카페',
+                      style: TextStyle(
+                          color: Color(0xFF2a2a2a),
+                          fontSize: 12,
+                          fontFamily: 'NotoSansKR-Regular'),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Container(
+                  width: 70,
+                  height: 23,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFEAE5F9),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '#포토존',
+                      style: TextStyle(
+                          color: Color(0xFF2a2a2a),
+                          fontSize: 12,
+                          fontFamily: 'NotoSansKR-Regular'),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Container(
+                  width: 90,
+                  height: 23,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFEAE5F9),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '#비쥬얼맛집',
+                      style: TextStyle(
+                          color: Color(0xFF2a2a2a),
+                          fontSize: 12,
+                          fontFamily: 'NotoSansKR-Regular'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+    Container(
+      padding: EdgeInsets.only(left: 10, right: 10, bottom: 5, top: 10),
+      margin: EdgeInsets.only(
+        bottom: 25,
+      ),
+      width: Get.width,
+      decoration: BoxDecoration(
+        color: Color(0xFFFBF9FF),
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: [
+          BoxShadow(
+            color: Color(0xFFdbdbdb).withOpacity(0.5),
+            spreadRadius: 2,
+            blurRadius: 5,
+            offset: Offset(2, 4), // changes position of shadow
+          ),
+        ],
+      ),
+      child: Container(
+        padding: EdgeInsets.only(top: 15),
+        child: Column(
+          children: [
+            Row(
+              children: [
+                Image.asset('assets/avatar_1.png', width: 40, height: 40),
+                SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          '유라희',
+                          style: TextStyle(
+                            color: Color(0xFf2a2a2a),
+                            fontSize: 15,
+                            fontFamily: 'NotoSansKR-Bold',
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        Image.asset('assets/mark.png', width: 15, height: 15),
+                      ],
+                    ),
+                    Container(
+                      width: 260,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '사진리뷰 5   6.12.일',
+                            style: TextStyle(
+                              color: Color(0xFF8D8D8D),
+                              fontSize: 11,
+                            ),
+                          ),
+                          Text(
+                            '카페·서울 하남',
+                            style: TextStyle(
+                              color: Color(0xFF2a2a2a),
+                              fontSize: 11,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 10),
+              ],
+            ),
+            Container(
+              width: Get.width,
+              height: 150,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/sub_img.png'),
+                ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    padding: EdgeInsets.only(top: 30, right: 5),
+                    child: Column(
+                      children: [
+                        Image.asset('assets/heart.png', width: 15),
+                        SizedBox(height: 1),
+                        Text(
+                          '1.4K',
+                          style: TextStyle(
+                            color: Color(0xFF362C5E),
+                            fontSize: 10,
+                            fontFamily: 'NotoSansKR-Medium',
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              child: Row(
+                children: [
+                  Text(
+                    '마시랑게',
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontFamily: 'NotoSansKR-Bold',
+                      color: Color(0xFF2a2a2a),
+                    ),
+                  ),
+                  SizedBox(width: 2),
+                  Icon(Icons.arrow_forward_ios,
+                      size: 15, color: Color(0xFF2a2a2a)),
+                ],
+              ),
+            ),
+            SizedBox(height: 2),
+            Container(
+              child: Text(
+                '매장도 예쁘고 디저트도 맛있어요 ㅎㅎ 포토존도 따로 있는데 사람이 많아서 줄 서서 기다려야되용.. 그래도 그만큼 사진도 너무 잘나오고 ...',
+                style: TextStyle(color: Color(0xFF2a2a2a), fontSize: 11),
+              ),
+            ),
+            SizedBox(height: 25),
+            Row(
+              children: [
+                Container(
+                  width: 80,
+                  height: 23,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFEAE5F9),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '#하남카페',
+                      style: TextStyle(
+                          color: Color(0xFF2a2a2a),
+                          fontSize: 12,
+                          fontFamily: 'NotoSansKR-Regular'),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Container(
+                  width: 70,
+                  height: 23,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFEAE5F9),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '#포토존',
+                      style: TextStyle(
+                          color: Color(0xFF2a2a2a),
+                          fontSize: 12,
+                          fontFamily: 'NotoSansKR-Regular'),
+                    ),
+                  ),
+                ),
+                SizedBox(width: 10),
+                Container(
+                  width: 90,
+                  height: 23,
+                  decoration: BoxDecoration(
+                    color: Color(0xFFEAE5F9),
+                    borderRadius: BorderRadius.circular(5),
+                  ),
+                  child: Center(
+                    child: Text(
+                      '#비쥬얼맛집',
+                      style: TextStyle(
+                          color: Color(0xFF2a2a2a),
+                          fontSize: 12,
+                          fontFamily: 'NotoSansKR-Regular'),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  ];
+
+  String? selectedValue;
+  List<String> items = [
+    '조회수',
+    '추천순',
+    '최신순',
+  ];
+
+  List<Widget> render(BuildContext context, List<List<String>> children) {
+    return ListTile.divideTiles(
+      context: context,
+      tiles: children.map((data) {
+        return buildListTile(context, data[0], data[1], data[2]);
+      }),
+    ).toList();
+  }
+
+  Widget buildListTile(
+      BuildContext context, String title, String subtitle, String url) {
+    return ListTile(
+      onTap: () {
+        Navigator.of(context).pushNamed(url);
+      },
+      isThreeLine: true,
+      dense: false,
+      leading: null,
+      title: Text(title),
+      subtitle: Text(subtitle),
+      trailing: const Icon(
+        Icons.arrow_right,
+        color: Colors.blueAccent,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     var _controller = TextEditingController();
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -752,195 +1356,26 @@ class _SubPageState extends State<SubPage> {
                     ),
                     SizedBox(height: 15),
                     Container(
-                      padding: EdgeInsets.only(left: 10, right: 10, bottom: 5),
                       width: Get.width,
-                      height: 330,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFFBF9FF),
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xFFdbdbdb).withOpacity(0.5),
-                            spreadRadius: 2,
-                            blurRadius: 5,
-                            offset: Offset(2, 4), // changes position of shadow
+                      height: 380,
+                      child: Swiper(
+                        itemBuilder: (BuildContext context, int index) {
+                          return images[index];
+                        },
+                        itemCount: 3,
+                        viewportFraction: 0.9,
+                        scale: 0.9,
+                        pagination: const SwiperPagination(
+                          margin: EdgeInsets.only(top: 40),
+                          alignment: Alignment.bottomCenter,
+                          builder: DotSwiperPaginationBuilder(
+                            color: Colors.grey,
+                            activeColor: Color(0xff362C5E),
+                            size: 7,
                           ),
-                        ],
-                      ),
-                      child: Container(
-                        padding: EdgeInsets.only(top: 15),
-                        child: Column(
-                          children: [
-                            Row(
-                              children: [
-                                Image.asset('assets/avatar_1.png',
-                                    width: 40, height: 40),
-                                SizedBox(width: 10),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        Text(
-                                          '유라희',
-                                          style: TextStyle(
-                                            color: Color(0xFf2a2a2a),
-                                            fontSize: 15,
-                                            fontFamily: 'NotoSansKR-Bold',
-                                          ),
-                                        ),
-                                        SizedBox(width: 5),
-                                        Image.asset('assets/mark.png',
-                                            width: 15, height: 15),
-                                      ],
-                                    ),
-                                    Container(
-                                      width: 300,
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Text(
-                                            '사진리뷰 5   6.12.일',
-                                            style: TextStyle(
-                                              color: Color(0xFF8D8D8D),
-                                              fontSize: 11,
-                                            ),
-                                          ),
-                                          Text(
-                                            '카페·서울 하남',
-                                            style: TextStyle(
-                                              color: Color(0xFF2a2a2a),
-                                              fontSize: 11,
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(height: 10),
-                              ],
-                            ),
-                            Container(
-                              width: Get.width,
-                              height: 150,
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: AssetImage('assets/sub_img.png'),
-                                ),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    padding:
-                                        EdgeInsets.only(top: 20, right: 10),
-                                    child: Column(
-                                      children: [
-                                        Image.asset('assets/heart.png',
-                                            width: 20),
-                                        SizedBox(height: 1),
-                                        Text(
-                                          '1.4K',
-                                          style: TextStyle(
-                                            color: Color(0xFF362C5E),
-                                            fontSize: 10,
-                                            fontFamily: 'NotoSansKR-Medium',
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Container(
-                              child: Row(
-                                children: [
-                                  Text(
-                                    '마시랑게',
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      fontFamily: 'NotoSansKR-Bold',
-                                      color: Color(0xFF2a2a2a),
-                                    ),
-                                  ),
-                                  SizedBox(width: 2),
-                                  Icon(Icons.arrow_forward_ios,
-                                      size: 15, color: Color(0xFF2a2a2a)),
-                                ],
-                              ),
-                            ),
-                            SizedBox(height: 2),
-                            Container(
-                              child: Text(
-                                '매장도 예쁘고 디저트도 맛있어요 ㅎㅎ 포토존도 따로 있는데 사람이 많아서 줄 서서 기다려야되용.. 그래도 그만큼 사진도 너무 잘나오고 ...',
-                                style: TextStyle(
-                                    color: Color(0xFF2a2a2a), fontSize: 11),
-                              ),
-                            ),
-                            SizedBox(height: 25),
-                            Row(
-                              children: [
-                                Container(
-                                  width: 80,
-                                  height: 23,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFEAE5F9),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '#하남카페',
-                                      style: TextStyle(
-                                          color: Color(0xFF2a2a2a),
-                                          fontSize: 12,
-                                          fontFamily: 'NotoSansKR-Regular'),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                Container(
-                                  width: 70,
-                                  height: 23,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFEAE5F9),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '#포토존',
-                                      style: TextStyle(
-                                          color: Color(0xFF2a2a2a),
-                                          fontSize: 12,
-                                          fontFamily: 'NotoSansKR-Regular'),
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(width: 10),
-                                Container(
-                                  width: 90,
-                                  height: 23,
-                                  decoration: BoxDecoration(
-                                    color: Color(0xFFEAE5F9),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '#비쥬얼맛집',
-                                      style: TextStyle(
-                                          color: Color(0xFF2a2a2a),
-                                          fontSize: 12,
-                                          fontFamily: 'NotoSansKR-Regular'),
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
                         ),
+                        autoplay: true,
+                        duration: 1000,
                       ),
                     ),
                     SizedBox(height: 40),
@@ -968,14 +1403,36 @@ class _SubPageState extends State<SubPage> {
                             ),
                           ],
                         ),
-                        Row(
-                          children: [
-                            Text('최신순',
-                                style: TextStyle(
-                                  fontFamily: 'NotoSansKR-Regular',
-                                )),
-                            Icon(Icons.keyboard_arrow_down),
-                          ],
+                        DropdownButtonHideUnderline(
+                          child: DropdownButton2(
+                            hint: Text(
+                              '최신순',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Theme.of(context).hintColor,
+                              ),
+                            ),
+                            items: items
+                                .map((item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ))
+                                .toList(),
+                            value: selectedValue,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedValue = value as String;
+                              });
+                            },
+                            buttonHeight: 40,
+                            buttonWidth: 75,
+                            itemHeight: 40,
+                          ),
                         ),
                       ],
                     ),
@@ -1007,7 +1464,7 @@ class _SubPageState extends State<SubPage> {
                                   ],
                                 ),
                                 Container(
-                                  width:320,
+                                  width: 320,
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,

@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:f_review/name_page.dart';
 import 'package:f_review/review_page.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,6 +16,13 @@ class _ProfilePageState extends State<ProfilePage> {
   bool _categoryPressed = false;
   bool _category2Pressed = false;
   bool _category3Pressed = false;
+
+  String? selectedValue;
+  List<String> items = [
+    '조회수',
+    '추천순',
+    '최신순',
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -42,12 +50,15 @@ class _ProfilePageState extends State<ProfilePage> {
             )),
         leadingWidth: 35,
         actions: [
-          Container(
-              padding: EdgeInsets.only(right: 10),
-              child: Image.asset(
-                'assets/avatar.png',
-                width: 30,
-              )),
+          InkWell(
+            onTap: () {},
+            child: Container(
+                padding: EdgeInsets.only(right: 10),
+                child: Image.asset(
+                  'assets/avatar.png',
+                  width: 30,
+                )),
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -341,14 +352,36 @@ class _ProfilePageState extends State<ProfilePage> {
                             ),
                           ],
                         ),
-                        Row(
-                          children: [
-                            Text('최신순',
-                                style: TextStyle(
-                                  fontFamily: 'NotoSansKR-Regular',
-                                )),
-                            Icon(Icons.keyboard_arrow_down),
-                          ],
+                        DropdownButtonHideUnderline(
+                          child: DropdownButton2(
+                            hint: Text(
+                              '최신순',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Theme.of(context).hintColor,
+                              ),
+                            ),
+                            items: items
+                                .map((item) => DropdownMenuItem<String>(
+                                      value: item,
+                                      child: Text(
+                                        item,
+                                        style: const TextStyle(
+                                          fontSize: 14,
+                                        ),
+                                      ),
+                                    ))
+                                .toList(),
+                            value: selectedValue,
+                            onChanged: (value) {
+                              setState(() {
+                                selectedValue = value as String;
+                              });
+                            },
+                            buttonHeight: 40,
+                            buttonWidth: 75,
+                            itemHeight: 40,
+                          ),
                         ),
                       ],
                     ),
