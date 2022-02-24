@@ -58,12 +58,7 @@ class _ProfilePageState extends State<ProfilePage> {
         actions: [
           InkWell(
             onTap: () {},
-            child: Container(
-                padding: EdgeInsets.only(right: 10),
-                child: Image.asset(
-                  'assets/avatar.png',
-                  width: 30,
-                )),
+            child: Container(),
           ),
         ],
       ),

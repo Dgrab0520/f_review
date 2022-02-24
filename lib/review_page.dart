@@ -579,51 +579,84 @@ class _ReviewPageState extends State<ReviewPage> {
                       ),
                     ),
                     SizedBox(height: 10),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Stack(
-                            children: [
-                              Container(
-                                  padding: EdgeInsets.all(5),
-                                  child: Image.asset('assets/r_img1.png')),
-                              Positioned(
-                                  right: 0,
-                                  top: 0,
-                                  child: Image.asset('assets/cancel.png',
-                                      width: 15))
-                            ],
+                    Container(
+                      width: Get.width,
+                      height: 120,
+                      child: ListView(
+                        scrollDirection: Axis.horizontal,
+                        children: [
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.all(5),
+                                    child: Image.asset('assets/r_img1.png')),
+                                Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: Image.asset('assets/cancel.png',
+                                        width: 15))
+                              ],
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: Stack(
-                            children: [
-                              Container(
-                                  padding: EdgeInsets.all(5),
-                                  child: Image.asset('assets/r_img1.png')),
-                              Positioned(
-                                  right: 0,
-                                  top: 0,
-                                  child: Image.asset('assets/cancel.png',
-                                      width: 15))
-                            ],
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.all(5),
+                                    child: Image.asset('assets/r_img1.png')),
+                                Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: Image.asset('assets/cancel.png',
+                                        width: 15))
+                              ],
+                            ),
                           ),
-                        ),
-                        Expanded(
-                          child: Stack(
-                            children: [
-                              Container(
-                                  padding: EdgeInsets.all(5),
-                                  child: Image.asset('assets/r_img1.png')),
-                              Positioned(
-                                  right: 0,
-                                  top: 0,
-                                  child: Image.asset('assets/cancel.png',
-                                      width: 15))
-                            ],
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.all(5),
+                                    child: Image.asset('assets/r_img1.png')),
+                                Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: Image.asset('assets/cancel.png',
+                                        width: 15))
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.all(5),
+                                    child: Image.asset('assets/r_img1.png')),
+                                Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: Image.asset('assets/cancel.png',
+                                        width: 15))
+                              ],
+                            ),
+                          ),
+                          Expanded(
+                            child: Stack(
+                              children: [
+                                Container(
+                                    padding: EdgeInsets.all(5),
+                                    child: Image.asset('assets/r_img1.png')),
+                                Positioned(
+                                    right: 0,
+                                    top: 0,
+                                    child: Image.asset('assets/cancel.png',
+                                        width: 15))
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
                     SizedBox(height: 60),
                     Row(

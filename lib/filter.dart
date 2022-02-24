@@ -1,5 +1,4 @@
 import 'package:f_review/profile_page.dart';
-import 'package:f_review/sub_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -243,7 +242,6 @@ class _filterPageState extends State<filterPage> {
                                   setState(() {
                                     _areaPressed3 = !_areaPressed3;
                                   });
-                                  Get.to(SubPage());
                                 },
                               ),
                             ),
@@ -957,7 +955,9 @@ class _filterPageState extends State<filterPage> {
                     ),
                     SizedBox(height: 120),
                     InkWell(
-                      onTap: () {},
+                      onTap: () {
+                        Get.back();
+                      },
                       child: Container(
                         width: Get.width,
                         height: 50,
