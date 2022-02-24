@@ -383,37 +383,49 @@ class _ReviewPageState extends State<ReviewPage> {
                       ),
                     ),
                     SizedBox(height: 7),
-                    Container(
-                      padding: EdgeInsets.only(left: 20, right: 5, bottom: 10),
-                      width: Get.width,
-                      height: 45,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF8F5FF),
-                        borderRadius: BorderRadius.circular(10),
+                    Center(
+                      child: Container(
+                        padding: EdgeInsets.only(
+                          left: 20,
+                          right: 5,
+                          bottom: 10,
+                        ),
+                        width: Get.width,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          color: Color(0xFFF8F5FF),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: TextField(
+                            controller: _controller,
+                            decoration: InputDecoration(
+                              hintText: '',
+                              hintStyle: TextStyle(
+                                color: Color(0xFFBFBFBF),
+                                fontSize: 13,
+                              ),
+                              suffixIcon: Container(
+                                padding: EdgeInsets.only(top: 5),
+                                child: IconButton(
+                                  onPressed: _controller.clear,
+                                  icon: Icon(Icons.clear),
+                                ),
+                              ),
+                              counterText: '',
+                              enabledBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
+                              ),
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
+                              ),
+                              border: UnderlineInputBorder(
+                                borderSide:
+                                    BorderSide(color: Colors.transparent),
+                              ),
+                            )),
                       ),
-                      child: TextField(
-                          controller: _controller,
-                          decoration: InputDecoration(
-                            hintText: '',
-                            hintStyle: TextStyle(
-                              color: Color(0xFFBFBFBF),
-                              fontSize: 13,
-                            ),
-                            suffixIcon: IconButton(
-                              onPressed: _controller.clear,
-                              icon: Icon(Icons.clear),
-                            ),
-                            counterText: '',
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.transparent),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.transparent),
-                            ),
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.transparent),
-                            ),
-                          )),
                     ),
                     SizedBox(height: 30),
                     Text(

@@ -13,6 +13,12 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
+  bool heart = false;
+  bool heart2 = false;
+  bool heart3 = false;
+  bool heart4 = false;
+  bool heart5 = false;
+
   bool _categoryPressed = false;
   bool _category2Pressed = false;
   bool _category3Pressed = false;
@@ -411,8 +417,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
-                                      Image.asset('assets/n_heart.png',
-                                          width: 15),
+                                      InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            heart = !heart;
+                                          });
+                                        },
+                                        child: heart
+                                            ? Container(
+                                                child: Image.asset(
+                                                    'assets/heart.png',
+                                                    width: 15),
+                                              )
+                                            : Container(
+                                                child: Image.asset(
+                                                    'assets/n_heart.png',
+                                                    width: 15),
+                                              ),
+                                      ),
                                     ],
                                   ),
                                   Column(
@@ -461,8 +483,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Image.asset('assets/n_heart.png',
-                                        width: 15),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          heart2 = !heart2;
+                                        });
+                                      },
+                                      child: heart2
+                                          ? Container(
+                                              child: Image.asset(
+                                                  'assets/heart.png',
+                                                  width: 15),
+                                            )
+                                          : Container(
+                                              child: Image.asset(
+                                                  'assets/n_heart.png',
+                                                  width: 15),
+                                            ),
+                                    ),
                                   ],
                                 ),
                                 Column(
@@ -509,8 +547,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Image.asset('assets/n_heart.png',
-                                        width: 15),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          heart3 = !heart3;
+                                        });
+                                      },
+                                      child: heart3
+                                          ? Container(
+                                              child: Image.asset(
+                                                  'assets/heart.png',
+                                                  width: 15),
+                                            )
+                                          : Container(
+                                              child: Image.asset(
+                                                  'assets/n_heart.png',
+                                                  width: 15),
+                                            ),
+                                    ),
                                   ],
                                 ),
                                 Column(
@@ -561,8 +615,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Image.asset('assets/n_heart.png',
-                                        width: 15),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          heart4 = !heart4;
+                                        });
+                                      },
+                                      child: heart4
+                                          ? Container(
+                                              child: Image.asset(
+                                                  'assets/heart.png',
+                                                  width: 15),
+                                            )
+                                          : Container(
+                                              child: Image.asset(
+                                                  'assets/n_heart.png',
+                                                  width: 15),
+                                            ),
+                                    ),
                                   ],
                                 ),
                                 Column(
@@ -609,8 +679,24 @@ class _ProfilePageState extends State<ProfilePage> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    Image.asset('assets/n_heart.png',
-                                        width: 15),
+                                    InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          heart5 = !heart5;
+                                        });
+                                      },
+                                      child: heart5
+                                          ? Container(
+                                              child: Image.asset(
+                                                  'assets/heart.png',
+                                                  width: 15),
+                                            )
+                                          : Container(
+                                              child: Image.asset(
+                                                  'assets/n_heart.png',
+                                                  width: 15),
+                                            ),
+                                    ),
                                   ],
                                 ),
                                 Column(

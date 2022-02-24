@@ -1,5 +1,7 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:f_review/name_sub.dart';
+import 'package:f_review/name_sub2.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -12,232 +14,23 @@ class NamePage extends StatefulWidget {
 }
 
 class _NamePageState extends State<NamePage> {
+  bool heart = false;
+  bool heart2 = false;
+  bool heart3 = false;
+  bool heart4 = false;
+  bool heart5 = false;
+  bool heart6 = false;
+  bool heart7 = false;
   List<Widget> images = [
-    Container(
-      padding: EdgeInsets.only(bottom: 5, top: 10, right: 10),
-      margin: EdgeInsets.only(
-        bottom: 25,
-      ),
-      width: Get.width,
-      height: 200,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        image: DecorationImage(
-          image: AssetImage(
-            'assets/name_img1.png',
-          ),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Container(
-            child: Image.asset(
-              'assets/heart.png',
-              width: 17,
-            ),
-          ),
-          Container(
-            child: Text(
-              '1.4K',
-              style: TextStyle(
-                  color: Color(0xFF362C5E),
-                  fontSize: 10,
-                  fontFamily: 'NotoSansKR-Medium'),
-            ),
-          ),
-        ],
-      ),
-    ),
-    Container(
-      padding: EdgeInsets.only(bottom: 5, top: 10, right: 10),
-      margin: EdgeInsets.only(
-        bottom: 25,
-      ),
-      width: Get.width,
-      height: 200,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        image: DecorationImage(
-          image: AssetImage(
-            'assets/name_img1.png',
-          ),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Container(
-            child: Image.asset(
-              'assets/heart.png',
-              width: 17,
-            ),
-          ),
-          Container(
-            child: Text(
-              '1.4K',
-              style: TextStyle(
-                  color: Color(0xFF362C5E),
-                  fontSize: 10,
-                  fontFamily: 'NotoSansKR-Medium'),
-            ),
-          ),
-        ],
-      ),
-    ),
-    Container(
-      padding: EdgeInsets.only(bottom: 5, top: 10, right: 10),
-      margin: EdgeInsets.only(
-        bottom: 25,
-      ),
-      width: Get.width,
-      height: 200,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        image: DecorationImage(
-          image: AssetImage(
-            'assets/name_img1.png',
-          ),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Container(
-            child: Image.asset(
-              'assets/heart.png',
-              width: 17,
-            ),
-          ),
-          Container(
-            child: Text(
-              '1.4K',
-              style: TextStyle(
-                  color: Color(0xFF362C5E),
-                  fontSize: 10,
-                  fontFamily: 'NotoSansKR-Medium'),
-            ),
-          ),
-        ],
-      ),
-    ),
+    NameSub(index: 3),
+    NameSub(index: 4),
+    NameSub(index: 5),
   ];
 
   List<Widget> images2 = [
-    Container(
-      padding: EdgeInsets.only(bottom: 5, top: 10, right: 10),
-      margin: EdgeInsets.only(
-        bottom: 25,
-      ),
-      width: Get.width,
-      height: 200,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        image: DecorationImage(
-          image: AssetImage(
-            'assets/name_img2.png',
-          ),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Container(
-            child: Image.asset(
-              'assets/n_heart.png',
-              width: 17,
-            ),
-          ),
-          Container(
-            child: Text(
-              '20K',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontFamily: 'NotoSansKR-Medium'),
-            ),
-          ),
-        ],
-      ),
-    ),
-    Container(
-      padding: EdgeInsets.only(bottom: 5, top: 10, right: 10),
-      margin: EdgeInsets.only(
-        bottom: 25,
-      ),
-      width: Get.width,
-      height: 200,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        image: DecorationImage(
-          image: AssetImage(
-            'assets/name_img2.png',
-          ),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Container(
-            child: Image.asset(
-              'assets/n_heart.png',
-              width: 17,
-            ),
-          ),
-          Container(
-            child: Text(
-              '20K',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontFamily: 'NotoSansKR-Medium'),
-            ),
-          ),
-        ],
-      ),
-    ),
-    Container(
-      padding: EdgeInsets.only(bottom: 5, top: 10, right: 10),
-      margin: EdgeInsets.only(
-        bottom: 25,
-      ),
-      width: Get.width,
-      height: 200,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(10.0),
-        image: DecorationImage(
-          image: AssetImage(
-            'assets/name_img2.png',
-          ),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Container(
-            child: Image.asset(
-              'assets/n_heart.png',
-              width: 17,
-            ),
-          ),
-          Container(
-            child: Text(
-              '20K',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontFamily: 'NotoSansKR-Medium'),
-            ),
-          ),
-        ],
-      ),
-    ),
+    NameSub2(index: 6),
+    NameSub2(index: 7),
+    NameSub2(index: 8),
   ];
 
   String? selectedValue;
@@ -356,7 +149,23 @@ class _NamePageState extends State<NamePage> {
                         ),
                         Column(
                           children: [
-                            Image.asset('assets/bora_heart.png', width: 22),
+                            InkWell(
+                              onTap: () {
+                                setState(() {
+                                  heart = !heart;
+                                });
+                              },
+                              child: heart
+                                  ? Container(
+                                      child: Image.asset('assets/heart.png',
+                                          width: 20),
+                                    )
+                                  : Container(
+                                      child: Image.asset(
+                                          'assets/bora_heart.png',
+                                          width: 20),
+                                    ),
+                            ),
                             SizedBox(height: 3),
                             Text(
                               '저장',
