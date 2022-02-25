@@ -122,10 +122,6 @@ class _MainPageState extends State<MainPage> {
                                     color: Color(0xFFBFBFBF),
                                     fontSize: 13,
                                   ),
-                                  suffixIcon: IconButton(
-                                    onPressed: _controller.clear,
-                                    icon: Icon(Icons.clear),
-                                  ),
                                   counterText: '',
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide:
@@ -191,6 +187,12 @@ class _MainPageState extends State<MainPage> {
                                 onPressed: () => {
                                   setState(() {
                                     _areaPressed = !_areaPressed;
+                                    _areaPressed2 = !_areaPressed2;
+                                    _areaPressed3 = !_areaPressed3;
+                                    _areaPressed4 = !_areaPressed4;
+                                    _areaPressed5 = !_areaPressed5;
+                                    _areaPressed6 = !_areaPressed6;
+                                    _areaPressed7 = !_areaPressed7;
                                   })
                                 },
                               ),
@@ -258,7 +260,6 @@ class _MainPageState extends State<MainPage> {
                                   setState(() {
                                     _areaPressed3 = !_areaPressed3;
                                   });
-                                  Get.to(SubPage());
                                 },
                               ),
                             ),
@@ -432,6 +433,12 @@ class _MainPageState extends State<MainPage> {
                                 onPressed: () => {
                                   setState(() {
                                     _categoryPressed = !_categoryPressed;
+                                    _categoryPressed2 = !_categoryPressed2;
+                                    _categoryPressed3 = !_categoryPressed3;
+                                    _categoryPressed4 = !_categoryPressed4;
+                                    _categoryPressed5 = !_categoryPressed5;
+                                    _categoryPressed6 = !_categoryPressed6;
+                                    _categoryPressed7 = !_categoryPressed7;
                                   })
                                 },
                               ),
@@ -654,7 +661,7 @@ class _MainPageState extends State<MainPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text('BEST REVIEW',
+                    Text('CATEGORY REVIEW',
                         style: TextStyle(
                           fontSize: 15,
                           fontFamily: 'NotoSansKR-Bold',

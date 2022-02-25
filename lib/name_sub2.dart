@@ -31,36 +31,39 @@ class _NameSub2State extends State<NameSub2> {
           fit: BoxFit.cover,
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Container(
-            child: InkWell(
-              onTap: () {
-                heartController.heartChange(widget.index);
-              },
-              child: Obx(
-                () => heartController.heart[widget.index]
-                    ? Container(
-                        child: Image.asset('assets/heart.png', width: 15),
-                      )
-                    : Container(
-                        child: Image.asset('assets/n_heart.png', width: 15),
-                      ),
-              ),
-            ),
-          ),
-          Container(
-            child: Text(
-              '20K',
-              style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontFamily: 'NotoSansKR-Medium'),
-            ),
-          ),
-        ],
-      ),
+      child: widget.index == 6
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                  child: InkWell(
+                    onTap: () {
+                      heartController.heartChange(widget.index);
+                    },
+                    child: Obx(
+                      () => heartController.heart[widget.index]
+                          ? Container(
+                              child: Image.asset('assets/heart.png', width: 15),
+                            )
+                          : Container(
+                              child:
+                                  Image.asset('assets/n_heart.png', width: 15),
+                            ),
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    '20K',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 10,
+                        fontFamily: 'NotoSansKR-Medium'),
+                  ),
+                ),
+              ],
+            )
+          : null,
     );
   }
 }

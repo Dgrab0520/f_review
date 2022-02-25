@@ -31,36 +31,39 @@ class _NameSubState extends State<NameSub> {
           fit: BoxFit.cover,
         ),
       ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Container(
-            child: InkWell(
-              onTap: () {
-                heartController.heartChange(widget.index);
-              },
-              child: Obx(
-                () => heartController.heart[widget.index]
-                    ? Container(
-                        child: Image.asset('assets/heart.png', width: 15),
-                      )
-                    : Container(
-                        child: Image.asset('assets/n_heart.png', width: 15),
-                      ),
-              ),
-            ),
-          ),
-          Container(
-            child: Text(
-              '1.4K',
-              style: TextStyle(
-                  color: Color(0xFF362C5E),
-                  fontSize: 10,
-                  fontFamily: 'NotoSansKR-Medium'),
-            ),
-          ),
-        ],
-      ),
+      child: widget.index == 3
+          ? Column(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Container(
+                  child: InkWell(
+                    onTap: () {
+                      heartController.heartChange(widget.index);
+                    },
+                    child: Obx(
+                      () => heartController.heart[widget.index]
+                          ? Container(
+                              child: Image.asset('assets/heart.png', width: 15),
+                            )
+                          : Container(
+                              child:
+                                  Image.asset('assets/n_heart.png', width: 15),
+                            ),
+                    ),
+                  ),
+                ),
+                Container(
+                  child: Text(
+                    '1.4K',
+                    style: TextStyle(
+                        color: Color(0xFF362C5E),
+                        fontSize: 10,
+                        fontFamily: 'NotoSansKR-Medium'),
+                  ),
+                ),
+              ],
+            )
+          : null,
     );
   }
 }

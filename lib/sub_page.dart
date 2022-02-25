@@ -16,22 +16,6 @@ class SubPage extends StatefulWidget {
 }
 
 class _SubPageState extends State<SubPage> {
-  bool _areaPressed = false;
-  bool _areaPressed2 = false;
-  bool _areaPressed3 = false;
-  bool _areaPressed4 = false;
-  bool _areaPressed5 = false;
-  bool _areaPressed6 = false;
-  bool _areaPressed7 = false;
-
-  bool _categoryPressed = false;
-  bool _categoryPressed2 = false;
-  bool _categoryPressed3 = false;
-  bool _categoryPressed4 = false;
-  bool _categoryPressed5 = false;
-  bool _categoryPressed6 = false;
-  bool _categoryPressed7 = false;
-
   List<Widget> images = [
     BestreviewSub(index: 0),
     BestreviewSub(index: 1),
@@ -172,10 +156,6 @@ class _SubPageState extends State<SubPage> {
                                     color: Color(0xFFBFBFBF),
                                     fontSize: 13,
                                   ),
-                                  suffixIcon: IconButton(
-                                    onPressed: _controller.clear,
-                                    icon: Icon(Icons.clear),
-                                  ),
                                   counterText: '',
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide:
@@ -207,7 +187,7 @@ class _SubPageState extends State<SubPage> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 20),
+                    SizedBox(height: 10),
                     // Container(
                     //   width: Get.width,
                     //   height: 28,
@@ -694,13 +674,13 @@ class _SubPageState extends State<SubPage> {
                   ],
                 ),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 20),
               Container(
                 width: Get.width,
                 height: 7,
                 color: Color(0xFFFBF9FF),
               ),
-              SizedBox(height: 30),
+              SizedBox(height: 20),
               Container(
                 padding: EdgeInsets.only(left: 10, right: 10),
                 child: Column(
@@ -889,20 +869,25 @@ class _SubPageState extends State<SubPage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      '유그린',
-                                      style: TextStyle(
-                                        color: Color(0xFf2a2a2a),
-                                        fontSize: 15,
-                                        fontFamily: 'NotoSansKR-Bold',
+                                InkWell(
+                                  onTap: () {
+                                    Get.to(ProfilePage());
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        '유그린',
+                                        style: TextStyle(
+                                          color: Color(0xFf2a2a2a),
+                                          fontSize: 15,
+                                          fontFamily: 'NotoSansKR-Bold',
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(width: 5),
-                                    Image.asset('assets/mark.png',
-                                        width: 15, height: 15),
-                                  ],
+                                      SizedBox(width: 5),
+                                      Image.asset('assets/mark.png',
+                                          width: 15, height: 15),
+                                    ],
+                                  ),
                                 ),
                                 Container(
                                   width: 320,

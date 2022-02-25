@@ -56,10 +56,13 @@ class _ProfilePageState extends State<ProfilePage> {
             )),
         leadingWidth: 35,
         actions: [
-          InkWell(
-            onTap: () {},
-            child: Container(),
-          ),
+          Container(
+              padding: EdgeInsets.only(right: 10),
+              child: Image.asset(
+                'assets/avatar.png',
+                width: 30,
+                color: Colors.white,
+              )),
         ],
       ),
       body: SingleChildScrollView(
@@ -270,6 +273,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   onPressed: () => {
                                     setState(() {
                                       _categoryPressed = !_categoryPressed;
+                                      _category2Pressed = !_category2Pressed;
+                                      _category3Pressed = !_category3Pressed;
                                     })
                                   },
                                 ),

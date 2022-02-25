@@ -175,6 +175,12 @@ class _filterPageState extends State<filterPage> {
                                 onPressed: () => {
                                   setState(() {
                                     _areaPressed = !_areaPressed;
+                                    _areaPressed2 = !_areaPressed2;
+                                    _areaPressed3 = !_areaPressed3;
+                                    _areaPressed4 = !_areaPressed4;
+                                    _areaPressed5 = !_areaPressed5;
+                                    _areaPressed6 = !_areaPressed6;
+                                    _areaPressed7 = !_areaPressed7;
                                   })
                                 },
                               ),
@@ -671,6 +677,12 @@ class _filterPageState extends State<filterPage> {
                                 onPressed: () => {
                                   setState(() {
                                     _categoryPressed = !_categoryPressed;
+                                    _categoryPressed2 = !_categoryPressed2;
+                                    _categoryPressed3 = !_categoryPressed3;
+                                    _categoryPressed4 = !_categoryPressed4;
+                                    _categoryPressed5 = !_categoryPressed5;
+                                    _categoryPressed6 = !_categoryPressed6;
+                                    _categoryPressed7 = !_categoryPressed7;
                                   })
                                 },
                               ),

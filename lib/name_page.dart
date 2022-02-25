@@ -2,6 +2,7 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:f_review/name_sub.dart';
 import 'package:f_review/name_sub2.dart';
+import 'package:f_review/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -93,12 +94,17 @@ class _NamePageState extends State<NamePage> {
             )),
         leadingWidth: 35,
         actions: [
-          Container(
-              padding: EdgeInsets.only(right: 10),
-              child: Image.asset(
-                'assets/avatar.png',
-                width: 30,
-              )),
+          InkWell(
+            onTap: () {
+              Get.to(ProfilePage());
+            },
+            child: Container(
+                padding: EdgeInsets.only(right: 10),
+                child: Image.asset(
+                  'assets/avatar.png',
+                  width: 30,
+                )),
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -199,20 +205,25 @@ class _NamePageState extends State<NamePage> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Row(
-                                  children: [
-                                    Text(
-                                      '유라희',
-                                      style: TextStyle(
-                                        color: Color(0xFf2a2a2a),
-                                        fontSize: 15,
-                                        fontFamily: 'NotoSansKR-Bold',
+                                InkWell(
+                                  onTap: () {
+                                    Get.to(ProfilePage());
+                                  },
+                                  child: Row(
+                                    children: [
+                                      Text(
+                                        '유라희',
+                                        style: TextStyle(
+                                          color: Color(0xFf2a2a2a),
+                                          fontSize: 15,
+                                          fontFamily: 'NotoSansKR-Bold',
+                                        ),
                                       ),
-                                    ),
-                                    SizedBox(width: 5),
-                                    Image.asset('assets/mark.png',
-                                        width: 15, height: 15),
-                                  ],
+                                      SizedBox(width: 5),
+                                      Image.asset('assets/mark.png',
+                                          width: 15, height: 15),
+                                    ],
+                                  ),
                                 ),
                                 Container(
                                   width: 320,
@@ -434,20 +445,25 @@ class _NamePageState extends State<NamePage> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            Row(
-                              children: [
-                                Text(
-                                  '유그린',
-                                  style: TextStyle(
-                                    color: Color(0xFf2a2a2a),
-                                    fontSize: 15,
-                                    fontFamily: 'NotoSansKR-Bold',
+                            InkWell(
+                              onTap: () {
+                                Get.to(ProfilePage());
+                              },
+                              child: Row(
+                                children: [
+                                  Text(
+                                    '유그린',
+                                    style: TextStyle(
+                                      color: Color(0xFf2a2a2a),
+                                      fontSize: 15,
+                                      fontFamily: 'NotoSansKR-Bold',
+                                    ),
                                   ),
-                                ),
-                                SizedBox(width: 5),
-                                Image.asset('assets/mark.png',
-                                    width: 15, height: 15),
-                              ],
+                                  SizedBox(width: 5),
+                                  Image.asset('assets/mark.png',
+                                      width: 15, height: 15),
+                                ],
+                              ),
                             ),
                             Container(
                               width: 320,

@@ -388,7 +388,7 @@ class _ReviewPageState extends State<ReviewPage> {
                         padding: EdgeInsets.only(
                           left: 20,
                           right: 5,
-                          bottom: 10,
+                          bottom: 5,
                         ),
                         width: Get.width,
                         height: 50,
@@ -399,17 +399,10 @@ class _ReviewPageState extends State<ReviewPage> {
                         child: TextField(
                             controller: _controller,
                             decoration: InputDecoration(
-                              hintText: '',
+                              hintText: '매장이름을 입력해주세요',
                               hintStyle: TextStyle(
                                 color: Color(0xFFBFBFBF),
                                 fontSize: 13,
-                              ),
-                              suffixIcon: Container(
-                                padding: EdgeInsets.only(top: 5),
-                                child: IconButton(
-                                  onPressed: _controller.clear,
-                                  icon: Icon(Icons.clear),
-                                ),
                               ),
                               counterText: '',
                               enabledBorder: UnderlineInputBorder(
@@ -485,54 +478,47 @@ class _ReviewPageState extends State<ReviewPage> {
                         left: 10,
                         right: 10,
                       ),
-                      width: Get.width,
-                      height: 100,
                       decoration: BoxDecoration(
                         color: Color(0xFFF8F5FF),
                         borderRadius: BorderRadius.circular(10),
                       ),
-                      child: ListView(
-                        children: [
-                          TagEditor(
-                            length: _values.length,
-                            controller: _textEditingController,
-                            focusNode: _focusNode,
-                            delimiters: [',', ' ', ' ', ' '],
-                            hasAddButton: false,
-                            resetTextOnSubmitted: true,
-                            textStyle:
-                                const TextStyle(color: Color(0xFF2a2a2a)),
-                            onSubmitted: (outstandingValue) {
-                              setState(() {
-                                _values.add(outstandingValue);
-                              });
-                            },
-                            inputDecoration: const InputDecoration(
-                              border: InputBorder.none,
-                              hintText: '  _Text',
-                              hintStyle: TextStyle(
-                                color: Color(
-                                  0xFF888888,
-                                ),
-                                fontFamily: 'family: NotoSansKR-Regular',
-                                fontSize: 13,
-                              ),
+                      child: TagEditor(
+                        length: _values.length,
+                        controller: _textEditingController,
+                        focusNode: _focusNode,
+                        delimiters: [',', ' ', ' ', ' '],
+                        hasAddButton: false,
+                        resetTextOnSubmitted: true,
+                        textStyle: const TextStyle(color: Color(0xFF2a2a2a)),
+                        onSubmitted: (outstandingValue) {
+                          setState(() {
+                            _values.add(outstandingValue);
+                          });
+                        },
+                        inputDecoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: '  _Text',
+                          hintStyle: TextStyle(
+                            color: Color(
+                              0xFF888888,
                             ),
-                            onTagChanged: (newValue) {
-                              setState(() {
-                                _values.add(newValue);
-                              });
-                            },
-                            tagBuilder: (context, index) => _Chip(
-                              index: index,
-                              label: _values[index],
-                              onDeleted: _onDelete,
-                            ),
-                            // InputFormatters example, this disallow \ and /
-                            inputFormatters: [
-                              FilteringTextInputFormatter.deny(RegExp(r'[/\\]'))
-                            ],
+                            fontFamily: 'family: NotoSansKR-Regular',
+                            fontSize: 13,
                           ),
+                        ),
+                        onTagChanged: (newValue) {
+                          setState(() {
+                            _values.add(newValue);
+                          });
+                        },
+                        tagBuilder: (context, index) => _Chip(
+                          index: index,
+                          label: _values[index],
+                          onDeleted: _onDelete,
+                        ),
+                        // InputFormatters example, this disallow \ and /
+                        inputFormatters: [
+                          FilteringTextInputFormatter.deny(RegExp(r'[/\\]'))
                         ],
                       ),
                     ),
@@ -673,7 +659,9 @@ class _ReviewPageState extends State<ReviewPage> {
                           ),
                         ),
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            Get.back();
+                          },
                           child: Container(
                             width: 120,
                             height: 40,
