@@ -100,7 +100,7 @@ class _MainPageState extends State<MainPage> {
                             padding:
                                 EdgeInsets.only(left: 20, right: 5, bottom: 5),
                             width: Get.width,
-                            height: 45,
+                            height: 50,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(30),
@@ -122,6 +122,7 @@ class _MainPageState extends State<MainPage> {
                                     color: Color(0xFFBFBFBF),
                                     fontSize: 13,
                                   ),
+                                  suffixIcon: Icon(Icons.search),
                                   counterText: '',
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide:

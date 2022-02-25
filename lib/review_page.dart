@@ -388,7 +388,7 @@ class _ReviewPageState extends State<ReviewPage> {
                         padding: EdgeInsets.only(
                           left: 20,
                           right: 5,
-                          bottom: 5,
+                          bottom: 3,
                         ),
                         width: Get.width,
                         height: 50,
@@ -404,6 +404,7 @@ class _ReviewPageState extends State<ReviewPage> {
                                 color: Color(0xFFBFBFBF),
                                 fontSize: 13,
                               ),
+                              suffixIcon: Icon(Icons.search),
                               counterText: '',
                               enabledBorder: UnderlineInputBorder(
                                 borderSide:
