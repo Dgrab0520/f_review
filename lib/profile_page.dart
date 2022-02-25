@@ -273,8 +273,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                   onPressed: () => {
                                     setState(() {
                                       _categoryPressed = !_categoryPressed;
-                                      _category2Pressed = !_category2Pressed;
-                                      _category3Pressed = !_category3Pressed;
+                                      _category2Pressed = _categoryPressed;
+                                      _category3Pressed = _categoryPressed;
                                     })
                                   },
                                 ),

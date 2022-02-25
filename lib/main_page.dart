@@ -122,7 +122,10 @@ class _MainPageState extends State<MainPage> {
                                     color: Color(0xFFBFBFBF),
                                     fontSize: 13,
                                   ),
-                                  suffixIcon: Icon(Icons.search),
+                                  suffixIcon: IconButton(
+                                    onPressed: () => _controller.clear(),
+                                    icon: Icon(Icons.search),
+                                  ),
                                   counterText: '',
                                   enabledBorder: UnderlineInputBorder(
                                     borderSide:
@@ -188,12 +191,12 @@ class _MainPageState extends State<MainPage> {
                                 onPressed: () => {
                                   setState(() {
                                     _areaPressed = !_areaPressed;
-                                    _areaPressed2 = !_areaPressed2;
-                                    _areaPressed3 = !_areaPressed3;
-                                    _areaPressed4 = !_areaPressed4;
-                                    _areaPressed5 = !_areaPressed5;
-                                    _areaPressed6 = !_areaPressed6;
-                                    _areaPressed7 = !_areaPressed7;
+                                    _areaPressed2 = _areaPressed;
+                                    _areaPressed3 = _areaPressed;
+                                    _areaPressed4 = _areaPressed;
+                                    _areaPressed5 = _areaPressed;
+                                    _areaPressed6 = _areaPressed;
+                                    _areaPressed7 = _areaPressed;
                                   })
                                 },
                               ),
@@ -434,12 +437,12 @@ class _MainPageState extends State<MainPage> {
                                 onPressed: () => {
                                   setState(() {
                                     _categoryPressed = !_categoryPressed;
-                                    _categoryPressed2 = !_categoryPressed2;
-                                    _categoryPressed3 = !_categoryPressed3;
-                                    _categoryPressed4 = !_categoryPressed4;
-                                    _categoryPressed5 = !_categoryPressed5;
-                                    _categoryPressed6 = !_categoryPressed6;
-                                    _categoryPressed7 = !_categoryPressed7;
+                                    _categoryPressed2 = _categoryPressed;
+                                    _categoryPressed3 = _categoryPressed;
+                                    _categoryPressed4 = _categoryPressed;
+                                    _categoryPressed5 = _categoryPressed;
+                                    _categoryPressed6 = _categoryPressed;
+                                    _categoryPressed7 = _categoryPressed;
                                   })
                                 },
                               ),
