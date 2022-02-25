@@ -6,6 +6,7 @@ import 'package:f_review/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class NamePage extends StatefulWidget {
   const NamePage({Key? key}) : super(key: key);
@@ -48,6 +49,10 @@ class _NamePageState extends State<NamePage> {
         return buildListTile(context, data[0], data[1], data[2]);
       }),
     ).toList();
+  }
+
+  void _launchURL(String _url) async {
+    if (!await launch(_url)) throw 'Could not launch $_url';
   }
 
   Widget buildListTile(
@@ -122,7 +127,10 @@ class _NamePageState extends State<NamePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         InkWell(
-                          onTap: () {},
+                          onTap: () {
+                            _launchURL(
+                                "https://www.google.com/maps/search/마시랑게");
+                          },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
