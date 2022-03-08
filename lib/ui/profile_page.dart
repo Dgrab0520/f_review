@@ -1,9 +1,11 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:f_review/name_page.dart';
-import 'package:f_review/review_page.dart';
+import 'package:f_review/model/review_model.dart';
+import 'package:f_review/ui/review_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import 'name_page/name_page.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -397,7 +399,20 @@ class _ProfilePageState extends State<ProfilePage> {
                         Expanded(
                           child: InkWell(
                             onTap: () {
-                              Get.to(NamePage());
+                              Get.to(NamePage(
+                                reviewModel: ReviewModel(
+                                    id: 0,
+                                    profileImage: "profileImage",
+                                    userName: "userName",
+                                    date: "date",
+                                    placeName: "placeName",
+                                    review: "review",
+                                    heartCount: 0,
+                                    tags: [],
+                                    images: [],
+                                    isHeart: false,
+                                    isSaved: false),
+                              ));
                             },
                             child: Container(
                               padding: EdgeInsets.only(

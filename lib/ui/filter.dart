@@ -1,4 +1,4 @@
-import 'package:f_review/profile_page.dart';
+import 'package:f_review/ui/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
