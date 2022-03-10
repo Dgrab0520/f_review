@@ -21,47 +21,74 @@ class ReviewWidget extends StatelessWidget {
     return Column(
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Image.asset(reviewController.reviews[index].profileImage,
-                width: 40, height: 40),
-            const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
+            Row(
               children: [
-                InkWell(
-                  onTap: () {
-                    Get.to(ProfilePage());
-                  },
-                  child: Text(
-                    reviewController.reviews[index].userName,
-                    style: const TextStyle(
-                      color: Color(0xFf2a2a2a),
-                      fontSize: 15,
-                      fontFamily: 'NotoSansKR-Bold',
+                Image.asset(reviewController.reviews[index].profileImage,
+                    width: 40, height: 40),
+                const SizedBox(width: 10),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        Get.to(ProfilePage());
+                      },
+                      child: Text(
+                        reviewController.reviews[index].userName,
+                        style: const TextStyle(
+                          color: Color(0xFf2a2a2a),
+                          fontSize: 15,
+                          fontFamily: 'NotoSansKR-Bold',
+                        ),
+                      ),
                     ),
+                    Row(
+                      children: [
+                        Text(
+                          '$service·$area',
+                          style: const TextStyle(
+                            color: Color(0xFF2a2a2a),
+                            fontSize: 11,
+                          ),
+                        ),
+                        SizedBox(width: 5),
+                        Text(
+                          reviewController.reviews[index].date,
+                          style: const TextStyle(
+                            color: Color(0xFF8D8D8D),
+                            fontSize: 11,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Column(
+              children: [
+                Obx(
+                  () => InkWell(
+                    onTap: () {
+                      reviewController.bestReviewCheck(index);
+                    },
+                    child: reviewController.bestReview[index].isHeart
+                        ? Image.asset('assets/heart.png', width: 17)
+                        : Image.asset('assets/bora_heart.png', width: 17),
                   ),
                 ),
-                SizedBox(
-                  width: 320,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        reviewController.reviews[index].date,
-                        style: const TextStyle(
-                          color: Color(0xFF8D8D8D),
-                          fontSize: 11,
-                        ),
-                      ),
-                      Text(
-                        '$service·$area',
-                        style: const TextStyle(
-                          color: Color(0xFF2a2a2a),
-                          fontSize: 11,
-                        ),
-                      ),
-                    ],
+                const SizedBox(width: 5),
+                Obx(
+                  () => Text(
+                    reviewController.bestReview[index].heartCount.toString(),
+                    style: const TextStyle(
+                      color: Color(0xFF362C5E),
+                      fontSize: 10,
+                      fontFamily: 'NotoSansKR-Medium',
+                    ),
                   ),
                 ),
               ],
@@ -73,6 +100,9 @@ class ReviewWidget extends StatelessWidget {
           onTap: () {
             Get.to(NamePage(
               reviewModel: reviewController.reviews[index],
+              index: index,
+              service: service,
+              area: area,
             ));
           },
           child: Row(
@@ -115,7 +145,7 @@ class ReviewWidget extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 10),
+        SizedBox(height: 10),
         Row(
           children: [
             Text(

@@ -36,13 +36,16 @@ class ProfilePage extends StatelessWidget {
             )),
         leadingWidth: 35,
         actions: [
-          Container(
-              padding: const EdgeInsets.only(right: 10),
-              child: Image.asset(
-                'assets/avatar.png',
-                width: 30,
-                color: Colors.white,
-              )),
+          InkWell(
+            onTap: () {},
+            child: Container(
+                padding: const EdgeInsets.only(right: 10, left: 10),
+                child: Image.asset(
+                  'assets/bookmark.png',
+                  width: 23,
+                  color: Color(0xFF362C5E),
+                )),
+          ),
         ],
       ),
       body: SingleChildScrollView(
@@ -178,7 +181,9 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 30),
               InkWell(
                 onTap: () {
-                  Get.to(ReviewPage());
+                  Get.to(ReviewPage(
+                    index: 0,
+                  ));
                 },
                 child: Container(
                   width: Get.width,

@@ -1,4 +1,5 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:f_review/ui/profile_page/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,14 +7,32 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:material_tag_editor/tag_editor.dart';
 
+import '../controller/main_page_controller.dart';
+
 class ReviewPage extends StatefulWidget {
-  const ReviewPage({Key? key}) : super(key: key);
+  ReviewPage({Key? key, required this.index}) : super(key: key);
+  final mainPageController = Get.put(MainPageController());
+  final int index;
 
   @override
   _ReviewPageState createState() => _ReviewPageState();
 }
 
 class _ReviewPageState extends State<ReviewPage> {
+  String? selectedValue;
+  List<String> items = [
+    '하남',
+    '강동',
+    '송파',
+  ];
+  List<String> items2 = [
+    '카페',
+    '맛집',
+    '헤어샵',
+    '네일샵',
+    '도서',
+    '공방',
+  ];
   List<String> _values = [];
   final FocusNode _focusNode = FocusNode();
   final TextEditingController _textEditingController = TextEditingController();
@@ -368,6 +387,72 @@ class _ReviewPageState extends State<ReviewPage> {
                 width: Get.width,
                 height: 7,
                 color: Color(0xFFFBF9FF),
+              ),
+              Container(
+                padding: EdgeInsets.only(left: 10, top: 30),
+                child: Row(
+                  children: [
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton2(
+                        hint: Text(
+                          '지역',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Theme.of(context).hintColor,
+                          ),
+                        ),
+                        items: items
+                            .map((item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
+                        value: selectedValue,
+                        onChanged: (value) {
+                          selectedValue = value as String;
+                        },
+                        buttonHeight: 40,
+                        buttonWidth: 75,
+                        itemHeight: 40,
+                      ),
+                    ),
+                    SizedBox(width: 30),
+                    DropdownButtonHideUnderline(
+                      child: DropdownButton2(
+                        hint: Text(
+                          '카테고리',
+                          style: TextStyle(
+                            fontSize: 14,
+                            color: Theme.of(context).hintColor,
+                          ),
+                        ),
+                        items: items2
+                            .map((item) => DropdownMenuItem<String>(
+                                  value: item,
+                                  child: Text(
+                                    item,
+                                    style: const TextStyle(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                ))
+                            .toList(),
+                        value: selectedValue,
+                        onChanged: (value) {
+                          selectedValue = value as String;
+                        },
+                        buttonHeight: 40,
+                        buttonWidth: 90,
+                        itemHeight: 40,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               SizedBox(height: 30),
               Container(

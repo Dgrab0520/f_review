@@ -4,6 +4,7 @@ import 'package:f_review/ui/name_page/widget/name_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../../controller/sub_page_controller.dart';
 import '../../image_detail_screen.dart';
 import '../../profile_page/profile_page.dart';
 
@@ -18,6 +19,7 @@ class NameReviewWidget extends StatelessWidget {
   final String area;
   final int index;
 
+  final reviewController = Get.put(SubPageController());
   final namePageController = Get.put(NamePageController());
   @override
   Widget build(BuildContext context) {
@@ -26,47 +28,76 @@ class NameReviewWidget extends StatelessWidget {
       child: Column(
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.asset(namePageController.anotherReviews[index].profileImage,
-                  width: 40, height: 40),
-              const SizedBox(width: 10),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
+              Row(
                 children: [
-                  InkWell(
-                    onTap: () {
-                      Get.to(ProfilePage());
-                    },
-                    child: Text(
-                      namePageController.anotherReviews[index].userName,
-                      style: const TextStyle(
-                        color: Color(0xFf2a2a2a),
-                        fontSize: 15,
-                        fontFamily: 'NotoSansKR-Bold',
+                  Image.asset(
+                      namePageController.anotherReviews[index].profileImage,
+                      width: 40,
+                      height: 40),
+                  const SizedBox(width: 10),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      InkWell(
+                        onTap: () {
+                          Get.to(ProfilePage());
+                        },
+                        child: Text(
+                          namePageController.anotherReviews[index].userName,
+                          style: const TextStyle(
+                            color: Color(0xFf2a2a2a),
+                            fontSize: 15,
+                            fontFamily: 'NotoSansKR-Bold',
+                          ),
+                        ),
                       ),
+                      Row(
+                        children: [
+                          Text(
+                            '$service·$area',
+                            style: const TextStyle(
+                              color: Color(0xFF2a2a2a),
+                              fontSize: 11,
+                            ),
+                          ),
+                          SizedBox(width: 5),
+                          Text(
+                            namePageController.anotherReviews[index].date,
+                            style: const TextStyle(
+                              color: Color(0xFF8D8D8D),
+                              fontSize: 11,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+              Column(
+                children: [
+                  Obx(
+                    () => InkWell(
+                      onTap: () {
+                        reviewController.bestReviewCheck(index);
+                      },
+                      child: reviewController.bestReview[index].isHeart
+                          ? Image.asset('assets/heart.png', width: 17)
+                          : Image.asset('assets/bora_heart.png', width: 17),
                     ),
                   ),
-                  SizedBox(
-                    width: 320,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          namePageController.anotherReviews[index].date,
-                          style: const TextStyle(
-                            color: Color(0xFF8D8D8D),
-                            fontSize: 11,
-                          ),
-                        ),
-                        Text(
-                          '$service·$area',
-                          style: const TextStyle(
-                            color: Color(0xFF2a2a2a),
-                            fontSize: 11,
-                          ),
-                        ),
-                      ],
+                  const SizedBox(width: 5),
+                  Obx(
+                    () => Text(
+                      reviewController.bestReview[index].heartCount.toString(),
+                      style: const TextStyle(
+                        color: Color(0xFF362C5E),
+                        fontSize: 10,
+                        fontFamily: 'NotoSansKR-Medium',
+                      ),
                     ),
                   ),
                 ],
@@ -108,7 +139,7 @@ class NameReviewWidget extends StatelessWidget {
               duration: 1000,
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           Text(
             namePageController.anotherReviews[index].review,
             style: const TextStyle(color: Color(0xFF2a2a2a), fontSize: 11),

@@ -120,33 +120,6 @@ class ProfilePageController extends GetxController {
     _reviews.refresh();
   }
 
-  final _categoryPressed =
-
-  allSelectCategory() {
-    areaPressed[0] = !areaPressed[0];
-    areaPressed.fillRange(1, areaPressed.length, areaPressed[0]);
-    _areaPressed.refresh();
-
-    if (areaPressed[0]) {
-      setAllCategories();
-    } else {
-      categoryList.clear();
-    }
-  }
-
-  selectCategory(int i) {
-    areaPressed[i] = !areaPressed[i];
-    if (!areaPressed[i]) {
-      areaPressed[0] = false;
-    }
-    if (areaPressed.where((element) => element == true).length + 1 ==
-        areaPressed.length) {
-      areaPressed[0] = true;
-      setAllCategories();
-    }
-    _areaPressed.refresh();
-  }
-
   //
 
   final _selectedValue = "최신순".obs;

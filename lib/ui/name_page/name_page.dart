@@ -6,11 +6,24 @@ import 'package:f_review/ui/image_detail_screen.dart';
 import 'package:f_review/ui/name_page/widget/name_image.dart';
 import 'package:f_review/ui/name_page/widget/name_review_widget.dart';
 import 'package:f_review/ui/profile_page/profile_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../controller/sub_page_controller.dart';
+
 class NamePage extends StatelessWidget {
-  NamePage({Key? key, required this.reviewModel}) : super(key: key);
+  NamePage({
+    Key? key,
+    required this.reviewModel,
+    required this.index,
+    required this.service,
+    required this.area,
+  }) : super(key: key);
+  final int index;
+  final String service;
+  final String area;
+  final reviewController = Get.put(SubPageController());
 
   final ReviewModel reviewModel;
   final namePageController = Get.put(NamePageController());
@@ -102,6 +115,20 @@ class NamePage extends StatelessWidget {
                             ],
                           ),
                         ),
+                        InkWell(
+                            onTap: () {},
+                            child: Column(
+                              children: [
+                                Image.asset('assets/bookmark.png', width: 21),
+                                SizedBox(height: 5),
+                                Text(
+                                  '저장',
+                                  style: TextStyle(
+                                    fontSize: 11,
+                                  ),
+                                ),
+                              ],
+                            )),
                       ],
                     ),
                     const SizedBox(height: 30),
@@ -116,48 +143,79 @@ class NamePage extends StatelessWidget {
                     Column(
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Image.asset(reviewModel.profileImage,
-                                width: 40, height: 40),
-                            const SizedBox(width: 10),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.start,
+                            Row(
                               children: [
-                                InkWell(
-                                  onTap: () {
-                                    Get.to(ProfilePage());
-                                  },
-                                  child: Text(
-                                    reviewModel.userName,
-                                    style: const TextStyle(
-                                      color: Color(0xFf2a2a2a),
-                                      fontSize: 15,
-                                      fontFamily: 'NotoSansKR-Bold',
+                                Image.asset(reviewModel.profileImage,
+                                    width: 40, height: 40),
+                                const SizedBox(width: 10),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    InkWell(
+                                      onTap: () {
+                                        Get.to(ProfilePage());
+                                      },
+                                      child: Text(
+                                        reviewModel.userName,
+                                        style: const TextStyle(
+                                          color: Color(0xFf2a2a2a),
+                                          fontSize: 15,
+                                          fontFamily: 'NotoSansKR-Bold',
+                                        ),
+                                      ),
                                     ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          '${namePageController.placeModel.service}·${namePageController.placeModel.area.substring(0, 2)}',
+                                          style: const TextStyle(
+                                            color: Color(0xFF2a2a2a),
+                                            fontSize: 11,
+                                          ),
+                                        ),
+                                        SizedBox(width: 5),
+                                        Text(
+                                          reviewModel.date,
+                                          style: const TextStyle(
+                                            color: Color(0xFF8D8D8D),
+                                            fontSize: 11,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Column(
+                              children: [
+                                Obx(
+                                  () => InkWell(
+                                    onTap: () {
+                                      reviewController.bestReviewCheck(index);
+                                    },
+                                    child: reviewController
+                                            .bestReview[index].isHeart
+                                        ? Image.asset('assets/heart.png',
+                                            width: 17)
+                                        : Image.asset('assets/bora_heart.png',
+                                            width: 17),
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 320,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        reviewModel.date,
-                                        style: const TextStyle(
-                                          color: Color(0xFF8D8D8D),
-                                          fontSize: 11,
-                                        ),
-                                      ),
-                                      Text(
-                                        '${namePageController.placeModel.service}·${namePageController.placeModel.area.substring(0, 2)}',
-                                        style: const TextStyle(
-                                          color: Color(0xFF2a2a2a),
-                                          fontSize: 11,
-                                        ),
-                                      ),
-                                    ],
+                                const SizedBox(width: 5),
+                                Obx(
+                                  () => Text(
+                                    reviewController
+                                        .bestReview[index].heartCount
+                                        .toString(),
+                                    style: const TextStyle(
+                                      color: Color(0xFF362C5E),
+                                      fontSize: 10,
+                                      fontFamily: 'NotoSansKR-Medium',
+                                    ),
                                   ),
                                 ),
                               ],
@@ -199,7 +257,7 @@ class NamePage extends StatelessWidget {
                             duration: 1000,
                           ),
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 20),
                         Text(
                           reviewModel.review,
                           style: const TextStyle(
@@ -317,7 +375,7 @@ class NamePage extends StatelessWidget {
                         )))
                     .values
                     .toList(),
-              )
+              ),
             ],
           ),
         ),
