@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../profile_page.dart';
+import '../profile_page/profile_page.dart';
 
 class MainPage extends StatelessWidget {
   MainPage({Key? key}) : super(key: key);
@@ -39,7 +39,7 @@ class MainPage extends StatelessWidget {
           actions: [
             InkWell(
               onTap: () {
-                Get.to(const ProfilePage());
+                Get.to(ProfilePage());
               },
               child: Container(
                   padding: const EdgeInsets.only(right: 10),

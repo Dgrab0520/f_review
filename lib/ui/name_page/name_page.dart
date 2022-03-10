@@ -5,7 +5,7 @@ import 'package:f_review/model/review_model.dart';
 import 'package:f_review/ui/image_detail_screen.dart';
 import 'package:f_review/ui/name_page/widget/name_image.dart';
 import 'package:f_review/ui/name_page/widget/name_review_widget.dart';
-import 'package:f_review/ui/profile_page.dart';
+import 'package:f_review/ui/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -42,7 +42,7 @@ class NamePage extends StatelessWidget {
         actions: [
           InkWell(
             onTap: () {
-              Get.to(const ProfilePage());
+              Get.to(ProfilePage());
             },
             child: Container(
                 padding: const EdgeInsets.only(right: 10),
@@ -70,7 +70,7 @@ class NamePage extends StatelessWidget {
                         InkWell(
                           onTap: () {
                             namePageController.launchURL(
-                                "https://www.google.com/maps/search/${namePageController.placeModel.name}");
+                                "https://www.google.com/maps/search/${reviewModel.placeName}");
                           },
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -126,7 +126,7 @@ class NamePage extends StatelessWidget {
                               children: [
                                 InkWell(
                                   onTap: () {
-                                    Get.to(const ProfilePage());
+                                    Get.to(ProfilePage());
                                   },
                                   child: Text(
                                     reviewModel.userName,

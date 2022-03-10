@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../profile_page.dart';
+import '../profile_page/profile_page.dart';
 
 class SubPage extends StatelessWidget {
   SubPage({Key? key, required this.area, required this.service})

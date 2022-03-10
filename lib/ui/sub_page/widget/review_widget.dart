@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../name_page/name_page.dart';
-import '../../profile_page.dart';
+import '../../profile_page/profile_page.dart';
 
 class ReviewWidget extends StatelessWidget {
   ReviewWidget(
@@ -31,7 +31,7 @@ class ReviewWidget extends StatelessWidget {
               children: [
                 InkWell(
                   onTap: () {
-                    Get.to(const ProfilePage());
+                    Get.to(ProfilePage());
                   },
                   child: Text(
                     reviewController.reviews[index].userName,

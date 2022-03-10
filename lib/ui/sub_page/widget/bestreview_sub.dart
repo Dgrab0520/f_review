@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import '../../../model/review_model.dart';
 import '../../name_page/name_page.dart';
-import '../../profile_page.dart';
+import '../../profile_page/profile_page.dart';
 
 class BestReviewSub extends StatelessWidget {
   BestReviewSub(
@@ -44,7 +44,7 @@ class BestReviewSub extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {
-                Get.to(const ProfilePage());
+                Get.to(ProfilePage());
               },
               child: Row(
                 children: [
