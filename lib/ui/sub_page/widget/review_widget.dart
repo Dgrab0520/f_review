@@ -34,7 +34,9 @@ class ReviewWidget extends StatelessWidget {
                   children: [
                     InkWell(
                       onTap: () {
-                        Get.to(ProfilePage());
+                        Get.to(ProfilePage(
+                          userId: 0,
+                        ));
                       },
                       child: Text(
                         reviewController.reviews[index].userName,
@@ -145,7 +147,7 @@ class ReviewWidget extends StatelessWidget {
             ],
           ),
         ),
-        SizedBox(height: 10),
+        const SizedBox(height: 10),
         Row(
           children: [
             Text(

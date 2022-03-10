@@ -43,7 +43,9 @@ class NameReviewWidget extends StatelessWidget {
                     children: [
                       InkWell(
                         onTap: () {
-                          Get.to(ProfilePage());
+                          Get.to(ProfilePage(
+                            userId: 0,
+                          ));
                         },
                         child: Text(
                           namePageController.anotherReviews[index].userName,

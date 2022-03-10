@@ -4,121 +4,122 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MainPageController extends GetxController {
-  static const List<String> _areaList = ["전체", "하남", "강동", "송파"];
-  List<String> get areaList => _areaList;
+  final _areaList = {
+    "전체": true,
+    "하남": true,
+    "강동": true,
+    "송파": true,
+  }.obs;
+  Map<String, bool> get areaList => _areaList;
+  set areaList(val) => _areaList.value = val;
+  //지역 카테고리
+  final _serviceList = {
+    "전체": true,
+    "카페": true,
+    "맛집": true,
+    "헤어샵": true,
+    "네일샵": true,
+    "전자제품": true,
+    "도서": true,
+    "공방": true
+  }.obs;
+  Map<String, bool> get serviceList => _serviceList;
+  set serviceList(val) => _serviceList.value = val;
+  //서비스 카테고리
 
-  static const List<String> _serviceList = [
-    "전체",
-    "카페",
-    "맛집",
-    "헤어샵",
-    "네일샵",
-    "전자제품",
-    "도서",
-    "공방"
-  ];
-  List<String> get serviceList => _serviceList;
+  final _selectedArea = ["전체", "하남", "강동", "송파"];
+  final _selectedSerVice = ["전체", "카페", "맛집", "헤어샵", "네일샵", "전자제품", "도서", "공방"];
 
-  final _categoryList = <CategoryModel>[
-    CategoryModel(
-        area: "하남",
-        service: "카페",
-        image: CategoryData().categories["하남"]!['카페']!),
-    CategoryModel(
-        area: "송파",
-        service: "맛집",
-        image: CategoryData().categories["송파"]!['맛집']!),
-    CategoryModel(
-        area: "강동",
-        service: "공방",
-        image: CategoryData().categories["강동"]!['공방']!),
-    CategoryModel(
-        area: "강동",
-        service: "네일샵",
-        image: CategoryData().categories["강동"]!['네일샵']!),
-  ].obs;
-
+  final _categoryList = <CategoryModel>[].obs;
   set categoryList(value) => _categoryList.value = value;
   List<CategoryModel> get categoryList => _categoryList;
-
-  final _areaPressed = List.generate(_areaList.length, (index) => true).obs;
-
-  set areaPressed(value) => _areaPressed.value = value;
-  List<bool> get areaPressed => _areaPressed;
-
-  final _servicePressed =
-      List.generate(_serviceList.length, (index) => true).obs;
-
-  set servicePressed(value) => _servicePressed.value = value;
-  List<bool> get servicePressed => _servicePressed;
+  //카테고리 리스트
 
   setAllCategories() {
-    if (areaPressed[0] && servicePressed[0]) {
-      categoryList = CategoryData()
-          .categories
-          .entries
-          .map((e) => e.value.entries
-              .map((e2) =>
-                  CategoryModel(area: e.key, service: e2.key, image: e2.value))
-              .toList())
-          .toList()
-          .expand((element) => element)
-          .toList();
+    if (areaList['전체']! && serviceList['전체']!) {
+      categoryList = CategoryData().allCategory();
     }
   }
 
-  setCategories() {}
-
+  //region
   allSelectArea() {
-    areaPressed[0] = !areaPressed[0];
-    areaPressed.fillRange(1, areaPressed.length, areaPressed[0]);
-    _areaPressed.refresh();
+    areaList['전체'] = !areaList['전체']!;
+    areaList.updateAll((key, value) => areaList['전체']!);
+    _areaList.refresh();
 
-    if (areaPressed[0]) {
+    if (areaList['전체']!) {
       setAllCategories();
     } else {
       categoryList.clear();
     }
   }
 
-  selectArea(int i) {
-    areaPressed[i] = !areaPressed[i];
-    if (!areaPressed[i]) {
-      areaPressed[0] = false;
+  selectArea(String area) {
+    areaList[area] = !areaList[area]!;
+    if (!areaList[area]!) {
+      areaList['전체'] = false;
     }
-    if (areaPressed.where((element) => element == true).length + 1 ==
-        areaPressed.length) {
-      areaPressed[0] = true;
-      setAllCategories();
+    //전체 선택 해제
+    _selectedArea.clear();
+    areaList.forEach((key, value) {
+      if (value && key != "전체") {
+        _selectedArea.add(key);
+      }
+    });
+    //선택 카테고리 업데이트
+    if (areaList.values.where((element) => element).length + 1 ==
+        areaList.length) {
+      areaList['전체'] = true;
     }
-    _areaPressed.refresh();
+    //모든 카테고리 선택시 전체 버튼 활성화
+    print(_selectedArea);
+    print(_selectedSerVice);
+    categoryList =
+        CategoryData().selectCategory(_selectedArea, _selectedSerVice);
+    _areaList.refresh();
   }
+  //endregion
+  //지역 선택 함수
 
+  //region
   allSelectService() {
-    servicePressed[0] = !servicePressed[0];
-    servicePressed.fillRange(1, servicePressed.length, servicePressed[0]);
-    _servicePressed.refresh();
+    serviceList['전체'] = !serviceList['전체']!;
+    serviceList.updateAll((key, value) => serviceList['전체']!);
+    _serviceList.refresh();
 
-    if (servicePressed[0]) {
+    if (serviceList['전체']!) {
       setAllCategories();
     } else {
       categoryList.clear();
     }
   }
 
-  selectService(int i) {
-    servicePressed[i] = !servicePressed[i];
-    if (!servicePressed[i]) {
-      servicePressed[0] = false;
+  selectService(String service) {
+    serviceList[service] = !serviceList[service]!;
+    if (!serviceList[service]!) {
+      serviceList['전체'] = false;
     }
-    if (servicePressed.where((element) => element == true).length + 1 ==
-        servicePressed.length) {
-      servicePressed[0] = true;
-      setAllCategories();
+    //전체 선택 해제
+    _selectedSerVice.clear();
+    serviceList.forEach((key, value) {
+      if (value && key != "전체") {
+        _selectedSerVice.add(key);
+      }
+    });
+    //선택 카테고리 업데이트
+    if (serviceList.values.where((element) => element).length + 1 ==
+        serviceList.length) {
+      serviceList['전체'] = true;
     }
-
-    _servicePressed.refresh();
+    //모든 카테고리 선택시 전체 버튼 활성화
+    print(_selectedArea);
+    print(_selectedSerVice);
+    categoryList =
+        CategoryData().selectCategory(_selectedArea, _selectedSerVice);
+    _serviceList.refresh();
   }
+  //endregion
+  //서비스 선택 함수
 
   var controller = TextEditingController();
 }

@@ -44,7 +44,9 @@ class BestReviewSub extends StatelessWidget {
           children: [
             InkWell(
               onTap: () {
-                Get.to(ProfilePage());
+                Get.to(ProfilePage(
+                  userId: 0,
+                ));
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

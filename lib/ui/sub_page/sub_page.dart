@@ -60,12 +60,12 @@ class SubPage extends StatelessWidget {
           width: 40,
         )),
         leading: Container(
-            padding: EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(left: 10),
             child: InkWell(
               onTap: () {
                 Get.back();
               },
-              child: Icon(
+              child: const Icon(
                 Icons.arrow_back_ios,
                 color: Color(0xFF362C5E),
                 size: 23,
@@ -75,10 +75,12 @@ class SubPage extends StatelessWidget {
         actions: [
           InkWell(
             onTap: () {
-              Get.to(ProfilePage());
+              Get.to(ProfilePage(
+                userId: 0,
+              ));
             },
             child: Container(
-                padding: EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.only(right: 10),
                 child: Image.asset(
                   'assets/avatar.png',
                   width: 30,
@@ -246,33 +248,35 @@ class SubPage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        DropdownButtonHideUnderline(
-                          child: DropdownButton2(
-                            hint: Text(
-                              '최신순',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Theme.of(context).hintColor,
+                        Obx(
+                          () => DropdownButtonHideUnderline(
+                            child: DropdownButton2(
+                              hint: Text(
+                                '최신순',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  color: Theme.of(context).hintColor,
+                                ),
                               ),
-                            ),
-                            items: subPageController.items
-                                .map((item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(
-                                          fontSize: 14,
+                              items: subPageController.items
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                          ),
                                         ),
-                                      ),
-                                    ))
-                                .toList(),
-                            value: subPageController.selectedValue,
-                            onChanged: (value) {
-                              subPageController.selectedValue = value as String;
-                            },
-                            buttonHeight: 40,
-                            buttonWidth: 75,
-                            itemHeight: 40,
+                                      ))
+                                  .toList(),
+                              value: subPageController.selectedValue,
+                              onChanged: (value) {
+                                subPageController.setItem(value.toString());
+                              },
+                              buttonHeight: 40,
+                              buttonWidth: 75,
+                              itemHeight: 40,
+                            ),
                           ),
                         ),
                       ],

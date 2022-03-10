@@ -2,6 +2,7 @@ class ProfileReviewModel {
   String area;
   String name;
   String image;
+  String serviceType;
   bool isHeart;
   int reviewId;
 
@@ -9,6 +10,7 @@ class ProfileReviewModel {
     required this.area,
     required this.name,
     required this.image,
+    required this.serviceType,
     required this.isHeart,
     required this.reviewId,
   });
@@ -18,6 +20,7 @@ class ProfileReviewModel {
       area: json['area'],
       name: json['name'],
       image: json['image'],
+      serviceType: json['serviceType'],
       isHeart: json['isHeart'],
       reviewId: json['reviewId'],
     );
@@ -27,6 +30,7 @@ class ProfileReviewModel {
         'area': area,
         'name': name,
         "image": image,
+        "serviceType": serviceType,
         "isHeart": isHeart,
         "reviewId": reviewId,
       };

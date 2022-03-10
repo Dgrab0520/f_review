@@ -1,3 +1,5 @@
+import 'model/category_model.dart';
+
 class CategoryData {
   Map<String, Map<String, String>> categories = {
     "하남": {
@@ -28,4 +30,29 @@ class CategoryData {
       "공방": "assets/category_3.png",
     },
   };
+
+  List<CategoryModel> allCategory() {
+    return CategoryData()
+        .categories
+        .entries
+        .map((e) => e.value.entries
+            .map((e2) =>
+                CategoryModel(area: e.key, service: e2.key, image: e2.value))
+            .toList())
+        .toList()
+        .expand((element) => element)
+        .toList();
+  }
+
+  List<CategoryModel> selectCategory(
+      List<String> areas, List<String> services) {
+    List<CategoryModel> result = [];
+    for (var area in areas) {
+      for (var service in services) {
+        result.add(CategoryModel(
+            area: area, service: service, image: categories[area]![service]!));
+      }
+    }
+    return result;
+  }
 }

@@ -14,17 +14,17 @@ class AreaSelectWidget extends StatelessWidget {
           margin: const EdgeInsets.only(right: 7),
           child: ElevatedButton(
             child: Text(
-              mainPageController.areaList[index],
+              mainPageController.areaList.keys.elementAt(index),
               style: TextStyle(
                 fontSize: 12,
-                color: mainPageController.areaPressed[index]
+                color: mainPageController.areaList.values.elementAt(index)
                     ? Colors.white
                     : const Color(0xFF362C5E),
               ),
             ),
             style: ElevatedButton.styleFrom(
               elevation: 0,
-              primary: mainPageController.areaPressed[index]
+              primary: mainPageController.areaList.values.elementAt(index)
                   ? const Color(0xFF362C5E)
                   : Colors.white,
               shape: RoundedRectangleBorder(
@@ -36,7 +36,8 @@ class AreaSelectWidget extends StatelessWidget {
             onPressed: () {
               index == 0
                   ? mainPageController.allSelectArea()
-                  : mainPageController.selectArea(index);
+                  : mainPageController.selectArea(
+                      mainPageController.areaList.keys.elementAt(index));
             },
           ),
         ));

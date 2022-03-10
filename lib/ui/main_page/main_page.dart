@@ -13,6 +13,7 @@ class MainPage extends StatelessWidget {
   final mainPageController = Get.put(MainPageController());
   @override
   Widget build(BuildContext context) {
+    mainPageController.setAllCategories();
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));
@@ -39,7 +40,9 @@ class MainPage extends StatelessWidget {
           actions: [
             InkWell(
               onTap: () {
-                Get.to(ProfilePage());
+                Get.to(ProfilePage(
+                  userId: 0,
+                ));
               },
               child: Container(
                   padding: const EdgeInsets.only(right: 10),
@@ -127,8 +130,10 @@ class MainPage extends StatelessWidget {
                           Expanded(
                             flex: 1,
                             child: InkWell(
-                              onTap: () =>
-                                  mainPageController.controller.clear(),
+                              onTap: () {
+                                mainPageController.controller.clear();
+                                FocusScope.of(context).unfocus();
+                              },
                               child: const SizedBox(
                                 height: 25,
                                 child: Icon(Icons.search),
@@ -157,7 +162,7 @@ class MainPage extends StatelessWidget {
                         child: ListView.builder(
                           //서비스 선택
                           scrollDirection: Axis.horizontal,
-                          itemCount: mainPageController.servicePressed.length,
+                          itemCount: mainPageController.serviceList.length,
                           itemBuilder: (BuildContext context, int index) {
                             return ServiceSelectWidget(index: index);
                           },

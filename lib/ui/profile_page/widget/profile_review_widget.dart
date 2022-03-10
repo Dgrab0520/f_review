@@ -1,4 +1,6 @@
 import 'package:f_review/controller/profile_page_controller.dart';
+import 'package:f_review/model/review_model.dart';
+import 'package:f_review/ui/name_page/name_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -11,7 +13,27 @@ class ProfileReviewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        //Get.to();
+        Get.to(
+            NamePage(
+              reviewModel: ReviewModel(
+                  id: 1,
+                  profileImage: "profileImage",
+                  userName: "userName",
+                  date: "date",
+                  placeName: "placeName",
+                  review: "review",
+                  heartCount: 0,
+                  tags: [],
+                  images: [],
+                  isHeart: false,
+                  isSaved: false),
+              index: 0,
+              area: '',
+              service: '',
+            ),
+            arguments: profilePageController.categoryPressed['전체']!
+                ? profilePageController.reviews[index]
+                : profilePageController.selectedReviews[index]);
       },
       child: Container(
         padding: const EdgeInsets.only(top: 5, right: 10, left: 10, bottom: 5),
@@ -19,7 +41,9 @@ class ProfileReviewWidget extends StatelessWidget {
         height: 110,
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage(profilePageController.reviews[index].image),
+            image: AssetImage(profilePageController.categoryPressed['전체']!
+                ? profilePageController.reviews[index].image
+                : profilePageController.selectedReviews[index].image),
           ),
         ),
         child: Column(
@@ -29,21 +53,31 @@ class ProfileReviewWidget extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Obx(()=>InkWell(
-                  onTap: () {
-                    profilePageController.reviewsHeartChange(index);
-                  },
-                  child: profilePageController.reviews[index].isHeart
-                      ? Image.asset('assets/heart.png', width: 15)
-                      : Image.asset('assets/n_heart.png', width: 15),
-                ),)
+                Obx(
+                  () => InkWell(
+                    onTap: () {
+                      profilePageController.categoryPressed['전체']!
+                          ? profilePageController.reviewsHeartChange(index)
+                          : profilePageController
+                              .selectedReviewsHeartChange(index);
+                    },
+                    child: (profilePageController.categoryPressed['전체']!
+                            ? profilePageController.reviews[index].isHeart
+                            : profilePageController
+                                .selectedReviews[index].isHeart)
+                        ? Image.asset('assets/heart.png', width: 15)
+                        : Image.asset('assets/n_heart.png', width: 15),
+                  ),
+                )
               ],
             ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  profilePageController.reviews[index].area,
+                  profilePageController.categoryPressed['전체']!
+                      ? profilePageController.reviews[index].area
+                      : profilePageController.selectedReviews[index].area,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 10,
@@ -51,7 +85,9 @@ class ProfileReviewWidget extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  profilePageController.reviews[index].name,
+                  profilePageController.categoryPressed['전체']!
+                      ? profilePageController.reviews[index].name
+                      : profilePageController.selectedReviews[index].name,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12,

@@ -15,7 +15,7 @@ class NamePageController extends GetxController {
 
   final _anotherReviews = <ReviewModel>[
     ReviewModel(
-      id: 0,
+      id: 1,
       profileImage: 'assets/avatar_2.png',
       userName: '유그린',
       date: '12.12 토',
@@ -43,6 +43,9 @@ class NamePageController extends GetxController {
   ].obs;
   set items(value) => _items.value = value;
   List<String> get items => _items;
+  setItem(String value) {
+    selectedValue = value;
+  }
   //정렬
 
   final _obj = ''.obs;
