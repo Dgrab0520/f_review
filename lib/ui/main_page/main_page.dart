@@ -1,6 +1,7 @@
 import 'package:f_review/controller/main_page_controller.dart';
 import 'package:f_review/ui/main_page/widget/area_select_widget.dart';
 import 'package:f_review/ui/main_page/widget/category_box_widget.dart';
+import 'package:f_review/ui/main_page/widget/search_page.dart';
 import 'package:f_review/ui/main_page/widget/service_select_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -31,10 +32,13 @@ class MainPage extends StatelessWidget {
             width: 40,
           )),
           leading: Container(
-              padding: const EdgeInsets.only(left: 10),
-              child: Image.asset(
-                'assets/menu.png',
-              )),
+            padding: const EdgeInsets.only(left: 10),
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Color(0xFF362C5E),
+              size: 23,
+            ),
+          ),
           leadingWidth: 35,
           actions: [
             InkWell(
@@ -80,47 +84,52 @@ class MainPage extends StatelessWidget {
                         children: [
                           Expanded(
                             flex: 9,
-                            child: Container(
-                              padding: const EdgeInsets.only(
-                                  left: 20, right: 5, bottom: 5),
-                              width: Get.width,
-                              height: 50,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(30),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: const Color(0xFFdbdbdb)
-                                        .withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 5,
-                                    offset: const Offset(
-                                        2, 4), // changes position of shadow
-                                  ),
-                                ],
+                            child: InkWell(
+                              onTap: () {
+                                Get.to(SearchPage());
+                              },
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    left: 20, right: 5, bottom: 5),
+                                width: Get.width,
+                                height: 50,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(30),
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: const Color(0xFFdbdbdb)
+                                          .withOpacity(0.5),
+                                      spreadRadius: 2,
+                                      blurRadius: 5,
+                                      offset: const Offset(
+                                          2, 4), // changes position of shadow
+                                    ),
+                                  ],
+                                ),
+                                child: TextField(
+                                    controller: mainPageController.controller,
+                                    decoration: const InputDecoration(
+                                      hintText: '원하는 내용을 검색해보세요',
+                                      hintStyle: TextStyle(
+                                        color: Color(0xFFBFBFBF),
+                                        fontSize: 13,
+                                      ),
+                                      counterText: '',
+                                      enabledBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.transparent),
+                                      ),
+                                      focusedBorder: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.transparent),
+                                      ),
+                                      border: UnderlineInputBorder(
+                                        borderSide: BorderSide(
+                                            color: Colors.transparent),
+                                      ),
+                                    )),
                               ),
-                              child: TextField(
-                                  controller: mainPageController.controller,
-                                  decoration: const InputDecoration(
-                                    hintText: '원하는 내용을 검색해보세요',
-                                    hintStyle: TextStyle(
-                                      color: Color(0xFFBFBFBF),
-                                      fontSize: 13,
-                                    ),
-                                    counterText: '',
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                    ),
-                                    border: UnderlineInputBorder(
-                                      borderSide:
-                                          BorderSide(color: Colors.transparent),
-                                    ),
-                                  )),
                             ),
                           ),
                           const SizedBox(width: 20),

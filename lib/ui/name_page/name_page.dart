@@ -119,7 +119,8 @@ class NamePage extends StatelessWidget {
                             onTap: () {},
                             child: Column(
                               children: [
-                                Image.asset('assets/bookmark.png', width: 21),
+                                Image.asset('assets/bookmark.png',
+                                    width: 21, color: Color(0xFF362C5E)),
                                 SizedBox(height: 5),
                                 Text(
                                   '저장',
