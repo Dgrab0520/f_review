@@ -1,6 +1,7 @@
 import 'package:f_review/controller/main_page_controller.dart';
 import 'package:f_review/ui/main_page/widget/area_select_widget.dart';
 import 'package:f_review/ui/main_page/widget/category_box_widget.dart';
+import 'package:f_review/ui/main_page/widget/coupon_page.dart';
 import 'package:f_review/ui/main_page/widget/search_page.dart';
 import 'package:f_review/ui/main_page/widget/service_select_widget.dart';
 import 'package:flutter/material.dart';
@@ -70,19 +71,51 @@ class MainPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Text('리뷰 페이지',
-                          style: TextStyle(
-                            fontSize: 23,
-                            fontFamily: 'NotoSansKR-Bold',
-                          )),
-                      const Text(
-                        "실제로 작성한 리뷰를 참고하세요.",
-                        style: TextStyle(
-                          color: Color(0xFF8D8D8D),
-                          fontSize: 12,
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const Text('리뷰 페이지',
+                                  style: TextStyle(
+                                    fontSize: 23,
+                                    fontFamily: 'NotoSansKR-Bold',
+                                  )),
+                              const Text(
+                                "실제로 작성한 리뷰를 참고하세요.",
+                                style: TextStyle(
+                                  color: Color(0xFF8D8D8D),
+                                  fontSize: 12,
+                                ),
+                              ),
+                              const SizedBox(height: 40),
+                            ],
+                          ),
+                          SizedBox(width: 50),
+                          InkWell(
+                            onTap: () {
+                              Get.to(CouponPage());
+                            },
+                            child: Container(
+                              width: 60,
+                              height: 25,
+                              decoration: BoxDecoration(
+                                color: Color(0xFF363057),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  '쿠폰',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 40),
                       Row(
                         children: [
                           Expanded(

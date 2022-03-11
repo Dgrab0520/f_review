@@ -1,5 +1,6 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:f_review/controller/profile_page_controller.dart';
+import 'package:f_review/ui/profile_page/widget/bookmark_page.dart';
 import 'package:f_review/ui/profile_page/widget/profile_edit_dialog.dart';
 import 'package:f_review/ui/profile_page/widget/profile_review_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -42,7 +43,9 @@ class ProfilePage extends StatelessWidget {
         leadingWidth: 35,
         actions: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Get.to(BookmarkPage());
+            },
             child: Container(
                 padding: const EdgeInsets.only(right: 10, left: 10),
                 child: Image.asset(

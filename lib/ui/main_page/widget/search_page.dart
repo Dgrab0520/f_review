@@ -123,7 +123,7 @@ class _SearchPageState extends State<SearchPage> {
                   },
                   child: ListTile(
                     leading: CircleAvatar(
-                      backgroundImage: AssetImage('assets/avatar.png'),
+                      backgroundImage: AssetImage('assets/map.png'),
                     ),
                     title: Text('#하남'),
                     subtitle: Text('총 1,234 게시물'),
@@ -143,7 +143,7 @@ class _SearchPageState extends State<SearchPage> {
                   },
                   child: ListTile(
                     leading: CircleAvatar(
-                      backgroundImage: AssetImage('assets/avatar.png'),
+                      backgroundImage: AssetImage('assets/sharp.png'),
                     ),
                     title: Text('#하남'),
                     subtitle: Text('총 1,234 게시물'),
