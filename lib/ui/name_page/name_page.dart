@@ -6,11 +6,12 @@ import 'package:f_review/ui/image_detail_screen.dart';
 import 'package:f_review/ui/name_page/widget/name_image.dart';
 import 'package:f_review/ui/name_page/widget/name_review_widget.dart';
 import 'package:f_review/ui/profile_page/profile_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../../controller/sub_page_controller.dart';
+import '../../model/profile_review_model.dart';
 
 class NamePage extends StatelessWidget {
   NamePage({
@@ -29,6 +30,23 @@ class NamePage extends StatelessWidget {
   final namePageController = Get.put(NamePageController());
   @override
   Widget build(BuildContext context) {
+    if (reviewModel.id == 0) {
+      ProfileReviewModel profileReviewModel = Get.arguments;
+      print(profileReviewModel);
+      //TODO: 서버에서 reviewId로 reviewModel 불러오기
+      ///임시
+      reviewModel.userName = "유라희";
+      reviewModel.placeName = profileReviewModel.name;
+      reviewModel.images = [profileReviewModel.image];
+      reviewModel.isHeart = profileReviewModel.isHeart;
+      reviewModel.profileImage = 'assets/avatar_1.png';
+      reviewModel.date = "6.12.일";
+      reviewModel.review =
+          "매장도 예쁘고 디저트도 맛있어요 ㅎㅎ 포토존도 따로 있는데 사람이 많아서 줄 서서 기다려야되용.. 그래도 그만큼 사진도 너무 잘나오고 ...";
+      reviewModel.tags = ["하남카페", "포토존", "비쥬얼맛집"];
+
+      ///
+    }
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -55,7 +73,9 @@ class NamePage extends StatelessWidget {
         actions: [
           InkWell(
             onTap: () {
-              Get.to(ProfilePage());
+              Get.to(ProfilePage(
+                userId: 0,
+              ));
             },
             child: Container(
                 padding: const EdgeInsets.only(right: 10),
@@ -80,16 +100,16 @@ class NamePage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        InkWell(
-                          onTap: () {
-                            namePageController.launchURL(
-                                "https://www.google.com/maps/search/${reviewModel.placeName}");
-                          },
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Row(
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                namePageController.launchURL(
+                                    "https://www.google.com/maps/search/${reviewModel.placeName}");
+                              },
+                              child: Row(
                                 children: [
                                   Text(
                                     reviewModel.placeName,
@@ -105,15 +125,36 @@ class NamePage extends StatelessWidget {
                                   ),
                                 ],
                               ),
-                              Text(
-                                '${namePageController.placeModel.service}·${namePageController.placeModel.area}',
-                                style: const TextStyle(
-                                    color: Color(0xFF2a2a2a),
-                                    fontSize: 11,
-                                    fontFamily: 'NotoSansKR-Regular'),
-                              ),
-                            ],
-                          ),
+                            ),
+                            Row(
+                              children: [
+                                Text(
+                                  '${namePageController.placeModel.service}·${namePageController.placeModel.area}',
+                                  style: const TextStyle(
+                                      color: Color(0xFF2a2a2a),
+                                      fontSize: 11,
+                                      fontFamily: 'NotoSansKR-Regular'),
+                                ),
+                                const SizedBox(
+                                  width: 5,
+                                ),
+                                InkWell(
+                                  onTap: () {
+                                    Clipboard.setData(ClipboardData(
+                                        text: namePageController
+                                            .placeModel.area));
+                                    if (!Get.isSnackbarOpen) {
+                                      Get.snackbar("성공", "클립보드에 주소가 복사되었습니다");
+                                    }
+                                  },
+                                  child: const Icon(
+                                    Icons.copy,
+                                    size: 11,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
                         ),
                         InkWell(
                             onTap: () {},
@@ -157,7 +198,9 @@ class NamePage extends StatelessWidget {
                                   children: [
                                     InkWell(
                                       onTap: () {
-                                        Get.to(ProfilePage());
+                                        Get.to(ProfilePage(
+                                          userId: 0,
+                                        ));
                                       },
                                       child: Text(
                                         reviewModel.userName,
@@ -330,33 +373,35 @@ class NamePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    DropdownButtonHideUnderline(
-                      child: DropdownButton2(
-                        hint: Text(
-                          '추천순',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Theme.of(context).hintColor,
+                    Obx(
+                      () => DropdownButtonHideUnderline(
+                        child: DropdownButton2(
+                          hint: Text(
+                            '추천순',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Theme.of(context).hintColor,
+                            ),
                           ),
-                        ),
-                        items: namePageController.items
-                            .map((item) => DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(
-                                      fontSize: 14,
+                          items: namePageController.items
+                              .map((item) => DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                      ),
                                     ),
-                                  ),
-                                ))
-                            .toList(),
-                        value: namePageController.selectedValue,
-                        onChanged: (value) {
-                          namePageController.selectedValue = value as String;
-                        },
-                        buttonHeight: 40,
-                        buttonWidth: 75,
-                        itemHeight: 40,
+                                  ))
+                              .toList(),
+                          value: namePageController.selectedValue,
+                          onChanged: (value) {
+                            namePageController.setItem(value.toString());
+                          },
+                          buttonHeight: 40,
+                          buttonWidth: 75,
+                          itemHeight: 40,
+                        ),
                       ),
                     ),
                   ],
@@ -376,7 +421,7 @@ class NamePage extends StatelessWidget {
                         )))
                     .values
                     .toList(),
-              ),
+              )
             ],
           ),
         ),

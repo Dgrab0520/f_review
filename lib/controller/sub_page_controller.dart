@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 class SubPageController extends GetxController {
   final _bestReview = [
     ReviewModel(
-      id: 0,
+      id: 1,
       profileImage: 'assets/avatar_1.png',
       userName: '유라희',
       date: "6.12.일",
@@ -35,11 +35,15 @@ class SubPageController extends GetxController {
   ].obs;
   set items(value) => _items.value = value;
   List<String> get items => _items;
+
+  setItem(String value) {
+    selectedValue = value;
+  }
   //정렬
 
   final _reviews = <ReviewModel>[
     ReviewModel(
-      id: 0,
+      id: 1,
       profileImage: 'assets/avatar_2.png',
       userName: '유그린',
       date: '6.12.일',
@@ -67,12 +71,12 @@ class SubPageController extends GetxController {
 
   final _sponsorList = <SponsorModel>[
     SponsorModel(
-        id: 0,
+        id: 1,
         title: '[하남 미사점] 1만원 무료쿠폰 10명',
         thumbnail: 'assets/sponsor_1.png',
         contentImage: 'contentImage'),
     SponsorModel(
-        id: 1,
+        id: 2,
         title: '[하남 미사점] 에이드 무료쿠폰 20명',
         thumbnail: 'assets/sponsor_2.png',
         contentImage: 'contentImage'),

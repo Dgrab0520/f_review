@@ -13,17 +13,17 @@ class ServiceSelectWidget extends StatelessWidget {
           margin: const EdgeInsets.only(right: 7),
           child: ElevatedButton(
             child: Text(
-              mainPageController.serviceList[index],
+              mainPageController.serviceList.keys.elementAt(index),
               style: TextStyle(
                 fontSize: 12,
-                color: mainPageController.servicePressed[index]
+                color: mainPageController.serviceList.values.elementAt(index)
                     ? Colors.white
                     : const Color(0xFFFFAD00),
               ),
             ),
             style: ElevatedButton.styleFrom(
               elevation: 0,
-              primary: mainPageController.servicePressed[index]
+              primary: mainPageController.serviceList.values.elementAt(index)
                   ? const Color(0xFFFFAD00)
                   : Colors.white,
               shape: RoundedRectangleBorder(
@@ -35,7 +35,8 @@ class ServiceSelectWidget extends StatelessWidget {
             onPressed: () {
               index == 0
                   ? mainPageController.allSelectService()
-                  : mainPageController.selectService(index);
+                  : mainPageController.selectService(
+                      mainPageController.serviceList.keys.elementAt(index));
             },
           ),
         ));

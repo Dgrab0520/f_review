@@ -91,7 +91,9 @@ class _filterPageState extends State<filterPage> {
         actions: [
           InkWell(
             onTap: () {
-              Get.to(ProfilePage());
+              Get.to(ProfilePage(
+                userId: 0,
+              ));
             },
             child: Container(
                 padding: EdgeInsets.only(right: 10),

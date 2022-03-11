@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:material_tag_editor/tag_editor.dart';
 
-import '../controller/main_page_controller.dart';
+import '../../controller/main_page_controller.dart';
 
 class ReviewPage extends StatefulWidget {
   ReviewPage({Key? key, required this.index}) : super(key: key);
@@ -295,7 +295,9 @@ class _ReviewPageState extends State<ReviewPage> {
         actions: [
           InkWell(
             onTap: () {
-              Get.to(ProfilePage());
+              Get.to(ProfilePage(
+                userId: 0,
+              ));
             },
             child: Container(
                 padding: EdgeInsets.only(right: 10),
