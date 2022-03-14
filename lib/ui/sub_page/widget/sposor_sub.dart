@@ -135,14 +135,15 @@ class _SponsorSubState extends State<SponsorSub> {
                 top: 10,
                 right: 7,
                 child: InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Image.asset(
-                      'assets/cross.png',
-                      color: Colors.white,
-                      width: 22,
-                    )),
+                  onTap: () {
+                    Get.back();
+                  },
+                  child: Image.asset(
+                    'assets/cross.png',
+                    color: Colors.white,
+                    width: 22,
+                  ),
+                ),
               ),
             ],
           ),

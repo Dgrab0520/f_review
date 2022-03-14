@@ -33,7 +33,7 @@ class _CouponPageState extends State<CouponPage> {
             padding: const EdgeInsets.only(left: 10),
             child: Icon(
               Icons.arrow_back_ios,
-              color: Color(0xFF362C5E),
+              color: Color(0xFF363057),
               size: 23,
             ),
           ),
