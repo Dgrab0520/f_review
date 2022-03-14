@@ -5,13 +5,62 @@ import 'package:url_launcher/url_launcher.dart';
 
 class NamePageController extends GetxController {
   final _placeModel = PlaceModel(
-          area: "하남시 검단산로 228-8",
-          service: "카페",
-          name: "마시랑게",
-          reviewCount: 3000)
-      .obs;
+    address: "하남시 검단산로 228-8",
+    service: "카페",
+    name: "마시랑게",
+    reviewCount: 3000,
+    isSave: false,
+  ).obs;
   PlaceModel get placeModel => _placeModel.value;
+  set placeModel(val) => _placeModel.value = val;
+
+  getPlace(String name) async {
+    //TODO:장소 정보 불러오기
+  }
+
+  placeCheck() {
+    placeModel.isSave = !placeModel.isSave;
+    _placeModel.refresh();
+    if (placeModel.isSave) {
+      //TODO:장소 저장
+      if (!Get.isSnackbarOpen) {
+        Get.snackbar("성공", "장소를 저장했습니다");
+      }
+    }
+  }
+
   //장소
+
+  final _mainReview = ReviewModel(
+    id: 0,
+    profileImage: "profileImage",
+    userName: "userName",
+    date: "date",
+    placeName: "placeName",
+    review: "review",
+    heartCount: 0,
+    tags: [],
+    images: [],
+    isHeart: false,
+  ).obs;
+  ReviewModel get mainReview => _mainReview.value;
+  set mainReview(val) => _mainReview.value = val;
+  getMainReview(int reviewId) async {
+    //TODO:프로필에서 사진 클릭시 reviewId로 메인 리뷰 불러오기
+  }
+
+  mainHeartChange() {
+    mainReview.isHeart = !mainReview.isHeart;
+    if (mainReview.isHeart) {
+      mainReview.heartCount++;
+      // TODO:메인 리뷰 좋아요 증가
+    } else {
+      mainReview.heartCount--;
+      // TODO:메인 리뷰 좋아요 감소
+    }
+    _mainReview.refresh();
+  }
+  // 메인 리뷰
 
   final _anotherReviews = <ReviewModel>[
     ReviewModel(
@@ -26,11 +75,28 @@ class NamePageController extends GetxController {
       tags: ["하남카페", "다들", "마시랑게", "하세요"],
       images: ['assets/name_img2.png'],
       isHeart: false,
-      isSaved: false,
     ),
   ].obs;
   List<ReviewModel> get anotherReviews => _anotherReviews;
   set anotherReviews(val) => _anotherReviews.value = val;
+
+  getReviews(String placeName) async {
+    //TODO:장소에 다른 리뷰 불러오기
+  }
+
+  anotherHeartChange(int index) {
+    anotherReviews[index].isHeart = !anotherReviews[index].isHeart;
+    if (anotherReviews[index].isHeart) {
+      anotherReviews[index].heartCount++;
+      // TODO:리뷰 좋아요 증가
+    } else {
+      anotherReviews[index].heartCount--;
+      // TODO:리뷰 좋아요 감소
+    }
+    _anotherReviews.refresh();
+  }
+
+  //다른 리뷰
 
   final _selectedValue = "최신순".obs;
   set selectedValue(value) => _selectedValue.value = value;
@@ -45,14 +111,24 @@ class NamePageController extends GetxController {
   List<String> get items => _items;
   setItem(String value) {
     selectedValue = value;
+    switch (value) {
+      case "최신순":
+        break;
+      case "추천순":
+        break;
+    }
+    // TODO:리뷰 정렬
+  }
+
+  getReviewsSort(int id, String sort) async {
+    //TODO:프로필 페이지에서 리뷰 불러오기(정렬)
   }
   //정렬
 
-  final _obj = ''.obs;
-  set obj(value) => _obj.value = value;
-  get obj => _obj.value;
-
-  void launchURL(String _url) async {
-    if (!await launch(_url)) throw 'Could not launch $_url';
+  void launchURL(String placeName) async {
+    //구글 맵 검색
+    if (!await launch("https://www.google.com/maps/search/$placeName}")) {
+      throw 'Could not launch $placeName';
+    }
   }
 }

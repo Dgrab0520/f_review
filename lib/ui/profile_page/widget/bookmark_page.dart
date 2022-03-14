@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../main_page/widget/search_sub.dart';
+import '../../search_page/widget/search_sub.dart';
 
 class BookmarkPage extends StatefulWidget {
   const BookmarkPage({Key? key}) : super(key: key);
@@ -71,8 +71,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
                 InkWell(
                   onTap: () {
                     Get.to(SearchSub(
-                      area: 'area',
-                      service: 'service',
+                      tag: '마시랑게',
                     ));
                   },
                   child: ListTile(
@@ -99,8 +98,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
                 InkWell(
                   onTap: () {
                     Get.to(SearchSub(
-                      area: 'area',
-                      service: 'service',
+                      tag: '다님길',
                     ));
                   },
                   child: ListTile(

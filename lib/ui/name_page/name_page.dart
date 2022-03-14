@@ -10,21 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
-import '../../controller/sub_page_controller.dart';
 import '../../model/profile_review_model.dart';
+import '../search_page/widget/search_sub.dart';
 
 class NamePage extends StatelessWidget {
   NamePage({
     Key? key,
     required this.reviewModel,
-    required this.index,
-    required this.service,
-    required this.area,
   }) : super(key: key);
-  final int index;
-  final String service;
-  final String area;
-  final reviewController = Get.put(SubPageController());
 
   final ReviewModel reviewModel;
   final namePageController = Get.put(NamePageController());
@@ -47,6 +40,7 @@ class NamePage extends StatelessWidget {
 
       ///
     }
+    namePageController.mainReview = reviewModel;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -106,8 +100,8 @@ class NamePage extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap: () {
-                                namePageController.launchURL(
-                                    "https://www.google.com/maps/search/${reviewModel.placeName}");
+                                namePageController
+                                    .launchURL(reviewModel.placeName);
                               },
                               child: Row(
                                 children: [
@@ -129,7 +123,7 @@ class NamePage extends StatelessWidget {
                             Row(
                               children: [
                                 Text(
-                                  '${namePageController.placeModel.service}·${namePageController.placeModel.area}',
+                                  '${namePageController.placeModel.service}·${namePageController.placeModel.address}',
                                   style: const TextStyle(
                                       color: Color(0xFF2a2a2a),
                                       fontSize: 11,
@@ -142,7 +136,7 @@ class NamePage extends StatelessWidget {
                                   onTap: () {
                                     Clipboard.setData(ClipboardData(
                                         text: namePageController
-                                            .placeModel.area));
+                                            .placeModel.address));
                                     if (!Get.isSnackbarOpen) {
                                       Get.snackbar("성공", "클립보드에 주소가 복사되었습니다");
                                     }
@@ -156,21 +150,29 @@ class NamePage extends StatelessWidget {
                             ),
                           ],
                         ),
-                        InkWell(
-                            onTap: () {},
+                        Obx(
+                          () => InkWell(
+                            onTap: () {
+                              namePageController.placeCheck();
+                            },
                             child: Column(
                               children: [
-                                Image.asset('assets/bookmark.png',
-                                    width: 21, color: Color(0xFF362C5E)),
-                                SizedBox(height: 5),
-                                Text(
+                                namePageController.placeModel.isSave
+                                    ? Image.asset('assets/bookmark.png',
+                                        width: 21)
+                                    : Image.asset('assets/bookmark_empty.png',
+                                        width: 21),
+                                const SizedBox(height: 5),
+                                const Text(
                                   '저장',
                                   style: TextStyle(
                                     fontSize: 11,
                                   ),
                                 ),
                               ],
-                            )),
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                     const SizedBox(height: 30),
@@ -214,13 +216,13 @@ class NamePage extends StatelessWidget {
                                     Row(
                                       children: [
                                         Text(
-                                          '${namePageController.placeModel.service}·${namePageController.placeModel.area.substring(0, 2)}',
+                                          '${namePageController.placeModel.service}·${namePageController.placeModel.address.substring(0, 2)}',
                                           style: const TextStyle(
                                             color: Color(0xFF2a2a2a),
                                             fontSize: 11,
                                           ),
                                         ),
-                                        SizedBox(width: 5),
+                                        const SizedBox(width: 5),
                                         Text(
                                           reviewModel.date,
                                           style: const TextStyle(
@@ -239,10 +241,9 @@ class NamePage extends StatelessWidget {
                                 Obx(
                                   () => InkWell(
                                     onTap: () {
-                                      reviewController.bestReviewCheck(index);
+                                      namePageController.mainHeartChange();
                                     },
-                                    child: reviewController
-                                            .bestReview[index].isHeart
+                                    child: namePageController.mainReview.isHeart
                                         ? Image.asset('assets/heart.png',
                                             width: 17)
                                         : Image.asset('assets/bora_heart.png',
@@ -252,8 +253,7 @@ class NamePage extends StatelessWidget {
                                 const SizedBox(width: 5),
                                 Obx(
                                   () => Text(
-                                    reviewController
-                                        .bestReview[index].heartCount
+                                    namePageController.mainReview.heartCount
                                         .toString(),
                                     style: const TextStyle(
                                       color: Color(0xFF362C5E),
@@ -315,22 +315,29 @@ class NamePage extends StatelessWidget {
                               itemCount: reviewModel.tags.length,
                               itemBuilder:
                                   (BuildContext context, int tagIndex) {
-                                return Container(
-                                  height: 23,
-                                  padding:
-                                      const EdgeInsets.only(left: 5, right: 5),
-                                  margin: const EdgeInsets.only(right: 10),
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFFEAE5F9),
-                                    borderRadius: BorderRadius.circular(5),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      '#${reviewModel.tags[tagIndex]}',
-                                      style: const TextStyle(
-                                          color: Color(0xFF2a2a2a),
-                                          fontSize: 12,
-                                          fontFamily: 'NotoSansKR-Regular'),
+                                return InkWell(
+                                  onTap: () {
+                                    Get.to(SearchSub(
+                                      tag: reviewModel.tags[tagIndex],
+                                    ));
+                                  },
+                                  child: Container(
+                                    height: 23,
+                                    padding: const EdgeInsets.only(
+                                        left: 5, right: 5),
+                                    margin: const EdgeInsets.only(right: 10),
+                                    decoration: BoxDecoration(
+                                      color: const Color(0xFFEAE5F9),
+                                      borderRadius: BorderRadius.circular(5),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        '#${reviewModel.tags[tagIndex]}',
+                                        style: const TextStyle(
+                                            color: Color(0xFF2a2a2a),
+                                            fontSize: 12,
+                                            fontFamily: 'NotoSansKR-Regular'),
+                                      ),
                                     ),
                                   ),
                                 );
@@ -414,7 +421,7 @@ class NamePage extends StatelessWidget {
                     .map((index, reviewModel) => MapEntry(
                         index,
                         NameReviewWidget(
-                          area: namePageController.placeModel.area
+                          area: namePageController.placeModel.address
                               .substring(0, 2),
                           service: namePageController.placeModel.service,
                           index: index,

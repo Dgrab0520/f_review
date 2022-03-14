@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import '../../name_page/name_page.dart';
 import '../../profile_page/profile_page.dart';
+import '../../search_page/widget/search_sub.dart';
 
 class ReviewWidget extends StatelessWidget {
   ReviewWidget(
@@ -56,7 +57,7 @@ class ReviewWidget extends StatelessWidget {
                             fontSize: 11,
                           ),
                         ),
-                        SizedBox(width: 5),
+                        const SizedBox(width: 5),
                         Text(
                           reviewController.reviews[index].date,
                           style: const TextStyle(
@@ -75,9 +76,9 @@ class ReviewWidget extends StatelessWidget {
                 Obx(
                   () => InkWell(
                     onTap: () {
-                      reviewController.bestReviewCheck(index);
+                      reviewController.reviewsCheck(index);
                     },
-                    child: reviewController.bestReview[index].isHeart
+                    child: reviewController.reviews[index].isHeart
                         ? Image.asset('assets/heart.png', width: 17)
                         : Image.asset('assets/bora_heart.png', width: 17),
                   ),
@@ -85,7 +86,7 @@ class ReviewWidget extends StatelessWidget {
                 const SizedBox(width: 5),
                 Obx(
                   () => Text(
-                    reviewController.bestReview[index].heartCount.toString(),
+                    reviewController.reviews[index].heartCount.toString(),
                     style: const TextStyle(
                       color: Color(0xFF362C5E),
                       fontSize: 10,
@@ -102,9 +103,6 @@ class ReviewWidget extends StatelessWidget {
           onTap: () {
             Get.to(NamePage(
               reviewModel: reviewController.reviews[index],
-              index: index,
-              service: service,
-              area: area,
             ));
           },
           child: Row(
@@ -175,21 +173,28 @@ class ReviewWidget extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemCount: reviewController.reviews[index].tags.length,
               itemBuilder: (BuildContext context, int reviewIndex) {
-                return Container(
-                  height: 23,
-                  margin: const EdgeInsets.only(right: 10),
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFEAE5F9),
-                    borderRadius: BorderRadius.circular(5),
-                  ),
-                  padding: const EdgeInsets.only(left: 5, right: 5),
-                  child: Center(
-                    child: Text(
-                      '#${reviewController.reviews[index].tags[reviewIndex]}',
-                      style: const TextStyle(
-                          color: Color(0xFF2a2a2a),
-                          fontSize: 12,
-                          fontFamily: 'NotoSansKR-Regular'),
+                return InkWell(
+                  onTap: () {
+                    Get.to(SearchSub(
+                      tag: reviewController.reviews[index].tags[reviewIndex],
+                    ));
+                  },
+                  child: Container(
+                    height: 23,
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFEAE5F9),
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    padding: const EdgeInsets.only(left: 5, right: 5),
+                    child: Center(
+                      child: Text(
+                        '#${reviewController.reviews[index].tags[reviewIndex]}',
+                        style: const TextStyle(
+                            color: Color(0xFF2a2a2a),
+                            fontSize: 12,
+                            fontFamily: 'NotoSansKR-Regular'),
+                      ),
                     ),
                   ),
                 );

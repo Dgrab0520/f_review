@@ -20,32 +20,8 @@ class SubPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // List<Widget> render(BuildContext context, List<List<String>> children) {
-    //   return ListTile.divideTiles(
-    //     context: context,
-    //     tiles: children.map((data) {
-    //       return buildListTile(context, data[0], data[1], data[2]);
-    //     }),
-    //   ).toList();
-    // }
-    //
-    // Widget buildListTile(
-    //     BuildContext context, String title, String subtitle, String url) {
-    //   return ListTile(
-    //     onTap: () {
-    //       Navigator.of(context).pushNamed(url);
-    //     },
-    //     isThreeLine: true,
-    //     dense: false,
-    //     leading: null,
-    //     title: Text(title),
-    //     subtitle: Text(subtitle),
-    //     trailing: const Icon(
-    //       Icons.arrow_right,
-    //       color: Colors.blueAccent,
-    //     ),
-    //   );
-    // }
+    subPageController.getBestReviews(area, service);
+    subPageController.getReviews(area, service);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));

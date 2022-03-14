@@ -1,29 +1,33 @@
 class PlaceModel {
-  String area;
+  String address;
   String service;
   String name;
-  int reviewCount;
+  int reviewCount; // flu_review 테이블에서 placeId로 count
+  bool isSave; // flu_review_place_check 테이블
 
   PlaceModel({
-    required this.area,
+    required this.address,
     required this.service,
     required this.name,
     required this.reviewCount,
+    required this.isSave,
   });
 
   factory PlaceModel.fromJson(Map<String, dynamic> json) {
     return PlaceModel(
-      area: json['area'],
+      address: json['address'],
       service: json['service'],
       name: json['name'],
-      reviewCount: json['reviewCount'],
+      reviewCount: int.parse(json['reviewCount']),
+      isSave: json['isSave'] == '1' ? true : false,
     );
   }
 
   Map<String, dynamic> toJson() => {
-        'area': area,
+        'address': address,
         'service': service,
         "name": name,
         "reviewCount": reviewCount,
+        "isSave": isSave,
       };
 }

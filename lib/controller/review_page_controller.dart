@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -186,6 +189,14 @@ class ReviewPageController extends GetxController {
   ];
   get images => _images;
 
+  //상단 스와이프 이미지
+
+  final textEditingController = TextEditingController(); //태그 입력
+  final controller = TextEditingController(); //매장 이름
+  final controller2 = TextEditingController(); //내용
+
+  //컨트롤러
+
   final _values = <String>[].obs;
   List<String> get values => _values;
   set values(val) => _values.value = val;
@@ -198,21 +209,84 @@ class ReviewPageController extends GetxController {
     _values.refresh();
   }
 
-  final textEditingController = TextEditingController();
-  final controller = TextEditingController();
-  final controller2 = TextEditingController();
-
   onSubmit(outstandingValue) {
-    values.add(outstandingValue);
+    if (outstandingValue != "") {
+      values.add(outstandingValue);
+    }
     _values.refresh();
   }
 
   onTagChanged(newValue) {
-    values.add(newValue);
+    if (newValue != "") {
+      values.add(newValue);
+    }
     _values.refresh();
   }
+  //태그 관리
 
-  final _obj = ''.obs;
-  set obj(value) => _obj.value = value;
-  get obj => _obj.value;
+  final _selectedValue = "지역".obs;
+  get selectedValue => _selectedValue.value;
+  set selectedValue(val) => _selectedValue.value = val;
+
+  List<String> items = [
+    '지역',
+    '하남',
+    '강동',
+    '송파',
+  ];
+  //지역
+
+  final _selectedValue2 = "카테고리".obs;
+  get selectedValue2 => _selectedValue2.value;
+  set selectedValue2(val) => _selectedValue2.value = val;
+
+  List<String> items2 = [
+    '카테고리',
+    '카페',
+    '맛집',
+    '헤어샵',
+    '네일샵',
+    '도서',
+    '공방',
+  ];
+  //카테고리
+
+  final _files = <File>[].obs;
+  List<File> get files => _files;
+  set files(val) => _files.value = val;
+
+  getPictures() async {
+    FilePickerResult? result = await FilePicker.platform
+        .pickFiles(allowMultiple: true, type: FileType.image);
+
+    if (result != null) {
+      files.addAll(result.paths
+          .asMap()
+          .map((i, path) => MapEntry(i, File(path!)))
+          .values
+          .toList());
+      if (files.length > 10) {
+        files.removeRange(10, files.length);
+        _files.refresh();
+      }
+    } else {
+      // User canceled the picker
+    }
+  }
+
+  removePicture(int index) {
+    files.removeAt(index);
+    _files.refresh();
+    print(files);
+  }
+  //사진 첨부&삭제
+
+  writeReview() async {
+    // TODO:리뷰 작성하기
+  }
+
+  searchPlace() {
+    // TODO:행안부 API
+    //https://blog.naver.com/PostView.nhn?blogId=lmj_java&logNo=222085429172
+  }
 }

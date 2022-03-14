@@ -4,9 +4,9 @@ import 'package:f_review/ui/name_page/widget/name_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../controller/sub_page_controller.dart';
 import '../../image_detail_screen.dart';
 import '../../profile_page/profile_page.dart';
+import '../../search_page/widget/search_sub.dart';
 
 class NameReviewWidget extends StatelessWidget {
   NameReviewWidget(
@@ -19,7 +19,6 @@ class NameReviewWidget extends StatelessWidget {
   final String area;
   final int index;
 
-  final reviewController = Get.put(SubPageController());
   final namePageController = Get.put(NamePageController());
   @override
   Widget build(BuildContext context) {
@@ -65,7 +64,7 @@ class NameReviewWidget extends StatelessWidget {
                               fontSize: 11,
                             ),
                           ),
-                          SizedBox(width: 5),
+                          const SizedBox(width: 5),
                           Text(
                             namePageController.anotherReviews[index].date,
                             style: const TextStyle(
@@ -84,9 +83,9 @@ class NameReviewWidget extends StatelessWidget {
                   Obx(
                     () => InkWell(
                       onTap: () {
-                        reviewController.bestReviewCheck(index);
+                        namePageController.anotherHeartChange(index);
                       },
-                      child: reviewController.bestReview[index].isHeart
+                      child: namePageController.anotherReviews[index].isHeart
                           ? Image.asset('assets/heart.png', width: 17)
                           : Image.asset('assets/bora_heart.png', width: 17),
                     ),
@@ -94,7 +93,8 @@ class NameReviewWidget extends StatelessWidget {
                   const SizedBox(width: 5),
                   Obx(
                     () => Text(
-                      reviewController.bestReview[index].heartCount.toString(),
+                      namePageController.anotherReviews[index].heartCount
+                          .toString(),
                       style: const TextStyle(
                         color: Color(0xFF362C5E),
                         fontSize: 10,
@@ -153,21 +153,29 @@ class NameReviewWidget extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemCount: namePageController.anotherReviews[index].tags.length,
                 itemBuilder: (BuildContext context, int reviewIndex) {
-                  return Container(
-                    height: 23,
-                    padding: const EdgeInsets.only(left: 5, right: 5),
-                    margin: const EdgeInsets.only(right: 10),
-                    decoration: BoxDecoration(
-                      color: const Color(0xFFEAE5F9),
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Center(
-                      child: Text(
-                        '#${namePageController.anotherReviews[index].tags[reviewIndex]}',
-                        style: const TextStyle(
-                            color: Color(0xFF2a2a2a),
-                            fontSize: 12,
-                            fontFamily: 'NotoSansKR-Regular'),
+                  return InkWell(
+                    onTap: () {
+                      Get.to(SearchSub(
+                        tag: namePageController
+                            .anotherReviews[index].tags[reviewIndex],
+                      ));
+                    },
+                    child: Container(
+                      height: 23,
+                      padding: const EdgeInsets.only(left: 5, right: 5),
+                      margin: const EdgeInsets.only(right: 10),
+                      decoration: BoxDecoration(
+                        color: const Color(0xFFEAE5F9),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      child: Center(
+                        child: Text(
+                          '#${namePageController.anotherReviews[index].tags[reviewIndex]}',
+                          style: const TextStyle(
+                              color: Color(0xFF2a2a2a),
+                              fontSize: 12,
+                              fontFamily: 'NotoSansKR-Regular'),
+                        ),
                       ),
                     ),
                   );

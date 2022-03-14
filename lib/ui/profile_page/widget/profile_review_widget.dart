@@ -16,20 +16,17 @@ class ProfileReviewWidget extends StatelessWidget {
         Get.to(
             NamePage(
               reviewModel: ReviewModel(
-                  id: 1,
-                  profileImage: "profileImage",
-                  userName: "userName",
-                  date: "date",
-                  placeName: "placeName",
-                  review: "review",
-                  heartCount: 0,
-                  tags: [],
-                  images: [],
-                  isHeart: false,
-                  isSaved: false),
-              index: 0,
-              area: '',
-              service: '',
+                id: 1,
+                profileImage: "profileImage",
+                userName: "userName",
+                date: "date",
+                placeName: "placeName",
+                review: "review",
+                heartCount: 0,
+                tags: [],
+                images: [],
+                isHeart: false,
+              ),
             ),
             arguments: profilePageController.categoryPressed['전체']!
                 ? profilePageController.reviews[index]

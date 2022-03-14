@@ -3,6 +3,8 @@ import 'package:f_review/model/category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../model/search_model.dart';
+
 class MainPageController extends GetxController {
   final _areaList = {
     "전체": true,
@@ -29,6 +31,7 @@ class MainPageController extends GetxController {
 
   final _selectedArea = ["전체", "하남", "강동", "송파"];
   final _selectedSerVice = ["전체", "카페", "맛집", "헤어샵", "네일샵", "전자제품", "도서", "공방"];
+  //선택된 카테고리
 
   final _categoryList = <CategoryModel>[].obs;
   set categoryList(value) => _categoryList.value = value;
@@ -122,4 +125,22 @@ class MainPageController extends GetxController {
   //서비스 선택 함수
 
   var controller = TextEditingController();
+
+  final _searchResult = <SearchModel>[
+    const SearchModel(type: "tag", name: "하남", subTitle: "1234"),
+    const SearchModel(type: "place", name: "하남돼지", subTitle: "1234"),
+    const SearchModel(
+        type: "user", name: "하남이", subTitle: "안녕하세요 하남의 대표 하남이입니다."),
+  ].obs;
+  List<SearchModel> get searchResult => _searchResult;
+  set searchResult(val) => _searchResult.value = val;
+
+  getSearchAutoCompleteResult() async {
+    // TODO:자동완성 결과 불러오기
+  }
+  //자동 완성
+
+  getCategoryImage() async {
+    // TODO:카테고리 썸네일 이미지 불러오기
+  }
 }

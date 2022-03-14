@@ -1,25 +1,20 @@
-import 'package:f_review/controller/sub_page_controller.dart';
+import 'package:f_review/controller/search_page_controller.dart';
+import 'package:f_review/ui/name_page/name_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:get/get.dart';
+import 'package:numeral/fun.dart';
 
 import '../../profile_page/profile_page.dart';
 
-class SearchSub extends StatefulWidget {
-  SearchSub({Key? key, required this.area, required this.service})
-      : super(key: key);
-  final String area;
-  final String service;
+class SearchSub extends StatelessWidget {
+  SearchSub({Key? key, required this.tag}) : super(key: key);
+  final String tag;
 
-  final subPageController = Get.put(SubPageController());
-
-  @override
-  _SearchSubState createState() => _SearchSubState();
-}
-
-class _SearchSubState extends State<SearchSub> {
+  final searchPageController = Get.put(SearchPageController());
   @override
   Widget build(BuildContext context) {
+    searchPageController.getTagPost(tag);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -31,12 +26,12 @@ class _SearchSubState extends State<SearchSub> {
           width: 40,
         )),
         leading: Container(
-            padding: EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(left: 10),
             child: InkWell(
               onTap: () {
                 Get.back();
               },
-              child: Icon(
+              child: const Icon(
                 Icons.arrow_back_ios,
                 color: Color(0xFF362C5E),
                 size: 23,
@@ -51,7 +46,7 @@ class _SearchSubState extends State<SearchSub> {
               ));
             },
             child: Container(
-                padding: EdgeInsets.only(right: 10),
+                padding: const EdgeInsets.only(right: 10),
                 child: Image.asset(
                   'assets/avatar.png',
                   width: 30,
@@ -74,14 +69,14 @@ class _SearchSubState extends State<SearchSub> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Text('#하남카페',
+                        Text('#$tag',
                             style: const TextStyle(
                               fontSize: 23,
                               fontFamily: 'NotoSansKR-Bold',
                             )),
-                        const Text(
-                          '총 1,234 게시물',
-                          style: TextStyle(
+                        Text(
+                          "총" + numeral(searchPageController.tagCount) + "게시물",
+                          style: const TextStyle(
                             color: Color(0xFF8D8D8D),
                             fontSize: 12,
                           ),
@@ -109,40 +104,29 @@ class _SearchSubState extends State<SearchSub> {
                       crossAxisCount: 4,
                       mainAxisSpacing: 4,
                       crossAxisSpacing: 4,
-                      children: [
-                        StaggeredGridTile.count(
-                          crossAxisCellCount: 2,
-                          mainAxisCellCount: 2,
-                          child:
-                              ImageTile(index: 20, width: 3000, height: 3000),
-                        ),
-                        StaggeredGridTile.count(
-                          crossAxisCellCount: 2,
-                          mainAxisCellCount: 1,
-                          child: ImageTile(index: 1, width: 3000, height: 3000),
-                        ),
-                        StaggeredGridTile.count(
-                          crossAxisCellCount: 1,
-                          mainAxisCellCount: 1,
-                          child: ImageTile(index: 2, width: 3000, height: 3000),
-                        ),
-                        StaggeredGridTile.count(
-                          crossAxisCellCount: 1,
-                          mainAxisCellCount: 1,
-                          child: ImageTile(index: 3, width: 3000, height: 3000),
-                        ),
-                        StaggeredGridTile.count(
-                          crossAxisCellCount: 4,
-                          mainAxisCellCount: 2,
-                          child: ImageTile(index: 4, width: 3000, height: 3000),
-                        ),
-                        StaggeredGridTile.count(
-                          crossAxisCellCount: 4,
-                          mainAxisCellCount: 2,
-                          child:
-                              ImageTile(index: 22, width: 3000, height: 3000),
-                        ),
-                      ],
+                      children: searchPageController.tagPost
+                          .asMap()
+                          .map((index, value) => MapEntry(
+                              index,
+                              StaggeredGridTile.count(
+                                crossAxisCellCount:
+                                    searchPageController.crossCount[index % 5],
+                                mainAxisCellCount:
+                                    searchPageController.mainCount[index % 5],
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.to(NamePage(
+                                        reviewModel: searchPageController
+                                            .tagPost[index]));
+                                  },
+                                  child: ImageTile(
+                                    image: searchPageController
+                                        .tagPost[index].images.first,
+                                  ),
+                                ),
+                              )))
+                          .values
+                          .toList(),
                     ),
                   ],
                 ),
@@ -156,23 +140,22 @@ class _SearchSubState extends State<SearchSub> {
 }
 
 class ImageTile extends StatelessWidget {
-  const ImageTile({
-    Key? key,
-    required this.index,
-    required this.width,
-    required this.height,
-  }) : super(key: key);
+  const ImageTile({Key? key, required this.image}) : super(key: key);
 
-  final int index;
-  final int width;
-  final int height;
+  final String image;
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      'https://picsum.photos/$width/$height?random=$index',
-      width: width.toDouble(),
-      height: height.toDouble(),
+    // return Image.network(
+    //   'https://picsum.photos/$width/$height?random=$index',
+    //   width: 300,
+    //   height: 300,
+    //   fit: BoxFit.cover,
+    // );
+    return Image.asset(
+      image,
+      width: 300,
+      height: 300,
       fit: BoxFit.cover,
     );
   }

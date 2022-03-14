@@ -1,15 +1,14 @@
 class ReviewModel {
   int id;
   String profileImage;
-  String userName;
+  String userName; //userId로 join 해서 프로필 사진과 이름 가져오기
   String date;
   String placeName;
   String review;
   int heartCount;
-  List<String> tags;
-  List<String> images;
-  bool isHeart;
-  bool isSaved;
+  List<dynamic> tags; //flu_review_tag 테이블
+  List<dynamic> images; //flu_review_image 테이블
+  bool isHeart; // flu_review_heart_check 테이블
 
   ReviewModel({
     required this.id,
@@ -22,22 +21,20 @@ class ReviewModel {
     required this.tags,
     required this.images,
     required this.isHeart,
-    required this.isSaved,
   });
 
   factory ReviewModel.fromJson(Map<String, dynamic> json) {
     return ReviewModel(
-      id: json['id'],
+      id: int.parse(json['id']),
       profileImage: json['profileImage'],
       userName: json['userName'],
       date: json['date'],
       placeName: json['placeName'],
       review: json['review'],
-      heartCount: json['heartCount'],
-      tags: json['tags'],
-      images: json['images'],
-      isHeart: json['isHeart'],
-      isSaved: json['isSaved'],
+      heartCount: int.parse(json['heartCount']),
+      tags: json['tags'] ?? [],
+      images: json['images'] ?? [],
+      isHeart: json['isHeart'] != null ? true : false,
     );
   }
 
@@ -52,6 +49,5 @@ class ReviewModel {
         "tags": tags,
         "images": images,
         "isHeart": isHeart,
-        "isSaved": isSaved,
       };
 }
