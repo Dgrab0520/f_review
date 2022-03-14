@@ -84,11 +84,42 @@ class _CouponSubState extends State<CouponSub> {
                     ),
                   ),
                   SizedBox(height: 60),
-                  InkWell(
-                    onTap: () {
-                      Get.back();
-                    },
-                    child: Center(
+                  Center(
+                    child: InkWell(
+                      onTap: () {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('알림'),
+                                content: SingleChildScrollView(
+                                  child: ListBody(
+                                    children: [
+                                      Text('QR코드를 사용하시겠습니까?'),
+                                    ],
+                                  ),
+                                ),
+                                actions: [
+                                  FlatButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: Text(
+                                      '확인',
+                                    ),
+                                  ),
+                                  FlatButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: Text(
+                                      '취소',
+                                    ),
+                                  ),
+                                ],
+                              );
+                            });
+                      },
                       child: Container(
                         width: 200,
                         height: 40,
