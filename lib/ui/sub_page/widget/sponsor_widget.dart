@@ -1,5 +1,7 @@
 import 'package:f_review/model/sponsor_model.dart';
+import 'package:f_review/ui/sub_page/widget/sposor_sub.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class SponsorWidget extends StatelessWidget {
   const SponsorWidget({Key? key, required this.sponsorModel}) : super(key: key);
@@ -10,7 +12,9 @@ class SponsorWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(right: 10.0),
       child: InkWell(
-        onTap: () {},
+        onTap: () {
+          Get.to(SponsorSub());
+        },
         child: SizedBox(
           width: 200,
           height: 100,

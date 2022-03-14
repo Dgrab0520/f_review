@@ -130,7 +130,7 @@ class SubPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Text(
-                      'Sponsor',
+                      ' Sponsor',
                       style: TextStyle(
                         fontSize: 15,
                         fontFamily: 'NotoSansKR-Bold',

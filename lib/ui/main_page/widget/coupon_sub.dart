@@ -85,7 +85,9 @@ class _CouponSubState extends State<CouponSub> {
                   ),
                   SizedBox(height: 60),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Get.back();
+                    },
                     child: Center(
                       child: Container(
                         width: 200,
