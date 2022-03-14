@@ -35,11 +35,7 @@ class MainPage extends StatelessWidget {
           )),
           leading: Container(
             padding: const EdgeInsets.only(left: 10),
-            child: Icon(
-              Icons.arrow_back_ios,
-              color: Color(0xFF362C5E),
-              size: 23,
-            ),
+            child: Image.asset('assets/menu.png'),
           ),
           leadingWidth: 35,
           actions: [
