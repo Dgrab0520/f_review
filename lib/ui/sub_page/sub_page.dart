@@ -65,6 +65,7 @@ class SubPage extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
         child: Container(
           color: Colors.white,
           child: Column(
@@ -176,29 +177,39 @@ class SubPage extends StatelessWidget {
                     SizedBox(
                         width: Get.width,
                         height: 380,
-                        child: Swiper(
-                          itemBuilder: (BuildContext context, int index) {
-                            return BestReviewSub(
-                              index: index,
-                              area: area,
-                              service: service,
-                            );
-                          },
-                          itemCount: subPageController.bestReview.length,
-                          viewportFraction: 0.9,
-                          scale: 0.9,
-                          pagination: const SwiperPagination(
-                            margin: EdgeInsets.only(top: 40),
-                            alignment: Alignment.bottomCenter,
-                            builder: DotSwiperPaginationBuilder(
-                              color: Colors.grey,
-                              activeColor: Color(0xff362C5E),
-                              size: 7,
-                            ),
-                          ),
-                          autoplay: false,
-                          duration: 1000,
-                        )),
+                        child: Obx(() => subPageController.isBestLoading
+                            ? subPageController.bestReview.isNotEmpty
+                                ? Swiper(
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return BestReviewSub(
+                                        index: index,
+                                        area: area,
+                                        service: service,
+                                      );
+                                    },
+                                    itemCount:
+                                        subPageController.bestReview.length,
+                                    viewportFraction: 0.9,
+                                    scale: 0.9,
+                                    pagination: const SwiperPagination(
+                                      margin: EdgeInsets.only(top: 40),
+                                      alignment: Alignment.bottomCenter,
+                                      builder: DotSwiperPaginationBuilder(
+                                        color: Colors.grey,
+                                        activeColor: Color(0xff362C5E),
+                                        size: 7,
+                                      ),
+                                    ),
+                                    autoplay: false,
+                                    duration: 1000,
+                                  )
+                                : const Center(
+                                    child: Text("리뷰가 없습니다"),
+                                  )
+                            : const Center(
+                                child: CircularProgressIndicator(),
+                              ))),
                     const SizedBox(height: 40),
                     Container(
                       width: Get.width,
@@ -258,16 +269,28 @@ class SubPage extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 15),
-                    Column(
-                      children: subPageController.reviews
-                          .asMap()
-                          .map((index, reviewModel) => MapEntry(
-                              index,
-                              ReviewWidget(
-                                  index: index, area: area, service: service)))
-                          .values
-                          .toList(),
-                    )
+                    Obx(
+                      () => subPageController.isReviewLoading
+                          ? subPageController.reviews.isNotEmpty
+                              ? Column(
+                                  children: subPageController.reviews
+                                      .asMap()
+                                      .map((index, reviewModel) => MapEntry(
+                                          index,
+                                          ReviewWidget(
+                                              index: index,
+                                              area: area,
+                                              service: service)))
+                                      .values
+                                      .toList(),
+                                )
+                              : const Center(
+                                  child: Text("리뷰가 없습니다"),
+                                )
+                          : const Center(
+                              child: CircularProgressIndicator(),
+                            ),
+                    ),
                   ],
                 ),
               ),

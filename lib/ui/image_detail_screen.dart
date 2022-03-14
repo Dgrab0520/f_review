@@ -1,3 +1,4 @@
+import 'package:f_review/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:photo_view/photo_view_gallery.dart';
@@ -27,7 +28,8 @@ class ImageDetailScreen extends StatelessWidget {
             scrollPhysics: const BouncingScrollPhysics(),
             builder: (BuildContext context, int index) {
               return PhotoViewGalleryPageOptions(
-                imageProvider: AssetImage(galleryItems[index]),
+                imageProvider:
+                    NetworkImage("$kBaseUrl/review_img/${galleryItems[index]}"),
                 initialScale: PhotoViewComputedScale.contained * 0.8,
                 heroAttributes:
                     PhotoViewHeroAttributes(tag: galleryItems[index]),

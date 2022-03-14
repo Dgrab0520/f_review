@@ -1,1 +1,1 @@
-const kBaseUrl = "http://flunyt.com/FLUNYT/";
+const kBaseUrl = "http://flunyt.com/FLUNYT";
