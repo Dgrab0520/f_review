@@ -1,3 +1,4 @@
+import 'package:f_review/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,8 +17,8 @@ class NameImage extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         image: DecorationImage(
-          image: AssetImage(
-            image,
+          image: NetworkImage(
+            "$kBaseUrl/review_img/$image",
           ),
           fit: BoxFit.cover,
         ),

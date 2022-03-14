@@ -1,5 +1,6 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:f_review/constants.dart';
 import 'package:f_review/controller/name_page_controller.dart';
 import 'package:f_review/model/review_model.dart';
 import 'package:f_review/ui/image_detail_screen.dart';
@@ -9,7 +10,9 @@ import 'package:f_review/ui/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
+import '../../date_data.dart';
 import '../../model/profile_review_model.dart';
 import '../search_page/widget/search_sub.dart';
 
@@ -27,20 +30,10 @@ class NamePage extends StatelessWidget {
       ProfileReviewModel profileReviewModel = Get.arguments;
       print(profileReviewModel);
       //TODO: 서버에서 reviewId로 reviewModel 불러오기
-      ///임시
-      reviewModel.userName = "유라희";
-      reviewModel.placeName = profileReviewModel.name;
-      reviewModel.images = [profileReviewModel.image];
-      reviewModel.isHeart = profileReviewModel.isHeart;
-      reviewModel.profileImage = 'assets/avatar_1.png';
-      reviewModel.date = "6.12.일";
-      reviewModel.review =
-          "매장도 예쁘고 디저트도 맛있어요 ㅎㅎ 포토존도 따로 있는데 사람이 많아서 줄 서서 기다려야되용.. 그래도 그만큼 사진도 너무 잘나오고 ...";
-      reviewModel.tags = ["하남카페", "포토존", "비쥬얼맛집"];
-
-      ///
     }
     namePageController.mainReview = reviewModel;
+    namePageController.getPlace(reviewModel.placeId);
+    namePageController.getReviews(reviewModel.placeId);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -94,61 +87,63 @@ class NamePage extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                namePageController
-                                    .launchURL(reviewModel.placeName);
-                              },
-                              child: Row(
+                        Obx(
+                          () => Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  namePageController
+                                      .launchURL(reviewModel.placeName);
+                                },
+                                child: Row(
+                                  children: [
+                                    Text(
+                                      reviewModel.placeName,
+                                      style: const TextStyle(
+                                        fontSize: 20,
+                                        fontFamily: 'NotoSansKR-Bold',
+                                      ),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    const Icon(
+                                      Icons.arrow_forward_ios,
+                                      size: 16,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Row(
                                 children: [
                                   Text(
-                                    reviewModel.placeName,
+                                    '${namePageController.placeModel.service}·${namePageController.placeModel.address}',
                                     style: const TextStyle(
-                                      fontSize: 20,
-                                      fontFamily: 'NotoSansKR-Bold',
+                                        color: Color(0xFF2a2a2a),
+                                        fontSize: 11,
+                                        fontFamily: 'NotoSansKR-Regular'),
+                                  ),
+                                  const SizedBox(
+                                    width: 5,
+                                  ),
+                                  InkWell(
+                                    onTap: () {
+                                      Clipboard.setData(ClipboardData(
+                                          text: namePageController
+                                              .placeModel.address));
+                                      if (!Get.isSnackbarOpen) {
+                                        Get.snackbar("성공", "클립보드에 주소가 복사되었습니다");
+                                      }
+                                    },
+                                    child: const Icon(
+                                      Icons.copy,
+                                      size: 11,
                                     ),
-                                  ),
-                                  const SizedBox(width: 5),
-                                  const Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 16,
-                                  ),
+                                  )
                                 ],
                               ),
-                            ),
-                            Row(
-                              children: [
-                                Text(
-                                  '${namePageController.placeModel.service}·${namePageController.placeModel.address}',
-                                  style: const TextStyle(
-                                      color: Color(0xFF2a2a2a),
-                                      fontSize: 11,
-                                      fontFamily: 'NotoSansKR-Regular'),
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                InkWell(
-                                  onTap: () {
-                                    Clipboard.setData(ClipboardData(
-                                        text: namePageController
-                                            .placeModel.address));
-                                    if (!Get.isSnackbarOpen) {
-                                      Get.snackbar("성공", "클립보드에 주소가 복사되었습니다");
-                                    }
-                                  },
-                                  child: const Icon(
-                                    Icons.copy,
-                                    size: 11,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                         Obx(
                           () => InkWell(
@@ -191,8 +186,10 @@ class NamePage extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                Image.asset(reviewModel.profileImage,
-                                    width: 40, height: 40),
+                                Image.network(
+                                    "$kBaseUrl/review_img/${reviewModel.profileImage}",
+                                    width: 40,
+                                    height: 40),
                                 const SizedBox(width: 10),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,7 +221,11 @@ class NamePage extends StatelessWidget {
                                         ),
                                         const SizedBox(width: 5),
                                         Text(
-                                          reviewModel.date,
+                                          DateFormat("M.dd")
+                                                  .format(reviewModel.date) +
+                                              " " +
+                                              DateData()
+                                                  .getWeekDay(reviewModel.date),
                                           style: const TextStyle(
                                             color: Color(0xFF8D8D8D),
                                             fontSize: 11,
@@ -302,10 +303,13 @@ class NamePage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 20),
-                        Text(
-                          reviewModel.review,
-                          style: const TextStyle(
-                              color: Color(0xFF2a2a2a), fontSize: 11),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            reviewModel.review,
+                            style: const TextStyle(
+                                color: Color(0xFF2a2a2a), fontSize: 11),
+                          ),
                         ),
                         const SizedBox(height: 25),
                         SizedBox(
@@ -370,12 +374,15 @@ class NamePage extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 10),
-                        Text(
-                          namePageController.placeModel.reviewCount.toString(),
-                          style: const TextStyle(
-                            fontFamily: 'NotoSansKR-Bold',
-                            fontSize: 16,
-                            color: Color(0xFFFFAD00),
+                        Obx(
+                          () => Text(
+                            namePageController.placeModel.reviewCount
+                                .toString(),
+                            style: const TextStyle(
+                              fontFamily: 'NotoSansKR-Bold',
+                              fontSize: 16,
+                              color: Color(0xFFFFAD00),
+                            ),
                           ),
                         ),
                       ],
@@ -415,20 +422,20 @@ class NamePage extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 30),
-              Column(
-                children: namePageController.anotherReviews
-                    .asMap()
-                    .map((index, reviewModel) => MapEntry(
-                        index,
-                        NameReviewWidget(
-                          area: namePageController.placeModel.address
-                              .substring(0, 2),
-                          service: namePageController.placeModel.service,
-                          index: index,
-                        )))
-                    .values
-                    .toList(),
-              )
+              Obx(() => Column(
+                    children: namePageController.anotherReviews
+                        .asMap()
+                        .map((index, reviewModel) => MapEntry(
+                            index,
+                            NameReviewWidget(
+                              area: namePageController.placeModel.address
+                                  .substring(0, 2),
+                              service: namePageController.placeModel.service,
+                              index: index,
+                            )))
+                        .values
+                        .toList(),
+                  )),
             ],
           ),
         ),

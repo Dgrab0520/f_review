@@ -1,21 +1,41 @@
+import 'dart:convert';
+
 import 'package:f_review/model/place_model.dart';
 import 'package:f_review/model/review_model.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
+
+import '../constants.dart';
 
 class NamePageController extends GetxController {
   final _placeModel = PlaceModel(
-    address: "하남시 검단산로 228-8",
-    service: "카페",
-    name: "마시랑게",
-    reviewCount: 3000,
+    address: "주소",
+    service: "카테고리",
+    name: "이름",
+    reviewCount: 0,
     isSave: false,
   ).obs;
   PlaceModel get placeModel => _placeModel.value;
   set placeModel(val) => _placeModel.value = val;
 
-  getPlace(String name) async {
-    //TODO:장소 정보 불러오기
+  getPlace(int placeId) async {
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_PLACE";
+      map['placeId'] = placeId.toString();
+      map['userId'] = "331";
+      final response =
+          await http.post(Uri.parse("$kBaseUrl/flu_place.php"), body: map);
+      print('Place Info Response : ${response.body}');
+      if (200 == response.statusCode) {
+        Iterable jsonResponse = jsonDecode(response.body);
+        placeModel =
+            jsonResponse.map((e) => PlaceModel.fromJson(e)).toList()[0];
+      }
+    } catch (e) {
+      print("exception : $e");
+    }
   }
 
   placeCheck() {
@@ -35,13 +55,14 @@ class NamePageController extends GetxController {
     id: 0,
     profileImage: "profileImage",
     userName: "userName",
-    date: "date",
+    date: DateTime.now(),
     placeName: "placeName",
     review: "review",
     heartCount: 0,
     tags: [],
     images: [],
     isHeart: false,
+    placeId: 0,
   ).obs;
   ReviewModel get mainReview => _mainReview.value;
   set mainReview(val) => _mainReview.value = val;
@@ -62,26 +83,34 @@ class NamePageController extends GetxController {
   }
   // 메인 리뷰
 
-  final _anotherReviews = <ReviewModel>[
-    ReviewModel(
-      id: 1,
-      profileImage: 'assets/avatar_2.png',
-      userName: '유그린',
-      date: '12.12 토',
-      placeName: '마시랑게',
-      review:
-          '분위기가 너무 좋아요. 여러 카페 다녀봤는데 이렇게 깔끔하고 예쁘게 플레이팅 되서 나오는 카페는 처음 봤어요. 사진도 잘 안찍는데 감동 받아서 찍어봅니다.. 다들 마시랑게 하세요 bb',
-      heartCount: 0,
-      tags: ["하남카페", "다들", "마시랑게", "하세요"],
-      images: ['assets/name_img2.png'],
-      isHeart: false,
-    ),
-  ].obs;
+  final _anotherReviews = <ReviewModel>[].obs;
   List<ReviewModel> get anotherReviews => _anotherReviews;
   set anotherReviews(val) => _anotherReviews.value = val;
 
-  getReviews(String placeName) async {
-    //TODO:장소에 다른 리뷰 불러오기
+  final _isAnotherReviewLoading = false.obs;
+  get isAnotherReviewLoading => _isAnotherReviewLoading.value;
+  set isAnotherReviewLoading(val) => _isAnotherReviewLoading.value = val;
+
+  getReviews(int placeId) async {
+    print(placeId);
+    isAnotherReviewLoading = false;
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_REVIEW_PLACE";
+      map['placeId'] = placeId.toString();
+      map['userId'] = "331";
+      final response =
+          await http.post(Uri.parse("$kBaseUrl/flu_review.php"), body: map);
+      print('Place Reviews Response : ${response.body}');
+      if (200 == response.statusCode) {
+        anotherReviews = parseResponse(response.body);
+        isAnotherReviewLoading = true;
+      }
+    } catch (e) {
+      print("exception : $e");
+      anotherReviews = <ReviewModel>[];
+      isAnotherReviewLoading = true;
+    }
   }
 
   anotherHeartChange(int index) {
@@ -130,5 +159,12 @@ class NamePageController extends GetxController {
     if (!await launch("https://www.google.com/maps/search/$placeName}")) {
       throw 'Could not launch $placeName';
     }
+  }
+
+  static List<ReviewModel> parseResponse(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<ReviewModel>((json) => ReviewModel.fromJson(json))
+        .toList();
   }
 }

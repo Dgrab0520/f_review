@@ -1,9 +1,12 @@
 import 'package:card_swiper/card_swiper.dart';
+import 'package:f_review/constants.dart';
 import 'package:f_review/controller/name_page_controller.dart';
 import 'package:f_review/ui/name_page/widget/name_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
+import '../../../date_data.dart';
 import '../../image_detail_screen.dart';
 import '../../profile_page/profile_page.dart';
 import '../../search_page/widget/search_sub.dart';
@@ -31,8 +34,8 @@ class NameReviewWidget extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Image.asset(
-                      namePageController.anotherReviews[index].profileImage,
+                  Image.network(
+                      "$kBaseUrl/user_profile/${namePageController.anotherReviews[index].profileImage}",
                       width: 40,
                       height: 40),
                   const SizedBox(width: 10),
@@ -66,7 +69,11 @@ class NameReviewWidget extends StatelessWidget {
                           ),
                           const SizedBox(width: 5),
                           Text(
-                            namePageController.anotherReviews[index].date,
+                            DateFormat("M.dd").format(namePageController
+                                    .anotherReviews[index].date) +
+                                " " +
+                                DateData().getWeekDay(namePageController
+                                    .anotherReviews[index].date),
                             style: const TextStyle(
                               color: Color(0xFF8D8D8D),
                               fontSize: 11,
@@ -142,9 +149,12 @@ class NameReviewWidget extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 20),
-          Text(
-            namePageController.anotherReviews[index].review,
-            style: const TextStyle(color: Color(0xFF2a2a2a), fontSize: 11),
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              namePageController.anotherReviews[index].review,
+              style: const TextStyle(color: Color(0xFF2a2a2a), fontSize: 11),
+            ),
           ),
           const SizedBox(height: 25),
           SizedBox(

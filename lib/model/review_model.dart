@@ -2,8 +2,9 @@ class ReviewModel {
   int id;
   String profileImage;
   String userName; //userId로 join 해서 프로필 사진과 이름 가져오기
-  String date;
+  DateTime date;
   String placeName;
+  int placeId;
   String review;
   int heartCount;
   List<dynamic> tags; //flu_review_tag 테이블
@@ -16,6 +17,7 @@ class ReviewModel {
     required this.userName,
     required this.date,
     required this.placeName,
+    required this.placeId,
     required this.review,
     required this.heartCount,
     required this.tags,
@@ -28,8 +30,9 @@ class ReviewModel {
       id: int.parse(json['id']),
       profileImage: json['profileImage'],
       userName: json['userName'],
-      date: json['date'],
+      date: DateTime.parse(json['date']),
       placeName: json['placeName'],
+      placeId: int.parse(json['placeId']),
       review: json['review'],
       heartCount: int.parse(json['heartCount']),
       tags: json['tags'] ?? [],
@@ -44,6 +47,7 @@ class ReviewModel {
         "userName": userName,
         "date": date,
         "placeName": placeName,
+        "placeId": placeId,
         "review": review,
         "heartCount": heartCount,
         "tags": tags,

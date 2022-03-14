@@ -16,10 +16,10 @@ class PlaceModel {
   factory PlaceModel.fromJson(Map<String, dynamic> json) {
     return PlaceModel(
       address: json['address'],
-      service: json['service'],
+      service: json['serviceType'],
       name: json['name'],
       reviewCount: int.parse(json['reviewCount']),
-      isSave: json['isSave'] == '1' ? true : false,
+      isSave: json['isSave'] != null ? true : false,
     );
   }
 
