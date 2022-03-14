@@ -50,6 +50,7 @@ class _CouponSubState extends State<CouponSub> {
                 child: Image.asset(
                   'assets/avatar.png',
                   width: 30,
+                  color: Colors.white,
                 )),
           ),
         ],

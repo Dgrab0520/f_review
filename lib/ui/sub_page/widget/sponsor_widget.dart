@@ -13,7 +13,10 @@ class SponsorWidget extends StatelessWidget {
       padding: const EdgeInsets.only(right: 10.0),
       child: InkWell(
         onTap: () {
-          Get.to(SponsorSub());
+          Get.to(SponsorSub(
+            service: '',
+            area: '',
+          ));
         },
         child: SizedBox(
           width: 200,

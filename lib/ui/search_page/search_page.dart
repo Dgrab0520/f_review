@@ -8,6 +8,7 @@ import '../../controller/search_page_controller.dart';
 class SearchPage extends StatelessWidget {
   SearchPage({Key? key, required this.keyword, required this.type})
       : super(key: key);
+  bool isTextField = false;
 
   final String keyword;
   final String type;
@@ -24,12 +25,23 @@ class SearchPage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          title: Text(
-            keyword,
-            style: const TextStyle(
-              color: Colors.black,
-              fontSize: 20,
-              fontFamily: 'NotoSansKR-Medium',
+          title: FlatButton(
+            onPressed: () {
+              isTextField = true;
+            },
+            child: Column(
+              children: <Widget>[
+                isTextField
+                    ? TextField()
+                    : Text(
+                        keyword,
+                        style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 20,
+                          fontFamily: 'NotoSansKR-Medium',
+                        ),
+                      ),
+              ],
             ),
           ),
           leading: InkWell(

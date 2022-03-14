@@ -2,7 +2,7 @@ import 'package:f_review/model/category_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../sub_page/sub_page.dart';
+import '../../sub_page/widget/sposor_sub.dart';
 
 class CategoryBoxWidget extends StatelessWidget {
   const CategoryBoxWidget({Key? key, required this.category}) : super(key: key);
@@ -13,9 +13,9 @@ class CategoryBoxWidget extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 15.0),
       child: InkWell(
         onTap: () {
-          Get.to(SubPage(
-            area: category.area,
-            service: category.service,
+          Get.to(SponsorSub(
+            area: '',
+            service: '',
           ));
         },
         child: Container(

@@ -1,9 +1,16 @@
+import 'package:f_review/ui/sub_page/sub_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SponsorSub extends StatefulWidget {
-  const SponsorSub({Key? key}) : super(key: key);
+  const SponsorSub({
+    Key? key,
+    required this.area,
+    required this.service,
+  }) : super(key: key);
+  final String area;
+  final String service;
 
   @override
   _SponsorSubState createState() => _SponsorSubState();
@@ -137,6 +144,7 @@ class _SponsorSubState extends State<SponsorSub> {
                 child: InkWell(
                   onTap: () {
                     Get.back();
+                    Get.to(SubPage(area: widget.area, service: widget.service));
                   },
                   child: Image.asset(
                     'assets/cross.png',
