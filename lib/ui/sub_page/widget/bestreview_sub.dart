@@ -1,4 +1,5 @@
 import 'package:f_review/controller/sub_page_controller.dart';
+import 'package:f_review/ui/search_page/widget/search_sub.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -124,9 +125,6 @@ class BestReviewSub extends StatelessWidget {
               onTap: () {
                 Get.to(NamePage(
                   reviewModel: reviewModel,
-                  index: index,
-                  service: service,
-                  area: area,
                 ));
               },
               child: Container(
@@ -150,9 +148,6 @@ class BestReviewSub extends StatelessWidget {
               onTap: () {
                 Get.to(NamePage(
                   reviewModel: reviewModel,
-                  index: index,
-                  service: service,
-                  area: area,
                 ));
               },
               child: Row(
@@ -183,21 +178,28 @@ class BestReviewSub extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   itemCount: reviewModel.tags.length,
                   itemBuilder: (BuildContext context, int tagIndex) {
-                    return Container(
-                      height: 23,
-                      padding: const EdgeInsets.only(left: 5, right: 5),
-                      margin: const EdgeInsets.only(right: 10),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFEAE5F9),
-                        borderRadius: BorderRadius.circular(5),
-                      ),
-                      child: Center(
-                        child: Text(
-                          '#${reviewModel.tags[tagIndex]}',
-                          style: const TextStyle(
-                              color: Color(0xFF2a2a2a),
-                              fontSize: 12,
-                              fontFamily: 'NotoSansKR-Regular'),
+                    return InkWell(
+                      onTap: () {
+                        Get.to(SearchSub(
+                          tag: reviewModel.tags[tagIndex],
+                        ));
+                      },
+                      child: Container(
+                        height: 23,
+                        padding: const EdgeInsets.only(left: 5, right: 5),
+                        margin: const EdgeInsets.only(right: 10),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFEAE5F9),
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: Center(
+                          child: Text(
+                            '#${reviewModel.tags[tagIndex]}',
+                            style: const TextStyle(
+                                color: Color(0xFF2a2a2a),
+                                fontSize: 12,
+                                fontFamily: 'NotoSansKR-Regular'),
+                          ),
                         ),
                       ),
                     );

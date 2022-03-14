@@ -1,497 +1,278 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
-import 'package:f_review/ui/profile_page/profile_page.dart';
-import 'package:flutter/cupertino.dart';
+import 'package:f_review/controller/review_page_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:material_tag_editor/tag_editor.dart';
 
-import '../../controller/main_page_controller.dart';
-
-class ReviewPage extends StatefulWidget {
+class ReviewPage extends StatelessWidget {
   ReviewPage({Key? key, required this.index}) : super(key: key);
-  final mainPageController = Get.put(MainPageController());
+  final reviewPageController = Get.put(ReviewPageController());
   final int index;
-
-  @override
-  _ReviewPageState createState() => _ReviewPageState();
-}
-
-class _ReviewPageState extends State<ReviewPage> {
-  String? selectedValue;
-  List<String> items = [
-    '하남',
-    '강동',
-    '송파',
-  ];
-  List<String> items2 = [
-    '카페',
-    '맛집',
-    '헤어샵',
-    '네일샵',
-    '도서',
-    '공방',
-  ];
-  List<String> _values = [];
-  final FocusNode _focusNode = FocusNode();
-  final TextEditingController _textEditingController = TextEditingController();
-
-  _onDelete(index) {
-    setState(() {
-      _values.removeAt(index);
-    });
-  }
-
-  _onPressedModifyTextField() {
-    final text = 'Test';
-    _textEditingController.text = text;
-    _textEditingController.value = _textEditingController.value.copyWith(
-      text: text,
-      selection: TextSelection(
-        baseOffset: text.length,
-        extentOffset: text.length,
-      ),
-    );
-  }
-
-  var _controller = TextEditingController();
-  var _controller2 = TextEditingController();
-  List<Widget> images = [
-    Container(
-      margin: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 25),
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xFFdbdbdb).withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(2, 4), // changes position of shadow
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset('assets/avatar_1.png', width: 50),
-              SizedBox(height: 3),
-              Row(
-                children: [
-                  Text(
-                    '유라희',
-                    style: TextStyle(
-                      fontFamily: 'NotoSansKR-Bold',
-                      fontSize: 13,
-                    ),
-                  ),
-                  SizedBox(width: 5),
-                  Image.asset('assets/mark.png', width: 15),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(width: 5),
-          Container(
-            margin: EdgeInsets.all(5),
-            padding: EdgeInsets.only(left: 15, right: 15),
-            width: 200,
-            height: 100,
-            decoration: BoxDecoration(
-              color: Color(0xFFEAE5F9),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Center(
-              child: Text(
-                '매장도 예쁘고 디저트도 맛있어요 :) 그 매장만의 특색이 너무 좋아서 또 갈거에요~!  ',
-                style: TextStyle(
-                  fontFamily: 'NotoSansKR-Regular',
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-    Container(
-      margin: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 25),
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xFFdbdbdb).withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(2, 4), // changes position of shadow
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset('assets/avatar_3.png', width: 50),
-              SizedBox(height: 3),
-              Row(
-                children: [
-                  Text(
-                    '유그린',
-                    style: TextStyle(
-                      fontFamily: 'NotoSansKR-Bold',
-                      fontSize: 13,
-                    ),
-                  ),
-                  SizedBox(width: 5),
-                  Image.asset('assets/mark.png', width: 15),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(width: 5),
-          Container(
-            margin: EdgeInsets.all(5),
-            padding: EdgeInsets.only(left: 15, right: 15),
-            width: 200,
-            height: 100,
-            decoration: BoxDecoration(
-              color: Color(0xFFF6F9E5),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Center(
-              child: Text(
-                '매장도 예쁘고 디저트도 맛있어요 :) 그 매장만의 특색이 너무 좋아서 또 갈거에요~! ',
-                style: TextStyle(
-                  fontFamily: 'NotoSansKR-Regular',
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-    Container(
-      margin: EdgeInsets.only(top: 10, left: 10, right: 10, bottom: 25),
-      padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
-        boxShadow: [
-          BoxShadow(
-            color: Color(0xFFdbdbdb).withOpacity(0.5),
-            spreadRadius: 2,
-            blurRadius: 5,
-            offset: Offset(2, 4), // changes position of shadow
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset('assets/avatar_4.png', width: 50),
-              SizedBox(height: 3),
-              Row(
-                children: [
-                  Text(
-                    '유핑크',
-                    style: TextStyle(
-                      fontFamily: 'NotoSansKR-Bold',
-                      fontSize: 13,
-                    ),
-                  ),
-                  SizedBox(width: 5),
-                  Image.asset('assets/mark.png', width: 15),
-                ],
-              ),
-            ],
-          ),
-          SizedBox(width: 5),
-          Container(
-            margin: EdgeInsets.all(5),
-            padding: EdgeInsets.only(left: 15, right: 15),
-            width: 200,
-            height: 100,
-            decoration: BoxDecoration(
-              color: Color(0xFFF9E5E5),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Center(
-              child: Text(
-                '매장도 예쁘고 디저트도 맛있어요 :) 그 매장만의 특색이 너무 좋아서 또 갈거에요~! ',
-                style: TextStyle(
-                  fontFamily: 'NotoSansKR-Regular',
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-  ];
-
-  List<Widget> render(BuildContext context, List<List<String>> children) {
-    return ListTile.divideTiles(
-      context: context,
-      tiles: children.map((data) {
-        return buildListTile(context, data[0], data[1], data[2]);
-      }),
-    ).toList();
-  }
-
-  Widget buildListTile(
-      BuildContext context, String title, String subtitle, String url) {
-    return ListTile(
-      onTap: () {
-        Navigator.of(context).pushNamed(url);
-      },
-      isThreeLine: true,
-      dense: false,
-      leading: null,
-      title: Text(title),
-      subtitle: Text(subtitle),
-      trailing: const Icon(
-        Icons.arrow_right,
-        color: Colors.blueAccent,
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
+    return GestureDetector(
+      onTap: () {
+        FocusScope.of(context).unfocus();
+      },
+      child: Scaffold(
         backgroundColor: Colors.white,
-        elevation: 0,
-        title: Center(
-            child: Image.asset(
-          'assets/logo.png',
-          width: 40,
-        )),
-        leading: Container(
-            padding: EdgeInsets.only(left: 10),
-            child: InkWell(
-              onTap: () {
-                Get.back();
-              },
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Color(0xFF362C5E),
-                size: 23,
-              ),
-            )),
-        leadingWidth: 35,
-        actions: [
-          InkWell(
-            onTap: () {
-              Get.to(ProfilePage(
-                userId: 0,
-              ));
-            },
-            child: Container(
-                padding: EdgeInsets.only(right: 10),
-                child: Image.asset(
-                  'assets/avatar.png',
-                  width: 30,
-                )),
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          title: Image.asset(
+            'assets/logo.png',
+            width: 40,
           ),
-        ],
-      ),
-      body: SingleChildScrollView(
-        child: Container(
-          color: Colors.white,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                padding: EdgeInsets.only(left: 10, right: 10, top: 40),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text('리뷰를 작성해 보세요.',
+          leading: Container(
+              padding: const EdgeInsets.only(left: 10),
+              child: InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: const Icon(
+                  Icons.arrow_back_ios,
+                  color: Color(0xFF362C5E),
+                  size: 23,
+                ),
+              )),
+          leadingWidth: 35,
+          centerTitle: true,
+        ),
+        body: SingleChildScrollView(
+          child: Container(
+            color: Colors.white,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(left: 10, right: 10, top: 40),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      const Text('리뷰를 작성해 보세요.',
+                          style: TextStyle(
+                            fontSize: 23,
+                            fontFamily: 'NotoSansKR-Bold',
+                          )),
+                      const Text(
+                        '실제로 사용하거나, 경험한 후기를 남기시면',
                         style: TextStyle(
-                          fontSize: 23,
-                          fontFamily: 'NotoSansKR-Bold',
-                        )),
-                    Text(
-                      '실제로 사용하거나, 경험한 후기를 남기시면',
-                      style: TextStyle(
-                        color: Color(0xFF000000),
-                        fontSize: 12,
+                          color: Color(0xFF000000),
+                          fontSize: 12,
+                        ),
                       ),
-                    ),
-                    Row(
-                      children: [
-                        Container(
-                          padding: EdgeInsets.only(
-                            left: 2,
+                      Row(
+                        children: [
+                          Container(
+                            padding: const EdgeInsets.only(
+                              left: 2,
+                            ),
+                            decoration:
+                                const BoxDecoration(color: Color(0xFfEAE5F9)),
+                            child: const Text(
+                              '플루닛 인증마크',
+                              style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 12,
+                                  fontFamily: 'NotoSansKR-Bold'),
+                            ),
                           ),
-                          decoration: BoxDecoration(color: Color(0xFfEAE5F9)),
-                          child: Text(
-                            '플루닛 인증마크',
+                          const Text(
+                            '가 부여됩니다.',
                             style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 12,
-                                fontFamily: 'NotoSansKR-Bold'),
+                              color: Color(0xFF000000),
+                              fontSize: 12,
+                            ),
                           ),
-                        ),
-                        Text(
-                          '가 부여됩니다.',
-                          style: TextStyle(
-                            color: Color(0xFF000000),
-                            fontSize: 12,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(height: 40),
-              Container(
-                width: Get.width,
-                height: 150,
-                child: Swiper(
-                  itemBuilder: (BuildContext context, int index) {
-                    return images[index];
-                  },
-                  itemCount: 3,
-                  viewportFraction: 0.8,
-                  scale: 0.9,
-                  pagination: const SwiperPagination(
-                    margin: EdgeInsets.only(top: 40),
-                    alignment: Alignment.bottomCenter,
-                    builder: DotSwiperPaginationBuilder(
-                      color: Colors.grey,
-                      activeColor: Color(0xff362C5E),
-                      size: 7,
-                    ),
+                        ],
+                      ),
+                    ],
                   ),
-                  autoplay: true,
-                  duration: 1000,
                 ),
-              ),
-              SizedBox(height: 30),
-              Container(
-                width: Get.width,
-                height: 7,
-                color: Color(0xFFFBF9FF),
-              ),
-              Container(
-                padding: EdgeInsets.only(left: 10, top: 30),
-                child: Row(
-                  children: [
-                    DropdownButtonHideUnderline(
-                      child: DropdownButton2(
-                        hint: Text(
-                          '지역',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Theme.of(context).hintColor,
-                          ),
-                        ),
-                        items: items
-                            .map((item) => DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ))
-                            .toList(),
-                        value: selectedValue,
-                        onChanged: (value) {
-                          selectedValue = value as String;
-                        },
-                        buttonHeight: 40,
-                        buttonWidth: 75,
-                        itemHeight: 40,
+                const SizedBox(height: 40),
+                SizedBox(
+                  width: Get.width,
+                  height: 150,
+                  child: Swiper(
+                    itemBuilder: (BuildContext context, int index) {
+                      return reviewPageController.images[index];
+                    },
+                    itemCount: 3,
+                    viewportFraction: 0.8,
+                    scale: 0.9,
+                    pagination: const SwiperPagination(
+                      margin: EdgeInsets.only(top: 40),
+                      alignment: Alignment.bottomCenter,
+                      builder: DotSwiperPaginationBuilder(
+                        color: Colors.grey,
+                        activeColor: Color(0xff362C5E),
+                        size: 7,
                       ),
                     ),
-                    SizedBox(width: 30),
-                    DropdownButtonHideUnderline(
-                      child: DropdownButton2(
-                        hint: Text(
-                          '카테고리',
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Theme.of(context).hintColor,
-                          ),
-                        ),
-                        items: items2
-                            .map((item) => DropdownMenuItem<String>(
-                                  value: item,
-                                  child: Text(
-                                    item,
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                    ),
-                                  ),
-                                ))
-                            .toList(),
-                        value: selectedValue,
-                        onChanged: (value) {
-                          selectedValue = value as String;
-                        },
-                        buttonHeight: 40,
-                        buttonWidth: 90,
-                        itemHeight: 40,
-                      ),
-                    ),
-                  ],
+                    autoplay: true,
+                    duration: 1000,
+                  ),
                 ),
-              ),
-              SizedBox(height: 30),
-              Container(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      '매장이름',
-                      style: TextStyle(
-                        fontFamily: 'NotoSansKR-Bold',
-                        fontSize: 15,
+                const SizedBox(height: 30),
+                Container(
+                  width: Get.width,
+                  height: 7,
+                  color: const Color(0xFFFBF9FF),
+                ),
+                Container(
+                  padding: const EdgeInsets.only(left: 10, top: 30),
+                  child: Row(
+                    children: [
+                      DropdownButtonHideUnderline(
+                        child: DropdownButton2(
+                          hint: Text(
+                            '지역',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Theme.of(context).hintColor,
+                            ),
+                          ),
+                          items: reviewPageController.items
+                              .map((item) => DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ))
+                              .toList(),
+                          value: reviewPageController.selectedValue,
+                          onChanged: (value) {
+                            reviewPageController.selectedValue = value;
+                          },
+                          buttonHeight: 40,
+                          buttonWidth: 75,
+                          itemHeight: 40,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 7),
-                    Center(
-                      child: Container(
-                        padding: EdgeInsets.only(
+                      const SizedBox(width: 30),
+                      DropdownButtonHideUnderline(
+                        child: DropdownButton2(
+                          hint: Text(
+                            '카테고리',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: Theme.of(context).hintColor,
+                            ),
+                          ),
+                          items: reviewPageController.items2
+                              .map((item) => DropdownMenuItem<String>(
+                                    value: item,
+                                    child: Text(
+                                      item,
+                                      style: const TextStyle(
+                                        fontSize: 14,
+                                      ),
+                                    ),
+                                  ))
+                              .toList(),
+                          value: reviewPageController.selectedValue2,
+                          onChanged: (value) {
+                            reviewPageController.selectedValue2 = value;
+                          },
+                          buttonHeight: 40,
+                          buttonWidth: 90,
+                          itemHeight: 40,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 30),
+                Container(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        '매장이름',
+                        style: TextStyle(
+                          fontFamily: 'NotoSansKR-Bold',
+                          fontSize: 15,
+                        ),
+                      ),
+                      const SizedBox(height: 7),
+                      Center(
+                        child: Container(
+                          padding: const EdgeInsets.only(
+                            left: 20,
+                            right: 5,
+                            bottom: 3,
+                          ),
+                          width: Get.width,
+                          height: 50,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF8F5FF),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: TextField(
+                              controller: reviewPageController.controller,
+                              decoration: const InputDecoration(
+                                hintText: '매장이름을 입력해주세요',
+                                hintStyle: TextStyle(
+                                  color: Color(0xFFBFBFBF),
+                                  fontSize: 13,
+                                ),
+                                suffixIcon: Icon(Icons.search),
+                                counterText: '',
+                                enabledBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.transparent),
+                                ),
+                                focusedBorder: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.transparent),
+                                ),
+                                border: UnderlineInputBorder(
+                                  borderSide:
+                                      BorderSide(color: Colors.transparent),
+                                ),
+                              )),
+                        ),
+                      ),
+                      const SizedBox(height: 30),
+                      const Text(
+                        '내용',
+                        style: TextStyle(
+                          fontFamily: 'NotoSansKR-Bold',
+                          fontSize: 15,
+                        ),
+                      ),
+                      const SizedBox(height: 7),
+                      Container(
+                        padding: const EdgeInsets.only(
                           left: 20,
-                          right: 5,
-                          bottom: 3,
+                          right: 20,
                         ),
                         width: Get.width,
-                        height: 50,
+                        height: 150,
                         decoration: BoxDecoration(
-                          color: Color(0xFFF8F5FF),
+                          color: const Color(0xFFF8F5FF),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: TextField(
-                            controller: _controller,
-                            decoration: InputDecoration(
-                              hintText: '매장이름을 입력해주세요',
+                            controller: reviewPageController.controller2,
+                            keyboardType: TextInputType.multiline,
+                            minLines: 1,
+                            maxLines: null,
+                            decoration: const InputDecoration(
+                              hintText:
+                                  '솔직한 리뷰를 작성해주세요! \n 자신만의 TIP도 작성해주시면 많은 분들에게 도움이 됩니다 :)',
                               hintStyle: TextStyle(
                                 color: Color(0xFFBFBFBF),
                                 fontSize: 13,
                               ),
-                              suffixIcon: Icon(Icons.search),
                               counterText: '',
                               enabledBorder: UnderlineInputBorder(
                                 borderSide:
@@ -507,274 +288,188 @@ class _ReviewPageState extends State<ReviewPage> {
                               ),
                             )),
                       ),
-                    ),
-                    SizedBox(height: 30),
-                    Text(
-                      '내용',
-                      style: TextStyle(
-                        fontFamily: 'NotoSansKR-Bold',
-                        fontSize: 15,
+                      const SizedBox(height: 30),
+                      const Text(
+                        '해시태그#',
+                        style: TextStyle(
+                          fontFamily: 'NotoSansKR-Bold',
+                          fontSize: 15,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 7),
-                    Container(
-                      padding: EdgeInsets.only(
-                        left: 20,
-                        right: 20,
+                      const SizedBox(height: 7),
+                      Container(
+                        padding: const EdgeInsets.only(
+                          left: 10,
+                          right: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: const Color(0xFFF8F5FF),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Obx(() => TagEditor(
+                              length: reviewPageController.values.length,
+                              controller:
+                                  reviewPageController.textEditingController,
+                              focusNode: reviewPageController.focusNode,
+                              delimiters: const [',', ' ', ' ', ' '],
+                              hasAddButton: false,
+                              resetTextOnSubmitted: true,
+                              textStyle:
+                                  const TextStyle(color: Color(0xFF2a2a2a)),
+                              onSubmitted: (outstandingValue) {
+                                reviewPageController.onSubmit(outstandingValue);
+                              },
+                              inputDecoration: const InputDecoration(
+                                border: InputBorder.none,
+                                hintText: '태그 입력...',
+                                hintStyle: TextStyle(
+                                  color: Color(
+                                    0xFF888888,
+                                  ),
+                                  fontFamily: 'family: NotoSansKR-Regular',
+                                  fontSize: 13,
+                                ),
+                              ),
+                              onTagChanged: (newValue) {
+                                reviewPageController.onTagChanged(newValue);
+                              },
+                              tagBuilder: (context, index) => _Chip(
+                                index: index,
+                                label: reviewPageController.values[index],
+                                onDeleted: (index) {
+                                  reviewPageController.valueDelete(index);
+                                },
+                              ),
+                              // InputFormatters example, this disallow \ and /
+                              inputFormatters: [
+                                FilteringTextInputFormatter.deny(
+                                    RegExp(r'[/\\]'))
+                              ],
+                            )),
                       ),
-                      width: Get.width,
-                      height: 150,
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF8F5FF),
-                        borderRadius: BorderRadius.circular(10),
+                      const SizedBox(height: 30),
+                      const Text(
+                        '사진',
+                        style: TextStyle(
+                          fontFamily: 'NotoSansKR-Bold',
+                          fontSize: 15,
+                        ),
                       ),
-                      child: TextField(
-                          controller: _controller2,
-                          keyboardType: TextInputType.multiline,
-                          minLines: 1,
-                          maxLines: null,
-                          decoration: InputDecoration(
-                            hintText:
-                                '솔직한 리뷰를 작성해주세요! \n 자신만의 TIP도 작성해주시면 많은 분들에게 도움이 됩니다 :)',
-                            hintStyle: TextStyle(
-                              color: Color(0xFFBFBFBF),
-                              fontSize: 13,
-                            ),
-                            counterText: '',
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.transparent),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.transparent),
-                            ),
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(color: Colors.transparent),
-                            ),
-                          )),
-                    ),
-                    SizedBox(height: 30),
-                    Text(
-                      '해시태그#',
-                      style: TextStyle(
-                        fontFamily: 'NotoSansKR-Bold',
-                        fontSize: 15,
-                      ),
-                    ),
-                    SizedBox(height: 7),
-                    Container(
-                      padding: EdgeInsets.only(
-                        left: 10,
-                        right: 10,
-                      ),
-                      decoration: BoxDecoration(
-                        color: Color(0xFFF8F5FF),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: TagEditor(
-                        length: _values.length,
-                        controller: _textEditingController,
-                        focusNode: _focusNode,
-                        delimiters: [',', ' ', ' ', ' '],
-                        hasAddButton: false,
-                        resetTextOnSubmitted: true,
-                        textStyle: const TextStyle(color: Color(0xFF2a2a2a)),
-                        onSubmitted: (outstandingValue) {
-                          setState(() {
-                            _values.add(outstandingValue);
-                          });
+                      const SizedBox(height: 7),
+                      InkWell(
+                        onTap: () {
+                          reviewPageController.getPictures();
                         },
-                        inputDecoration: const InputDecoration(
-                          border: InputBorder.none,
-                          hintText: '  _Text',
-                          hintStyle: TextStyle(
-                            color: Color(
-                              0xFF888888,
+                        child: Container(
+                          width: 160,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                              width: 0.5,
                             ),
-                            fontFamily: 'family: NotoSansKR-Regular',
-                            fontSize: 13,
+                            borderRadius: BorderRadius.circular(10),
                           ),
-                        ),
-                        onTagChanged: (newValue) {
-                          setState(() {
-                            _values.add(newValue);
-                          });
-                        },
-                        tagBuilder: (context, index) => _Chip(
-                          index: index,
-                          label: _values[index],
-                          onDeleted: _onDelete,
-                        ),
-                        // InputFormatters example, this disallow \ and /
-                        inputFormatters: [
-                          FilteringTextInputFormatter.deny(RegExp(r'[/\\]'))
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 30),
-                    Text(
-                      '사진',
-                      style: TextStyle(
-                        fontFamily: 'NotoSansKR-Bold',
-                        fontSize: 15,
-                      ),
-                    ),
-                    SizedBox(height: 7),
-                    Container(
-                      width: 160,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        border: Border.all(
-                          width: 0.5,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset('assets/camera.png', width: 20),
-                          SizedBox(width: 5),
-                          Text(
-                            '사진첨부',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontFamily: 'NotoSansKR-Medium',
-                            ),
-                          ),
-                          SizedBox(width: 5),
-                          Text(
-                            '최대 10장',
-                            style: TextStyle(
-                              fontFamily: 'NotoSansKR-Regular',
-                              fontSize: 11,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 10),
-                    Container(
-                      width: Get.width,
-                      height: 120,
-                      child: ListView(
-                        scrollDirection: Axis.horizontal,
-                        children: [
-                          Expanded(
-                            child: Stack(
-                              children: [
-                                Container(
-                                    padding: EdgeInsets.all(5),
-                                    child: Image.asset('assets/r_img1.png')),
-                                Positioned(
-                                    right: 0,
-                                    top: 0,
-                                    child: Image.asset('assets/cancel.png',
-                                        width: 15))
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Stack(
-                              children: [
-                                Container(
-                                    padding: EdgeInsets.all(5),
-                                    child: Image.asset('assets/r_img1.png')),
-                                Positioned(
-                                    right: 0,
-                                    top: 0,
-                                    child: Image.asset('assets/cancel.png',
-                                        width: 15))
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Stack(
-                              children: [
-                                Container(
-                                    padding: EdgeInsets.all(5),
-                                    child: Image.asset('assets/r_img1.png')),
-                                Positioned(
-                                    right: 0,
-                                    top: 0,
-                                    child: Image.asset('assets/cancel.png',
-                                        width: 15))
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Stack(
-                              children: [
-                                Container(
-                                    padding: EdgeInsets.all(5),
-                                    child: Image.asset('assets/r_img1.png')),
-                                Positioned(
-                                    right: 0,
-                                    top: 0,
-                                    child: Image.asset('assets/cancel.png',
-                                        width: 15))
-                              ],
-                            ),
-                          ),
-                          Expanded(
-                            child: Stack(
-                              children: [
-                                Container(
-                                    padding: EdgeInsets.all(5),
-                                    child: Image.asset('assets/r_img1.png')),
-                                Positioned(
-                                    right: 0,
-                                    top: 0,
-                                    child: Image.asset('assets/cancel.png',
-                                        width: 15))
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SizedBox(height: 60),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        InkWell(
-                          onTap: () {},
-                          child: Text(
-                            '리뷰 작성시 유의사항',
-                            style: TextStyle(
-                              fontSize: 12,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Get.back();
-                          },
-                          child: Container(
-                            width: 120,
-                            height: 40,
-                            decoration: BoxDecoration(
-                              color: Color(0xFF363057),
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            child: Center(
-                              child: Text(
-                                '등록하기',
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/camera.png', width: 20),
+                              const SizedBox(width: 5),
+                              const Text(
+                                '사진첨부',
                                 style: TextStyle(
-                                  color: Colors.white,
+                                  fontSize: 14,
                                   fontFamily: 'NotoSansKR-Medium',
+                                ),
+                              ),
+                              const SizedBox(width: 5),
+                              const Text(
+                                '최대 10장',
+                                style: TextStyle(
+                                  fontFamily: 'NotoSansKR-Regular',
+                                  fontSize: 11,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        width: Get.width,
+                        height: 120,
+                        child: Obx(() => ListView.builder(
+                              physics: const BouncingScrollPhysics(),
+                              scrollDirection: Axis.horizontal,
+                              itemCount: reviewPageController.files.length,
+                              itemBuilder: (BuildContext context, int index) {
+                                return Stack(
+                                  children: [
+                                    Container(
+                                        padding: const EdgeInsets.all(5),
+                                        child: Image.file(
+                                            reviewPageController.files[index])),
+                                    Positioned(
+                                        right: 0,
+                                        top: 0,
+                                        child: InkWell(
+                                          onTap: () {
+                                            reviewPageController
+                                                .removePicture(index);
+                                          },
+                                          child: Image.asset(
+                                              'assets/cancel.png',
+                                              width: 15),
+                                        ))
+                                  ],
+                                );
+                              },
+                            )),
+                      ),
+                      const SizedBox(height: 60),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          InkWell(
+                            onTap: () {},
+                            child: const Text(
+                              '리뷰 작성시 유의사항',
+                              style: TextStyle(
+                                fontSize: 12,
+                                decoration: TextDecoration.underline,
+                              ),
+                            ),
+                          ),
+                          InkWell(
+                            onTap: () {
+                              reviewPageController.writeReview();
+                            },
+                            child: Container(
+                              width: 120,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                color: const Color(0xFF363057),
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  '등록하기',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontFamily: 'NotoSansKR-Medium',
+                                  ),
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 30),
-                  ],
+                        ],
+                      ),
+                      const SizedBox(height: 30),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -796,9 +491,9 @@ class _Chip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Chip(
-      backgroundColor: Color(0xFFEAE5F9),
+      backgroundColor: const Color(0xFFEAE5F9),
       labelPadding: const EdgeInsets.only(left: 8.0),
-      label: Text(label),
+      label: Text("#$label"),
       deleteIcon: const Icon(
         Icons.close,
         size: 18,

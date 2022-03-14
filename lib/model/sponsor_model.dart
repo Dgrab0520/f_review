@@ -13,7 +13,7 @@ class SponsorModel {
 
   factory SponsorModel.fromJson(Map<String, dynamic> json) {
     return SponsorModel(
-      id: json['id'],
+      id: int.parse(json['id']),
       title: json['title'],
       thumbnail: json['thumbnail'],
       contentImage: json['contentImage'],

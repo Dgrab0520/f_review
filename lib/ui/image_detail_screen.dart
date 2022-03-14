@@ -7,7 +7,7 @@ class ImageDetailScreen extends StatelessWidget {
       {Key? key, required this.galleryItems, required this.pageController})
       : super(key: key);
 
-  final List<String> galleryItems;
+  final List<dynamic> galleryItems;
   final PageController pageController;
   @override
   Widget build(BuildContext context) {
