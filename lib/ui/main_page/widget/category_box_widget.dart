@@ -5,7 +5,10 @@ import 'package:get/get.dart';
 import '../../sub_page/widget/sposor_sub.dart';
 
 class CategoryBoxWidget extends StatelessWidget {
-  const CategoryBoxWidget({Key? key, required this.category}) : super(key: key);
+  const CategoryBoxWidget({
+    Key? key,
+    required this.category,
+  }) : super(key: key);
   final CategoryModel category;
   @override
   Widget build(BuildContext context) {
@@ -14,8 +17,8 @@ class CategoryBoxWidget extends StatelessWidget {
       child: InkWell(
         onTap: () {
           Get.to(SponsorSub(
-            area: '',
-            service: '',
+            area: category.area,
+            service: category.service,
           ));
         },
         child: Container(

@@ -118,18 +118,18 @@ class NameReviewWidget extends StatelessWidget {
             width: Get.width,
             height: 200,
             child: Swiper(
-              itemBuilder: (BuildContext context, int index) {
+              itemBuilder: (BuildContext context, int swipeIndex) {
                 return InkWell(
                   onTap: () {
                     Get.to(ImageDetailScreen(
                       galleryItems:
                           namePageController.anotherReviews[index].images,
-                      pageController: PageController(initialPage: index),
+                      pageController: PageController(initialPage: swipeIndex),
                     ));
                   },
                   child: NameImage(
                       image: namePageController
-                          .anotherReviews[index].images[index]),
+                          .anotherReviews[index].images[swipeIndex]),
                 );
               },
               itemCount: namePageController.anotherReviews[index].images.length,

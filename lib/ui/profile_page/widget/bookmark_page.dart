@@ -69,11 +69,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
               shrinkWrap: true,
               children: [
                 InkWell(
-                  onTap: () {
-                    Get.to(SearchSub(
-                      tag: '마시랑게',
-                    ));
-                  },
+                  onTap: () {},
                   child: ListTile(
                     leading: CircleAvatar(
                       backgroundImage: AssetImage('assets/bookmark_1.png'),

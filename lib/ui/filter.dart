@@ -75,6 +75,7 @@ class _filterPageState extends State<filterPage> {
           'assets/logo.png',
           width: 40,
         )),
+        centerTitle: true,
         leading: Container(
             padding: EdgeInsets.only(left: 10),
             child: InkWell(

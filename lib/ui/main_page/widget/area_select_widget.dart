@@ -10,6 +10,7 @@ class AreaSelectWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Container(
+          width: 90,
           height: 20,
           margin: const EdgeInsets.only(right: 7),
           child: ElevatedButton(

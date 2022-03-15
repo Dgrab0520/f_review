@@ -1,116 +1,43 @@
+import 'dart:convert';
+
 import 'package:collection/collection.dart';
+import 'package:f_review/model/profile_model.dart';
 import 'package:f_review/model/profile_review_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+
+import '../constants.dart';
 
 class ProfilePageController extends GetxController {
-  final _reviews = <ProfileReviewModel>[
-    ProfileReviewModel(
-      area: "경기 하남",
-      name: "마시랑게",
-      image: 'assets/p_img1.png',
-      serviceType: "카페",
-      isHeart: false,
-      reviewId: 0,
-      date: DateTime.now(),
-      heartCount: 5,
-    ),
-    ProfileReviewModel(
-      area: "서울 강동",
-      name: "가나다라",
-      image: 'assets/p_img2.png',
-      serviceType: "카페",
-      isHeart: false,
-      reviewId: 0,
-      date: DateTime.parse("2022-03-11 12:00:00"),
-      heartCount: 2,
-    ),
-    ProfileReviewModel(
-      area: "서울 강동",
-      name: "가나다라",
-      image: 'assets/p_img3.png',
-      serviceType: "카페",
-      isHeart: false,
-      reviewId: 0,
-      date: DateTime.parse("2022-03-11 14:00:00"),
-      heartCount: 3,
-    ),
-    ProfileReviewModel(
-      area: "경기 일산",
-      name: "아벨리움",
-      image: 'assets/p_img4.png',
-      serviceType: "헤어샵",
-      isHeart: false,
-      reviewId: 0,
-      date: DateTime.parse("2022-03-11 11:00:00"),
-      heartCount: 8,
-    ),
-    ProfileReviewModel(
-      area: "서울 강동",
-      name: "가나다라",
-      image: 'assets/p_img5.png',
-      serviceType: "카페",
-      isHeart: false,
-      reviewId: 0,
-      date: DateTime.parse("2022-03-11 15:00:00"),
-      heartCount: 1,
-    ),
-    ProfileReviewModel(
-      area: "경기 하남",
-      name: "마시랑게",
-      image: 'assets/p_img1.png',
-      serviceType: "카페",
-      isHeart: false,
-      reviewId: 0,
-      date: DateTime.parse("2022-03-11 10:00:00"),
-      heartCount: 0,
-    ),
-    ProfileReviewModel(
-      area: "서울 강동",
-      name: "가나다라",
-      image: 'assets/p_img2.png',
-      serviceType: "카페",
-      isHeart: false,
-      reviewId: 0,
-      date: DateTime.parse("2022-03-11 05:00:00"),
-      heartCount: 8,
-    ),
-    ProfileReviewModel(
-      area: "서울 강동",
-      name: "가나다라",
-      image: 'assets/p_img3.png',
-      serviceType: "카페",
-      isHeart: false,
-      reviewId: 0,
-      date: DateTime.parse("2022-03-11 01:00:00"),
-      heartCount: 125,
-    ),
-    ProfileReviewModel(
-      area: "경기 일산",
-      name: "아벨리움",
-      image: 'assets/p_img4.png',
-      serviceType: "헤어샵",
-      isHeart: false,
-      reviewId: 0,
-      date: DateTime.parse("2022-03-11 06:00:00"),
-      heartCount: 2,
-    ),
-    ProfileReviewModel(
-      area: "서울 강동",
-      name: "가나다라",
-      image: 'assets/p_img5.png',
-      serviceType: "카페",
-      isHeart: false,
-      reviewId: 0,
-      date: DateTime.parse("2022-03-11 08:00:00"),
-      heartCount: 5,
-    ),
-  ].obs;
+  final _reviews = <ProfileReviewModel>[].obs;
   set reviews(value) => _reviews.value = value;
   List<ProfileReviewModel> get reviews => _reviews;
 
+  final _isReviewsLoading = false.obs;
+  get isReviewsLoading => _isReviewsLoading.value;
+  set isReviewsLoading(val) => _isReviewsLoading.value = val;
+
   getProfileReviews(int id) async {
-    //TODO:프로필 페이지에서 리뷰 불러오기
+    isReviewsLoading = false;
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_REVIEW_PROFILE";
+      map['userId'] = id.toString();
+      final response =
+          await http.post(Uri.parse("$kBaseUrl/flu_review.php"), body: map);
+      print('Profile Reviews Response : ${response.body}');
+      if (200 == response.statusCode) {
+        reviews = parseResponse(response.body);
+        isReviewsLoading = true;
+        setCategory();
+      } else {}
+    } catch (e) {
+      print("exception : $e");
+      reviews = <ProfileReviewModel>[];
+      isReviewsLoading = true;
+      setCategory();
+    }
   }
 
   reviewsHeartChange(int index) {
@@ -151,21 +78,17 @@ class ProfilePageController extends GetxController {
   allSelectCategory() {
     categoryPressed['전체'] = !categoryPressed['전체']!;
     categoryPressed.updateAll((key, value) => categoryPressed['전체']!);
+    if (!categoryPressed['전체']!) {
+      selectedReviews.clear();
+    }
     _categoryPressed.refresh();
   }
 
   selectCategory(String i) {
-    categoryPressed[i] = !categoryPressed[i]!;
+    categoryPressed.updateAll((key, value) => false);
+    categoryPressed[i] = true;
 
-    if (!categoryPressed[i]!) {
-      categoryPressed['전체'] = false;
-    }
-    if (categoryPressed.values.where((element) => element).length + 1 ==
-        categoryPressed.length) {
-      categoryPressed['전체'] = true;
-    } else {
-      updateCategoryList();
-    }
+    updateCategoryList();
     _categoryPressed.refresh();
   }
   //endregion
@@ -174,8 +97,6 @@ class ProfilePageController extends GetxController {
   updateCategoryList() {
     selectedReviews.clear();
     categoryPressed.forEach((key, value) {
-      print(key);
-      print(value);
       if (key != "전체" && value) {
         for (var review in reviews) {
           if (review.serviceType == key) {
@@ -217,24 +138,67 @@ class ProfilePageController extends GetxController {
 
 //정렬
 
-  final _profileContent = "맛집탐방하는 라희 :)".obs;
-  get profileContent => _profileContent.value;
-  set profileContent(val) => _profileContent.value = val;
-  //프로필 자기 소개
+  final _profileInfo = ProfileModel(
+    userId: "userId",
+    profileImg: "profileImg",
+    profile: "profile",
+    heartCount: 0,
+    imageCount: 0,
+  ).obs;
+  ProfileModel get profileInfo => _profileInfo.value;
+  set profileInfo(val) => _profileInfo.value = val;
 
-  final _profilePhotoCount = 13.obs;
-  get profilePhotoCount => _profilePhotoCount.value;
-//프로필 사진 수
-
-  final _profileHeartCount = 5300.obs;
-  get profileHeartCount => _profileHeartCount.value;
-//프로필 사진 수
-
-  getProfileInfo() async {
-    // TODO:프로필 정보 불러오기(사진 수, 프로필 텍스트, 총 하트 수 등)
+  getProfileInfo(int id) async {
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_PROFILE_INFO";
+      map['userId'] = id.toString();
+      final response = await http
+          .post(Uri.parse("$kBaseUrl/flu_review_profile.php"), body: map);
+      print('Profile Response : ${response.body}');
+      if (200 == response.statusCode) {
+        profileInfo = parseResponseProfile(response.body);
+      } else {}
+    } catch (e) {
+      print("exception : $e");
+      profileInfo = <ProfileReviewModel>[];
+    }
   }
 
   final profileContentController = TextEditingController();
 
-  profileEdit() {}
+  profileEdit() {
+    profileInfo.profile = profileContentController.text;
+    _profileInfo.refresh();
+    Get.back();
+  }
+
+  String getShortArea(String area) {
+    List<String> tmp = area.split(" ");
+    String first = tmp[0];
+    String second = tmp[1];
+    if (second.length > 2) {
+      second = second.substring(0, 2);
+    }
+    if (first.length != 4) {
+      first = first.substring(0, 2);
+    } else {
+      first = first.split("")[0] + first.split("")[2];
+    }
+    return first + " " + second;
+  }
+
+  static List<ProfileReviewModel> parseResponse(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<ProfileReviewModel>((json) => ProfileReviewModel.fromJson(json))
+        .toList();
+  }
+
+  static ProfileModel parseResponseProfile(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<ProfileModel>((json) => ProfileModel.fromJson(json))
+        .toList()[0];
+  }
 }

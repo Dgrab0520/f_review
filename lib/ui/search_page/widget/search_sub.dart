@@ -25,6 +25,7 @@ class SearchSub extends StatelessWidget {
           'assets/logo.png',
           width: 40,
         )),
+        centerTitle: true,
         leading: Container(
             padding: const EdgeInsets.only(left: 10),
             child: InkWell(

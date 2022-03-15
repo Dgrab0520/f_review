@@ -29,11 +29,11 @@ class MainPage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          title: Center(
-              child: Image.asset(
+          title: Image.asset(
             'assets/logo.png',
             width: 40,
-          )),
+          ),
+          centerTitle: true,
           leading: Container(
             padding: const EdgeInsets.only(left: 10),
             child: Image.asset('assets/menu.png'),

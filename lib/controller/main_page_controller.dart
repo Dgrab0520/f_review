@@ -41,6 +41,9 @@ class MainPageController extends GetxController {
   setAllCategories() {
     if (areaList['전체']! && serviceList['전체']!) {
       categoryList = CategoryData().allCategory();
+    } else {
+      categoryList =
+          CategoryData().selectCategory(_selectedArea, _selectedSerVice);
     }
   }
 
@@ -49,8 +52,10 @@ class MainPageController extends GetxController {
     areaList['전체'] = !areaList['전체']!;
     areaList.updateAll((key, value) => areaList['전체']!);
     _areaList.refresh();
+    _selectedArea.clear();
 
     if (areaList['전체']!) {
+      _selectedArea.addAll(["하남", "강동", "송파"]);
       setAllCategories();
     } else {
       categoryList.clear();
@@ -58,23 +63,12 @@ class MainPageController extends GetxController {
   }
 
   selectArea(String area) {
-    areaList[area] = !areaList[area]!;
-    if (!areaList[area]!) {
-      areaList['전체'] = false;
-    }
-    //전체 선택 해제
+    areaList.updateAll((key, value) => false);
+    areaList[area] = true;
+
     _selectedArea.clear();
-    areaList.forEach((key, value) {
-      if (value && key != "전체") {
-        _selectedArea.add(key);
-      }
-    });
+    _selectedArea.add(area);
     //선택 카테고리 업데이트
-    if (areaList.values.where((element) => element).length + 1 ==
-        areaList.length) {
-      areaList['전체'] = true;
-    }
-    //모든 카테고리 선택시 전체 버튼 활성화
     print(_selectedArea);
     print(_selectedSerVice);
     categoryList =
@@ -89,8 +83,10 @@ class MainPageController extends GetxController {
     serviceList['전체'] = !serviceList['전체']!;
     serviceList.updateAll((key, value) => serviceList['전체']!);
     _serviceList.refresh();
+    _selectedSerVice.clear();
 
     if (serviceList['전체']!) {
+      _selectedSerVice.addAll(["카페", "맛집", "헤어샵", "네일샵", "전자제품", "도서", "공방"]);
       setAllCategories();
     } else {
       categoryList.clear();
@@ -98,22 +94,12 @@ class MainPageController extends GetxController {
   }
 
   selectService(String service) {
-    serviceList[service] = !serviceList[service]!;
-    if (!serviceList[service]!) {
-      serviceList['전체'] = false;
-    }
-    //전체 선택 해제
+    serviceList.updateAll((key, value) => false);
+    serviceList[service] = true;
+
     _selectedSerVice.clear();
-    serviceList.forEach((key, value) {
-      if (value && key != "전체") {
-        _selectedSerVice.add(key);
-      }
-    });
+    _selectedSerVice.add(service);
     //선택 카테고리 업데이트
-    if (serviceList.values.where((element) => element).length + 1 ==
-        serviceList.length) {
-      serviceList['전체'] = true;
-    }
     //모든 카테고리 선택시 전체 버튼 활성화
     print(_selectedArea);
     print(_selectedSerVice);
