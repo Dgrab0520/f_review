@@ -182,7 +182,7 @@ class MainPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Text('CATEGORY REVIEW',
+                      const Text('CATEGORY',
                           style: TextStyle(
                             fontSize: 15,
                             fontFamily: 'NotoSansKR-Bold',
