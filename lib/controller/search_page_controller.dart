@@ -41,7 +41,7 @@ class SearchPageController extends GetxController {
               type: "user",
               name: "하남이",
               subTitle: "안녕하세요 하남의 대표 하남이입니다.",
-              userId: 0)
+              userId: 331)
         ];
         break;
     }
@@ -101,5 +101,10 @@ class SearchPageController extends GetxController {
   get crossCount => _crossCount;
   get mainCount => _mainCount;
 
+  final _isTextField = false.obs;
+  get isTextField => _isTextField.value;
+  set isTextField(val) => _isTextField.value = val;
+
   ///Search Sub Page 변수, 함수
+
 }

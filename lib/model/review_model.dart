@@ -1,5 +1,6 @@
 class ReviewModel {
   int id;
+  int userId;
   String profileImage;
   String userName; //userId로 join 해서 프로필 사진과 이름 가져오기
   DateTime date;
@@ -13,6 +14,7 @@ class ReviewModel {
 
   ReviewModel({
     required this.id,
+    required this.userId,
     required this.profileImage,
     required this.userName,
     required this.date,
@@ -28,6 +30,7 @@ class ReviewModel {
   factory ReviewModel.fromJson(Map<String, dynamic> json) {
     return ReviewModel(
       id: int.parse(json['id']),
+      userId: int.parse(json['userId']),
       profileImage: json['profileImage'],
       userName: json['userName'],
       date: DateTime.parse(json['date']),
@@ -43,6 +46,7 @@ class ReviewModel {
 
   Map<String, dynamic> toJson() => {
         'id': id,
+        'userId': userId,
         'profileImage': profileImage,
         "userName": userName,
         "date": date,

@@ -103,23 +103,33 @@ class SubPageController extends GetxController {
   }
   //정렬
 
-  final _sponsorList = <SponsorModel>[
-    SponsorModel(
-        id: 1,
-        title: '[하남 미사점] 1만원 무료쿠폰 10명',
-        thumbnail: 'assets/sponsor_1.png',
-        contentImage: 'contentImage'),
-    SponsorModel(
-        id: 2,
-        title: '[하남 미사점] 에이드 무료쿠폰 20명',
-        thumbnail: 'assets/sponsor_2.png',
-        contentImage: 'contentImage'),
-  ].obs;
+  final _sponsorList = <SponsorModel>[].obs;
   set sponsorList(value) => _sponsorList.value = value;
   List<SponsorModel> get sponsorList => _sponsorList;
 
-  getSponsors() async {
-    // TODO:스폰서 광고 불러오기
+  final _isSponsorLoading = false.obs;
+  get isSponsorLoading => _isSponsorLoading.value;
+  set isSponsorLoading(val) => _isSponsorLoading.value = val;
+
+  getSponsors(String area, String serviceType) async {
+    isSponsorLoading = false;
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_SPONSOR";
+      map['area'] = area;
+      map['serviceType'] = serviceType;
+      final response = await http
+          .post(Uri.parse("$kBaseUrl/flu_review_sponsor.php"), body: map);
+      print('Sponsor Response : ${response.body}');
+      if (200 == response.statusCode) {
+        sponsorList = parseResponseSponsor(response.body);
+        isSponsorLoading = true;
+      }
+    } catch (e) {
+      print("exception : $e");
+      sponsorList = <SponsorModel>[];
+      isSponsorLoading = true;
+    }
   }
 
   //스폰서
@@ -158,6 +168,13 @@ class SubPageController extends GetxController {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed
         .map<ReviewModel>((json) => ReviewModel.fromJson(json))
+        .toList();
+  }
+
+  static List<SponsorModel> parseResponseSponsor(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<SponsorModel>((json) => SponsorModel.fromJson(json))
         .toList();
   }
 }

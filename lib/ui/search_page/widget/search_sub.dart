@@ -43,7 +43,7 @@ class SearchSub extends StatelessWidget {
           InkWell(
             onTap: () {
               Get.to(ProfilePage(
-                userId: 0,
+                userId: 331,
               ));
             },
             child: Container(

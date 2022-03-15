@@ -18,6 +18,7 @@ class ProfileReviewWidget extends StatelessWidget {
             NamePage(
               reviewModel: ReviewModel(
                 id: 1,
+                userId: 0,
                 profileImage: "profileImage",
                 userName: "userName",
                 date: DateTime.now(),

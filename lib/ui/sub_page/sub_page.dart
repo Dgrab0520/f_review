@@ -22,6 +22,7 @@ class SubPage extends StatelessWidget {
   Widget build(BuildContext context) {
     subPageController.getBestReviews(area, service);
     subPageController.getReviews(area, service);
+    subPageController.getSponsors(area, service);
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));
@@ -53,7 +54,7 @@ class SubPage extends StatelessWidget {
           InkWell(
             onTap: () {
               Get.to(ProfilePage(
-                userId: 0,
+                userId: 331,
               ));
             },
             child: Container(
@@ -131,6 +132,8 @@ class SubPage extends StatelessWidget {
                               return SponsorWidget(
                                 sponsorModel:
                                     subPageController.sponsorList[index],
+                                area: area,
+                                service: service,
                               );
                             }),
                       ),

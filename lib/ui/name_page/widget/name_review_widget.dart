@@ -34,10 +34,17 @@ class NameReviewWidget extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  Image.network(
-                      "$kBaseUrl/user_profile/${namePageController.anotherReviews[index].profileImage}",
-                      width: 40,
-                      height: 40),
+                  InkWell(
+                    onTap: () {
+                      Get.to(ProfilePage(
+                          userId:
+                              namePageController.anotherReviews[index].userId));
+                    },
+                    child: Image.network(
+                        "$kBaseUrl/user_profile/${namePageController.anotherReviews[index].profileImage}",
+                        width: 40,
+                        height: 40),
+                  ),
                   const SizedBox(width: 10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -46,8 +53,8 @@ class NameReviewWidget extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           Get.to(ProfilePage(
-                            userId: 0,
-                          ));
+                              userId: namePageController
+                                  .anotherReviews[index].userId));
                         },
                         child: Text(
                           namePageController.anotherReviews[index].userName,

@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:f_review/category_data.dart';
 import 'package:f_review/model/category_model.dart';
+import 'package:f_review/model/sponsor_model.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
+import '../constants.dart';
 import '../model/search_model.dart';
 
 class MainPageController extends GetxController {
@@ -128,5 +133,32 @@ class MainPageController extends GetxController {
 
   getCategoryImage() async {
     // TODO:카테고리 썸네일 이미지 불러오기
+  }
+
+  Future<SponsorModel?> getSponsorOnce(String area, String serviceType) async {
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_POPUP_SPONSOR";
+      map['area'] = area;
+      map['serviceType'] = serviceType;
+      final response = await http
+          .post(Uri.parse("$kBaseUrl/flu_review_sponsor.php"), body: map);
+      print('Popup Sponsor Response : ${response.body}');
+      if (200 == response.statusCode) {
+        return parseResponseSponsor(response.body);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print("exception : $e");
+      return null;
+    }
+  }
+
+  static SponsorModel parseResponseSponsor(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<SponsorModel>((json) => SponsorModel.fromJson(json))
+        .toList()[0];
   }
 }

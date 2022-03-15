@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:f_review/model/bookmark_model.dart';
 import 'package:f_review/model/profile_model.dart';
 import 'package:f_review/model/profile_review_model.dart';
 import 'package:flutter/cupertino.dart';
@@ -188,6 +189,34 @@ class ProfilePageController extends GetxController {
     return first + " " + second;
   }
 
+  final _savedPlace = <BookmarkModel>[].obs;
+  List<BookmarkModel> get savedPlace => _savedPlace;
+  set savedPlace(val) => _savedPlace.value = val;
+
+  final _isBookmarkLoading = false.obs;
+  get isBookmarkLoading => _isBookmarkLoading.value;
+  set isBookmarkLoading(val) => _isBookmarkLoading.value = val;
+
+  getSaved(int id) async {
+    isBookmarkLoading = false;
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_SAVED_PLACE";
+      map['userId'] = id.toString();
+      final response = await http
+          .post(Uri.parse("$kBaseUrl/flu_review_saved.php"), body: map);
+      print('Saved Place Response : ${response.body}');
+      if (200 == response.statusCode) {
+        savedPlace = parseResponseSaved(response.body);
+        isBookmarkLoading = true;
+      } else {}
+    } catch (e) {
+      print("exception : $e");
+      savedPlace = <BookmarkModel>[];
+      isBookmarkLoading = true;
+    }
+  }
+
   static List<ProfileReviewModel> parseResponse(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed
@@ -200,5 +229,12 @@ class ProfilePageController extends GetxController {
     return parsed
         .map<ProfileModel>((json) => ProfileModel.fromJson(json))
         .toList()[0];
+  }
+
+  static List<BookmarkModel> parseResponseSaved(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<BookmarkModel>((json) => BookmarkModel.fromJson(json))
+        .toList();
   }
 }

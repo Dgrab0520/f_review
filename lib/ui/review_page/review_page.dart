@@ -128,113 +128,117 @@ class ReviewPage extends StatelessWidget {
                   child: Row(
                     children: [
                       Expanded(
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton2(
-                            hint: Text(
-                              '지역',
-                            ),
-                            style: TextStyle(
-                              fontFamily: 'NotoSansKR-Bold',
-                              fontSize: 15,
-                              color: Colors.black,
-                            ),
-                            items: reviewPageController.items
-                                .map((item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(
-                                          fontSize: 14,
+                        child: Obx(
+                          () => DropdownButtonHideUnderline(
+                            child: DropdownButton2(
+                              hint: const Text(
+                                '지역',
+                              ),
+                              style: const TextStyle(
+                                fontFamily: 'NotoSansKR-Bold',
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                              items: reviewPageController.items
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                          ),
                                         ),
-                                      ),
-                                    ))
-                                .toList(),
-                            value: reviewPageController.selectedValue,
-                            onChanged: (value) {
-                              reviewPageController.selectedValue = value;
-                            },
-                            iconSize: 30,
-                            iconEnabledColor: Color(0xff362C5E),
-                            iconDisabledColor: Colors.grey,
-                            buttonHeight: 50,
-                            buttonWidth: 160,
-                            buttonPadding:
-                                const EdgeInsets.only(left: 14, right: 14),
-                            buttonDecoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14),
-                              color: Color(0xFFF8F5FF),
+                                      ))
+                                  .toList(),
+                              value: reviewPageController.selectedValue,
+                              onChanged: (value) {
+                                reviewPageController.selectedValue = value;
+                              },
+                              iconSize: 30,
+                              iconEnabledColor: const Color(0xff362C5E),
+                              iconDisabledColor: Colors.grey,
+                              buttonHeight: 50,
+                              buttonWidth: 160,
+                              buttonPadding:
+                                  const EdgeInsets.only(left: 14, right: 14),
+                              buttonDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                color: const Color(0xFFF8F5FF),
+                              ),
+                              itemHeight: 40,
+                              itemPadding:
+                                  const EdgeInsets.only(left: 14, right: 14),
+                              dropdownMaxHeight: 200,
+                              dropdownWidth: 200,
+                              dropdownPadding: null,
+                              dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                color: const Color(0xFFF8F5FF),
+                              ),
+                              dropdownElevation: 8,
+                              scrollbarRadius: const Radius.circular(40),
+                              scrollbarThickness: 6,
+                              scrollbarAlwaysShow: true,
+                              offset: const Offset(-20, 0),
                             ),
-                            itemHeight: 40,
-                            itemPadding:
-                                const EdgeInsets.only(left: 14, right: 14),
-                            dropdownMaxHeight: 200,
-                            dropdownWidth: 200,
-                            dropdownPadding: null,
-                            dropdownDecoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14),
-                              color: Color(0xFFF8F5FF),
-                            ),
-                            dropdownElevation: 8,
-                            scrollbarRadius: const Radius.circular(40),
-                            scrollbarThickness: 6,
-                            scrollbarAlwaysShow: true,
-                            offset: const Offset(-20, 0),
                           ),
                         ),
                       ),
                       const SizedBox(width: 30),
                       Expanded(
-                        child: DropdownButtonHideUnderline(
-                          child: DropdownButton2(
-                            hint: Text(
-                              '카테고리',
-                            ),
-                            style: TextStyle(
-                              fontFamily: 'NotoSansKR-Bold',
-                              fontSize: 15,
-                              color: Colors.black,
-                            ),
-                            items: reviewPageController.items2
-                                .map((item) => DropdownMenuItem<String>(
-                                      value: item,
-                                      child: Text(
-                                        item,
-                                        style: const TextStyle(
-                                          fontSize: 14,
+                        child: Obx(
+                          () => DropdownButtonHideUnderline(
+                            child: DropdownButton2(
+                              hint: const Text(
+                                '카테고리',
+                              ),
+                              style: const TextStyle(
+                                fontFamily: 'NotoSansKR-Bold',
+                                fontSize: 15,
+                                color: Colors.black,
+                              ),
+                              items: reviewPageController.items2
+                                  .map((item) => DropdownMenuItem<String>(
+                                        value: item,
+                                        child: Text(
+                                          item,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                          ),
                                         ),
-                                      ),
-                                    ))
-                                .toList(),
-                            value: reviewPageController.selectedValue2,
-                            onChanged: (value) {
-                              reviewPageController.selectedValue2 = value;
-                            },
-                            iconSize: 30,
-                            iconEnabledColor: Color(0xff362C5E),
-                            iconDisabledColor: Colors.grey,
-                            buttonHeight: 50,
-                            buttonWidth: 160,
-                            buttonPadding:
-                                const EdgeInsets.only(left: 14, right: 14),
-                            buttonDecoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14),
-                              color: Color(0xFFF8F5FF),
+                                      ))
+                                  .toList(),
+                              value: reviewPageController.selectedValue2,
+                              onChanged: (value) {
+                                reviewPageController.selectedValue2 = value;
+                              },
+                              iconSize: 30,
+                              iconEnabledColor: const Color(0xff362C5E),
+                              iconDisabledColor: Colors.grey,
+                              buttonHeight: 50,
+                              buttonWidth: 160,
+                              buttonPadding:
+                                  const EdgeInsets.only(left: 14, right: 14),
+                              buttonDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                color: const Color(0xFFF8F5FF),
+                              ),
+                              itemHeight: 40,
+                              itemPadding:
+                                  const EdgeInsets.only(left: 14, right: 14),
+                              dropdownMaxHeight: 200,
+                              dropdownWidth: 200,
+                              dropdownPadding: null,
+                              dropdownDecoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(14),
+                                color: const Color(0xFFF8F5FF),
+                              ),
+                              dropdownElevation: 8,
+                              scrollbarRadius: const Radius.circular(40),
+                              scrollbarThickness: 6,
+                              scrollbarAlwaysShow: true,
+                              offset: const Offset(-20, 0),
                             ),
-                            itemHeight: 40,
-                            itemPadding:
-                                const EdgeInsets.only(left: 14, right: 14),
-                            dropdownMaxHeight: 200,
-                            dropdownWidth: 200,
-                            dropdownPadding: null,
-                            dropdownDecoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(14),
-                              color: Color(0xFFF8F5FF),
-                            ),
-                            dropdownElevation: 8,
-                            scrollbarRadius: const Radius.circular(40),
-                            scrollbarThickness: 6,
-                            scrollbarAlwaysShow: true,
-                            offset: const Offset(-20, 0),
                           ),
                         ),
                       ),

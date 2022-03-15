@@ -4,7 +4,6 @@ import 'package:f_review/controller/profile_page_controller.dart';
 import 'package:f_review/ui/profile_page/widget/bookmark_page.dart';
 import 'package:f_review/ui/profile_page/widget/profile_edit_dialog.dart';
 import 'package:f_review/ui/profile_page/widget/profile_review_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:numeral/numeral.dart';
@@ -18,8 +17,8 @@ class ProfilePage extends StatelessWidget {
   final profilePageController = Get.put(ProfilePageController());
   @override
   Widget build(BuildContext context) {
-    profilePageController.getProfileReviews(331);
-    profilePageController.getProfileInfo(331);
+    profilePageController.getProfileReviews(userId);
+    profilePageController.getProfileInfo(userId);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -46,7 +45,7 @@ class ProfilePage extends StatelessWidget {
         actions: [
           InkWell(
             onTap: () {
-              Get.to(const BookmarkPage());
+              Get.to(BookmarkPage());
             },
             child: Container(
                 padding: const EdgeInsets.only(right: 10, left: 10),
@@ -73,9 +72,11 @@ class ProfilePage extends StatelessWidget {
                   Flexible(
                     child: Row(
                       children: [
-                        Image.network(
-                            '$kBaseUrl/user_profile/${profilePageController.profileInfo.profileImg}',
-                            width: 50),
+                        Obx(
+                          () => Image.network(
+                              '$kBaseUrl/user_profile/${profilePageController.profileInfo.profileImg}',
+                              width: 50),
+                        ),
                         const SizedBox(width: 10),
                         Flexible(
                           child: Column(

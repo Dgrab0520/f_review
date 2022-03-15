@@ -8,8 +8,6 @@ import '../../controller/search_page_controller.dart';
 class SearchPage extends StatelessWidget {
   SearchPage({Key? key, required this.keyword, required this.type})
       : super(key: key);
-  bool isTextField = false;
-
   final String keyword;
   final String type;
   final searchPageController = Get.put(SearchPageController());
@@ -25,33 +23,33 @@ class SearchPage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          title: FlatButton(
-            onPressed: () {
-              isTextField = true;
-            },
-            child: Container(
-              width: Get.width,
-              height: 35,
-              decoration: BoxDecoration(
-                color: Color(0xFFEAE5F9),
-                borderRadius: BorderRadius.circular(30),
-              ),
-              child: Column(
-                children: <Widget>[
-                  isTextField
-                      ? TextField()
-                      : Text(
-                          keyword,
-                          style: const TextStyle(
-                            color: Colors.black,
-                            fontSize: 20,
-                            fontFamily: 'NotoSansKR-Medium',
-                          ),
-                        ),
-                ],
-              ),
-            ),
-          ),
+          title: Obx(() => InkWell(
+                onTap: () {
+                  searchPageController.isTextField = true;
+                },
+                child: Container(
+                  width: Get.width,
+                  height: 35,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFEAE5F9),
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                  child: Column(
+                    children: <Widget>[
+                      searchPageController.isTextField
+                          ? TextField()
+                          : Text(
+                              keyword,
+                              style: const TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontFamily: 'NotoSansKR-Medium',
+                              ),
+                            ),
+                    ],
+                  ),
+                ),
+              )),
           leading: InkWell(
             onTap: () {
               Get.back();
