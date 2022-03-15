@@ -29,7 +29,7 @@ class SearchPage extends StatelessWidget {
                 },
                 child: Container(
                   padding: EdgeInsets.only(
-                    top: 3,
+                    top: 2,
                   ),
                   width: Get.width,
                   height: 35,
