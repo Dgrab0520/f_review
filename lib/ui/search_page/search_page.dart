@@ -28,6 +28,9 @@ class SearchPage extends StatelessWidget {
                   searchPageController.isTextField = true;
                 },
                 child: Container(
+                  padding: EdgeInsets.only(
+                    top: 3,
+                  ),
                   width: Get.width,
                   height: 35,
                   decoration: BoxDecoration(
