@@ -47,6 +47,13 @@ dependencies:
   http: ^0.13.4
   intl: ^0.17.0
   dialog: ^0.8.0
+  #--QR Scan & Encrypt--
+  qr_flutter: ^4.0.0
+  permission_handler: ^9.2.0
+  qrscan2: ^0.1.0
+  ninja: ^3.0.7
+  dotted_line: ^3.1.0
+  #--QR Scan & Encrypt--
 
 dev_dependencies:
   flutter_test:
