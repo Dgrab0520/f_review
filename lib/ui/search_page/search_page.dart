@@ -23,34 +23,16 @@ class SearchPage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          title: Obx(() => InkWell(
-                onTap: () {
-                  searchPageController.isTextField = true;
-                },
-                child: Container(
-                  padding: EdgeInsets.only(
-                    top: 2,
-                  ),
-                  width: Get.width,
-                  height: 35,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFEAE5F9),
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                  child: Column(
-                    children: <Widget>[
-                      searchPageController.isTextField
-                          ? TextField()
-                          : Text(
-                              keyword,
-                              style: const TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontFamily: 'NotoSansKR-Medium',
-                              ),
-                            ),
-                    ],
-                  ),
+          title: Container(
+              padding: EdgeInsets.only(left: 20, right: 20),
+              decoration: BoxDecoration(
+                color: Color(0xFFEAE5F9),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: TextField(
+                decoration: new InputDecoration(
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
                 ),
               )),
           leading: InkWell(
