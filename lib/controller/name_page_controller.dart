@@ -99,8 +99,7 @@ class NamePageController extends GetxController {
       map['action'] = "GET_REVIEW_PLACE";
       map['placeId'] = placeId.toString();
       map['userId'] = "331";
-      final response =
-          await http.post(Uri.parse("$kBaseUrl/flu_review.php"), body: map);
+      final response = await http.post(Uri.parse("$kBaseUrl/flu_review.php"), body: map);
       print('Place Reviews Response : ${response.body}');
       if (200 == response.statusCode) {
         anotherReviews = parseResponse(response.body);

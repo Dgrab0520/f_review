@@ -52,6 +52,7 @@ dependencies:
   permission_handler: ^9.2.0
   qrscan2: ^0.1.0
   ninja: ^3.0.7
+  flip_card: ^0.6.0
   dotted_line: ^3.1.0
   #--QR Scan & Encrypt--
 
