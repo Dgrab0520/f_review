@@ -29,6 +29,7 @@ class ProfilePage extends StatelessWidget {
           'assets/logo.png',
           width: 40,
         ),
+        centerTitle: true,
         leading: Container(
             padding: const EdgeInsets.only(left: 10),
             child: InkWell(
@@ -41,7 +42,6 @@ class ProfilePage extends StatelessWidget {
                 size: 23,
               ),
             )),
-        centerTitle: true,
         leadingWidth: 35,
         actions: [
           InkWell(
