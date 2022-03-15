@@ -30,7 +30,7 @@ class ImageDetailScreen extends StatelessWidget {
               return PhotoViewGalleryPageOptions(
                 imageProvider:
                     NetworkImage("$kBaseUrl/review_img/${galleryItems[index]}"),
-                initialScale: PhotoViewComputedScale.contained * 0.8,
+                initialScale: PhotoViewComputedScale.contained * 1,
                 heroAttributes:
                     PhotoViewHeroAttributes(tag: galleryItems[index]),
               );

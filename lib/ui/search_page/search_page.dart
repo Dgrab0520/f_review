@@ -29,19 +29,27 @@ class SearchPage extends StatelessWidget {
             onPressed: () {
               isTextField = true;
             },
-            child: Column(
-              children: <Widget>[
-                isTextField
-                    ? TextField()
-                    : Text(
-                        keyword,
-                        style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 20,
-                          fontFamily: 'NotoSansKR-Medium',
+            child: Container(
+              width: Get.width,
+              height: 35,
+              decoration: BoxDecoration(
+                color: Color(0xFFEAE5F9),
+                borderRadius: BorderRadius.circular(30),
+              ),
+              child: Column(
+                children: <Widget>[
+                  isTextField
+                      ? TextField()
+                      : Text(
+                          keyword,
+                          style: const TextStyle(
+                            color: Colors.black,
+                            fontSize: 20,
+                            fontFamily: 'NotoSansKR-Medium',
+                          ),
                         ),
-                      ),
-              ],
+                ],
+              ),
             ),
           ),
           leading: InkWell(

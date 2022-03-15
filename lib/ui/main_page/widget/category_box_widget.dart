@@ -5,8 +5,15 @@ import 'package:get/get.dart';
 import '../../sub_page/widget/sposor_sub.dart';
 
 class CategoryBoxWidget extends StatelessWidget {
-  const CategoryBoxWidget({Key? key, required this.category}) : super(key: key);
+  const CategoryBoxWidget(
+      {Key? key,
+      required this.category,
+      required this.area,
+      required this.service})
+      : super(key: key);
   final CategoryModel category;
+  final String area;
+  final String service;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -14,8 +21,8 @@ class CategoryBoxWidget extends StatelessWidget {
       child: InkWell(
         onTap: () {
           Get.to(SponsorSub(
-            area: '',
-            service: '',
+            area: 'area',
+            service: 'service',
           ));
         },
         child: Container(
