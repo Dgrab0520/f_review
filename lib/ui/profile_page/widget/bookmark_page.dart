@@ -1,5 +1,3 @@
-import 'package:f_review/controller/profile_page_controller.dart';
-import 'package:f_review/ui/profile_page/widget/bookmark_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -76,6 +74,9 @@ class BookmarkPage extends StatelessWidget {
               : const Center(
                   child: CircularProgressIndicator(),
                 ),
+              ],
+            ),
+          ],
         ),
       ),
     );

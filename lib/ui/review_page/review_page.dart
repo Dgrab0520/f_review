@@ -173,7 +173,7 @@ class ReviewPage extends StatelessWidget {
                               dropdownPadding: null,
                               dropdownDecoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(14),
-                                color: const Color(0xFFF8F5FF),
+                                color: const Colors.white,
                               ),
                               dropdownElevation: 8,
                               scrollbarRadius: const Radius.circular(40),
@@ -231,7 +231,7 @@ class ReviewPage extends StatelessWidget {
                               dropdownPadding: null,
                               dropdownDecoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(14),
-                                color: const Color(0xFFF8F5FF),
+                                color: const Colors.white,
                               ),
                               dropdownElevation: 8,
                               scrollbarRadius: const Radius.circular(40),
