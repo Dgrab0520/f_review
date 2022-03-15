@@ -141,7 +141,7 @@ class ProfilePageController extends GetxController {
 
   final _profileInfo = ProfileModel(
     userId: "userId",
-    profileImg: "profileImg",
+    profileImg: "defaultImage.png",
     profile: "profile",
     heartCount: 0,
     imageCount: 0,

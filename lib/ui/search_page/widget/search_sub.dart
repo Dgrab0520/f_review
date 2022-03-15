@@ -1,3 +1,4 @@
+import 'package:f_review/constants.dart';
 import 'package:f_review/controller/search_page_controller.dart';
 import 'package:f_review/ui/name_page/name_page.dart';
 import 'package:flutter/material.dart';
@@ -75,11 +76,15 @@ class SearchSub extends StatelessWidget {
                               fontSize: 23,
                               fontFamily: 'NotoSansKR-Bold',
                             )),
-                        Text(
-                          "총" + numeral(searchPageController.tagCount) + "게시물",
-                          style: const TextStyle(
-                            color: Color(0xFF8D8D8D),
-                            fontSize: 12,
+                        Obx(
+                          () => Text(
+                            "총" +
+                                numeral(searchPageController.tagCount) +
+                                "게시물",
+                            style: const TextStyle(
+                              color: Color(0xFF8D8D8D),
+                              fontSize: 12,
+                            ),
                           ),
                         ),
                       ],
@@ -95,43 +100,40 @@ class SearchSub extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               Container(
-                padding: const EdgeInsets.only(left: 10, right: 10, bottom: 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 15),
-                    StaggeredGrid.count(
-                      crossAxisCount: 4,
-                      mainAxisSpacing: 4,
-                      crossAxisSpacing: 4,
-                      children: searchPageController.tagPost
-                          .asMap()
-                          .map((index, value) => MapEntry(
-                              index,
-                              StaggeredGridTile.count(
-                                crossAxisCellCount:
-                                    searchPageController.crossCount[index % 5],
-                                mainAxisCellCount:
-                                    searchPageController.mainCount[index % 5],
-                                child: InkWell(
-                                  onTap: () {
-                                    Get.to(NamePage(
-                                        reviewModel: searchPageController
-                                            .tagPost[index]));
-                                  },
-                                  child: ImageTile(
-                                    image: searchPageController
-                                        .tagPost[index].images.first,
-                                  ),
-                                ),
-                              )))
-                          .values
-                          .toList(),
-                    ),
-                  ],
-                ),
-              ),
+                  padding:
+                      const EdgeInsets.only(left: 10, right: 10, bottom: 30),
+                  child: Obx(() => searchPageController.isTagLoading
+                      ? StaggeredGrid.count(
+                          crossAxisCount: 4,
+                          mainAxisSpacing: 4,
+                          crossAxisSpacing: 4,
+                          children: searchPageController.tagPost
+                              .asMap()
+                              .map((index, value) => MapEntry(
+                                  index,
+                                  StaggeredGridTile.count(
+                                    crossAxisCellCount: searchPageController
+                                        .crossCount[index % 5],
+                                    mainAxisCellCount: searchPageController
+                                        .mainCount[index % 5],
+                                    child: InkWell(
+                                      onTap: () {
+                                        Get.to(NamePage(
+                                            reviewModel: searchPageController
+                                                .tagPost[index]));
+                                      },
+                                      child: ImageTile(
+                                        image: searchPageController
+                                            .tagPost[index].images.first,
+                                      ),
+                                    ),
+                                  )))
+                              .values
+                              .toList(),
+                        )
+                      : const Center(
+                          child: CircularProgressIndicator(),
+                        ))),
             ],
           ),
         ),
@@ -147,14 +149,8 @@ class ImageTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // return Image.network(
-    //   'https://picsum.photos/$width/$height?random=$index',
-    //   width: 300,
-    //   height: 300,
-    //   fit: BoxFit.cover,
-    // );
-    return Image.asset(
-      image,
+    return Image.network(
+      "$kBaseUrl/review_img/$image",
       width: 300,
       height: 300,
       fit: BoxFit.cover,
