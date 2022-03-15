@@ -359,8 +359,8 @@ class ProfilePage extends StatelessWidget {
                                 const SliverGridDelegateWithFixedCrossAxisCount(
                               crossAxisCount: 3, //1 개의 행에 보여줄 item 개수
                               childAspectRatio: 1 / 1, //item 의 가로 1, 세로 2 의 비율
-                              mainAxisSpacing: 15, //수평 Padding
-                              crossAxisSpacing: 5, //수직 Padding
+                              mainAxisSpacing: 10, //수평 Padding
+                              crossAxisSpacing: 10, //수직 Padding
                             ),
                             itemCount: profilePageController
                                     .categoryPressed['전체']!
