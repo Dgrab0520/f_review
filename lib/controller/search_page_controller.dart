@@ -1,18 +1,18 @@
+import 'dart:convert';
+
 import 'package:f_review/model/review_model.dart';
 import 'package:f_review/model/search_result_model.dart';
 import 'package:f_review/ui/profile_page/profile_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:numeral/fun.dart';
 
+import '../constants.dart';
 import '../ui/search_page/widget/search_sub.dart';
 
 class SearchPageController extends GetxController {
-  final _searchResult = <SearchResultModel>[
-    SearchResultModel(type: "tag", name: "하남", subTitle: "1234"),
-    SearchResultModel(type: "place", name: "하남돼지", subTitle: "1234"),
-    SearchResultModel(
-        type: "user", name: "하남이", subTitle: "안녕하세요 하남의 대표 하남이입니다.", userId: 0),
-  ].obs;
+  final _searchResult = <SearchResultModel>[].obs;
   List<SearchResultModel> get searchResult => _searchResult;
   set searchResult(val) => _searchResult.value = val;
 
@@ -20,33 +20,38 @@ class SearchPageController extends GetxController {
   get searchType => _searchType.value;
   set searchType(val) => _searchType.value = val;
 
-  getSearchResult(String keyword, String type) {
+  final _searchKeyword = "".obs;
+  get searchKeyword => _searchKeyword.value;
+  set searchKeyword(val) => _searchKeyword.value = val;
+
+  getSearchResult(String keyword, String type) async {
+    searchKeyword = keyword;
     isTextField = false;
     print(keyword);
     print(type);
     searchType = type;
-    switch (type) {
-      case "tag":
-        searchResult = [
-          SearchResultModel(type: "tag", name: "하남", subTitle: "1234")
-        ];
-        break;
-      case "place":
-        searchResult = [
-          SearchResultModel(type: "place", name: "하남돼지", subTitle: "1234")
-        ];
-        break;
-      case "user":
-        searchResult = [
-          SearchResultModel(
-              type: "user",
-              name: "하남이",
-              subTitle: "안녕하세요 하남의 대표 하남이입니다.",
-              userId: 331)
-        ];
-        break;
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_SEARCH_RESULT";
+      map['keyword'] = keyword;
+      map['type'] = type;
+      final response = await http
+          .post(Uri.parse("$kBaseUrl/flu_review_search.php"), body: map);
+      print('Search Response : ${response.body}');
+      if (200 == response.statusCode) {
+        searchResult = parseResponse(response.body);
+      }
+    } catch (e) {
+      print("exception : $e");
+      searchResult = <SearchResultModel>[];
     }
-    // TODO:검색어 : keyword, 타입 : type(태그,장소,계정)
+  }
+
+  static List<SearchResultModel> parseResponse(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<SearchResultModel>((json) => SearchResultModel.fromJson(json))
+        .toList();
   }
 
   getPlace(String placeName) {
@@ -105,6 +110,9 @@ class SearchPageController extends GetxController {
   final _isTextField = false.obs;
   get isTextField => _isTextField.value;
   set isTextField(val) => _isTextField.value = val;
+
+  final searchTextController = TextEditingController();
+  final FocusNode focusNode = FocusNode();
 
   ///Search Sub Page 변수, 함수
 

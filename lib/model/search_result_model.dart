@@ -15,10 +15,10 @@ class SearchResultModel {
 
   factory SearchResultModel.fromJson(Map<String, dynamic> json) {
     return SearchResultModel(
-      type: json['area'],
+      type: json['type'],
       name: json['name'],
       subTitle: json['subTitle'],
-      userId: int.parse(json['userId']),
+      userId: json['userId'] == null ? null : int.parse(json['userId']),
     );
   }
 

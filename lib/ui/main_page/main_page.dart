@@ -17,6 +17,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     mainPageController.setAllCategories();
+    mainPageController.getSearchAutoCompleteResult();
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
     ));
@@ -73,23 +74,23 @@ class MainPage extends StatelessWidget {
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text('리뷰 페이지',
+                            children: const [
+                              Text('리뷰 페이지',
                                   style: TextStyle(
                                     fontSize: 23,
                                     fontFamily: 'NotoSansKR-Bold',
                                   )),
-                              const Text(
+                              Text(
                                 "실제로 작성한 리뷰를 참고하세요.",
                                 style: TextStyle(
                                   color: Color(0xFF8D8D8D),
                                   fontSize: 12,
                                 ),
                               ),
-                              const SizedBox(height: 40),
+                              SizedBox(height: 40),
                             ],
                           ),
-                          SizedBox(width: 50),
+                          const SizedBox(width: 50),
                           InkWell(
                             onTap: () {
                               Get.to(CouponPage());
@@ -128,8 +129,6 @@ class MainPage extends StatelessWidget {
                                   keyword: mainPageController.controller.text,
                                   type: 'tag',
                                 ));
-                                mainPageController.controller.clear();
-                                FocusScope.of(context).unfocus();
                               },
                               child: const SizedBox(
                                 height: 25,

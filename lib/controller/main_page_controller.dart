@@ -117,17 +117,23 @@ class MainPageController extends GetxController {
 
   var controller = TextEditingController();
 
-  final _searchResult = <SearchModel>[
-    const SearchModel(type: "tag", name: "하남", subTitle: "1234"),
-    const SearchModel(type: "place", name: "하남돼지", subTitle: "1234"),
-    const SearchModel(
-        type: "user", name: "하남이", subTitle: "안녕하세요 하남의 대표 하남이입니다."),
-  ].obs;
+  final _searchResult = <SearchModel>[].obs;
   List<SearchModel> get searchResult => _searchResult;
   set searchResult(val) => _searchResult.value = val;
 
   getSearchAutoCompleteResult() async {
-    // TODO:자동완성 결과 불러오기
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_AUTO";
+      final response = await http
+          .post(Uri.parse("$kBaseUrl/flu_review_autocomplete.php"), body: map);
+      print('Auto Complete Words Response : ${response.body}');
+      if (200 == response.statusCode) {
+        searchResult = parseResponse(response.body);
+      }
+    } catch (e) {
+      print("exception : $e");
+    }
   }
   //자동 완성
 
@@ -160,5 +166,12 @@ class MainPageController extends GetxController {
     return parsed
         .map<SponsorModel>((json) => SponsorModel.fromJson(json))
         .toList()[0];
+  }
+
+  static List<SearchModel> parseResponse(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<SearchModel>((json) => SearchModel.fromJson(json))
+        .toList();
   }
 }
