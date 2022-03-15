@@ -1,3 +1,4 @@
+import 'package:f_review/constants.dart';
 import 'package:f_review/controller/profile_page_controller.dart';
 import 'package:f_review/model/review_model.dart';
 import 'package:f_review/ui/name_page/name_page.dart';
@@ -38,10 +39,15 @@ class ProfileReviewWidget extends StatelessWidget {
         width: 110,
         height: 110,
         decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15),
+          color: Colors.black,
           image: DecorationImage(
-            image: AssetImage(profilePageController.categoryPressed['전체']!
-                ? profilePageController.reviews[index].image
-                : profilePageController.selectedReviews[index].image),
+            image: NetworkImage(profilePageController.categoryPressed['전체']!
+                ? "$kBaseUrl/review_img/${profilePageController.reviews[index].image}"
+                : "$kBaseUrl/review_img/${profilePageController.selectedReviews[index].image}"),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.8), BlendMode.dstATop),
           ),
         ),
         child: Column(
@@ -73,9 +79,10 @@ class ProfileReviewWidget extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  profilePageController.categoryPressed['전체']!
-                      ? profilePageController.reviews[index].area
-                      : profilePageController.selectedReviews[index].area,
+                  profilePageController.getShortArea(
+                      profilePageController.categoryPressed['전체']!
+                          ? profilePageController.reviews[index].area
+                          : profilePageController.selectedReviews[index].area),
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 10,

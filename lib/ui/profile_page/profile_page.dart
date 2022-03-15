@@ -1,4 +1,5 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
+import 'package:f_review/constants.dart';
 import 'package:f_review/controller/profile_page_controller.dart';
 import 'package:f_review/ui/profile_page/widget/bookmark_page.dart';
 import 'package:f_review/ui/profile_page/widget/profile_edit_dialog.dart';
@@ -17,7 +18,8 @@ class ProfilePage extends StatelessWidget {
   final profilePageController = Get.put(ProfilePageController());
   @override
   Widget build(BuildContext context) {
-    profilePageController.setCategory();
+    profilePageController.getProfileReviews(331);
+    profilePageController.getProfileInfo(331);
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -44,14 +46,14 @@ class ProfilePage extends StatelessWidget {
         actions: [
           InkWell(
             onTap: () {
-              Get.to(BookmarkPage());
+              Get.to(const BookmarkPage());
             },
             child: Container(
                 padding: const EdgeInsets.only(right: 10, left: 10),
                 child: Image.asset(
                   'assets/bookmark.png',
                   width: 23,
-                  color: Color(0xFF362C5E),
+                  color: const Color(0xFF362C5E),
                 )),
           ),
         ],
@@ -71,14 +73,16 @@ class ProfilePage extends StatelessWidget {
                   Flexible(
                     child: Row(
                       children: [
-                        Image.asset('assets/avatar_1.png', width: 50),
+                        Image.network(
+                            '$kBaseUrl/user_profile/${profilePageController.profileInfo.profileImg}',
+                            width: 50),
                         const SizedBox(width: 10),
                         Flexible(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "유라희",
+                                profilePageController.profileInfo.userId,
                                 style: const TextStyle(
                                     fontSize: 14,
                                     fontFamily: 'NotoSansKR-Bold'),
@@ -89,7 +93,8 @@ class ProfilePage extends StatelessWidget {
                                     fit: FlexFit.loose,
                                     child: Obx(
                                       () => Text(
-                                        profilePageController.profileContent,
+                                        profilePageController
+                                            .profileInfo.profile,
                                         style: const TextStyle(
                                             fontSize: 11,
                                             fontFamily: 'NotoSansKR-Regular'),
@@ -131,11 +136,13 @@ class ProfilePage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 5),
-                          Text(
-                            profilePageController.reviews.length.toString(),
-                            style: const TextStyle(
-                              fontFamily: 'NotoSansKR-Bold',
-                              fontSize: 12,
+                          Obx(
+                            () => Text(
+                              profilePageController.reviews.length.toString(),
+                              style: const TextStyle(
+                                fontFamily: 'NotoSansKR-Bold',
+                                fontSize: 12,
+                              ),
                             ),
                           ),
                         ],
@@ -164,11 +171,14 @@ class ProfilePage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 5),
-                          Text(
-                            profilePageController.profilePhotoCount.toString(),
-                            style: const TextStyle(
-                              fontFamily: 'NotoSansKR-Bold',
-                              fontSize: 12,
+                          Obx(
+                            () => Text(
+                              profilePageController.profileInfo.imageCount
+                                  .toString(),
+                              style: const TextStyle(
+                                fontFamily: 'NotoSansKR-Bold',
+                                fontSize: 12,
+                              ),
                             ),
                           ),
                         ],
@@ -197,12 +207,15 @@ class ProfilePage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 5),
-                          Text(
-                            Numeral(profilePageController.profileHeartCount)
-                                .value(),
-                            style: const TextStyle(
-                              fontFamily: 'NotoSansKR-Bold',
-                              fontSize: 12,
+                          Obx(
+                            () => Text(
+                              Numeral(profilePageController
+                                      .profileInfo.heartCount)
+                                  .value(),
+                              style: const TextStyle(
+                                fontFamily: 'NotoSansKR-Bold',
+                                fontSize: 12,
+                              ),
                             ),
                           ),
                         ],
@@ -251,7 +264,7 @@ class ProfilePage extends StatelessWidget {
                 child: Row(
                   children: [
                     Expanded(
-                        child: ListView.builder(
+                        child: Obx(() => ListView.builder(
                             scrollDirection: Axis.horizontal,
                             itemCount: profilePageController.groupList.length,
                             itemBuilder: (BuildContext context, int index) {
@@ -287,7 +300,6 @@ class ProfilePage extends StatelessWidget {
                                           side: const BorderSide(
                                               color: Color(0xFF362C5E)),
                                         ),
-                                        // 3
                                       ),
                                       onPressed: () {
                                         index == 0
@@ -301,7 +313,7 @@ class ProfilePage extends StatelessWidget {
                                       },
                                     )),
                               );
-                            })),
+                            }))),
                     Obx(
                       () => DropdownButtonHideUnderline(
                         child: DropdownButton2(
@@ -338,22 +350,29 @@ class ProfilePage extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               Obx(
-                () => GridView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3, //1 개의 행에 보여줄 item 개수
-                      childAspectRatio: 1 / 1, //item 의 가로 1, 세로 2 의 비율
-                      mainAxisSpacing: 15, //수평 Padding
-                      crossAxisSpacing: 5, //수직 Padding
-                    ),
-                    itemCount: profilePageController.categoryPressed['전체']!
-                        ? profilePageController.reviews.length
-                        : profilePageController.selectedReviews.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ProfileReviewWidget(index: index);
-                    }),
+                () => profilePageController.isReviewsLoading
+                    ? profilePageController.reviews.isNotEmpty
+                        ? GridView.builder(
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3, //1 개의 행에 보여줄 item 개수
+                              childAspectRatio: 1 / 1, //item 의 가로 1, 세로 2 의 비율
+                              mainAxisSpacing: 15, //수평 Padding
+                              crossAxisSpacing: 5, //수직 Padding
+                            ),
+                            itemCount: profilePageController
+                                    .categoryPressed['전체']!
+                                ? profilePageController.reviews.length
+                                : profilePageController.selectedReviews.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return ProfileReviewWidget(index: index);
+                            })
+                        : const Text("리뷰가 없습니다")
+                    : const Center(
+                        child: CircularProgressIndicator(),
+                      ),
               ),
               const SizedBox(
                 height: 30,

@@ -9,7 +9,7 @@ class ProfileEditDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     profilePageController.profileContentController.text =
-        profilePageController.profileContent;
+        profilePageController.profileInfo.profile;
     return AlertDialog(
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -21,9 +21,9 @@ class ProfileEditDialog extends StatelessWidget {
               fontSize: 15,
             ),
           ),
-          SizedBox(height: 7),
+          const SizedBox(height: 7),
           Container(
-            padding: EdgeInsets.only(
+            padding: const EdgeInsets.only(
               left: 20,
               right: 20,
             ),
@@ -77,7 +77,7 @@ class ProfileEditDialog extends StatelessWidget {
               // 3
             ),
             onPressed: () {
-              profilePageController.profileContent =
+              profilePageController.profileInfo.profile =
                   profilePageController.profileContentController.text;
               Get.back();
             },

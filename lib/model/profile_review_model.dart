@@ -21,12 +21,12 @@ class ProfileReviewModel {
 
   factory ProfileReviewModel.fromJson(Map<String, dynamic> json) {
     return ProfileReviewModel(
-      area: json['area'],
+      area: json['address'],
       name: json['name'],
       serviceType: json['serviceType'],
       image: json['image'],
-      isHeart: json['isHeart'] == '1' ? true : false,
-      reviewId: int.parse(json['reviewId']),
+      isHeart: json['isHeart'] != null ? true : false,
+      reviewId: int.parse(json['id']),
       date: DateTime.parse(json['date']),
       heartCount: int.parse(json['heartCount']),
     );
