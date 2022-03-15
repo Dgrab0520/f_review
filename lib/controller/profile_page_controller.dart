@@ -78,6 +78,9 @@ class ProfilePageController extends GetxController {
   allSelectCategory() {
     categoryPressed['전체'] = !categoryPressed['전체']!;
     categoryPressed.updateAll((key, value) => categoryPressed['전체']!);
+    if (!categoryPressed['전체']!) {
+      selectedReviews.clear();
+    }
     _categoryPressed.refresh();
   }
 
