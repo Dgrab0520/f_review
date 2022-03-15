@@ -21,6 +21,7 @@ class SearchPageController extends GetxController {
   set searchType(val) => _searchType.value = val;
 
   getSearchResult(String keyword, String type) {
+    isTextField = false;
     print(keyword);
     print(type);
     searchType = type;
