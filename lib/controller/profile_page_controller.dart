@@ -85,17 +85,10 @@ class ProfilePageController extends GetxController {
   }
 
   selectCategory(String i) {
-    categoryPressed[i] = !categoryPressed[i]!;
+    categoryPressed.updateAll((key, value) => false);
+    categoryPressed[i] = true;
 
-    if (!categoryPressed[i]!) {
-      categoryPressed['전체'] = false;
-    }
-    if (categoryPressed.values.where((element) => element).length + 1 ==
-        categoryPressed.length) {
-      categoryPressed['전체'] = true;
-    } else {
-      updateCategoryList();
-    }
+    updateCategoryList();
     _categoryPressed.refresh();
   }
   //endregion
@@ -104,8 +97,6 @@ class ProfilePageController extends GetxController {
   updateCategoryList() {
     selectedReviews.clear();
     categoryPressed.forEach((key, value) {
-      print(key);
-      print(value);
       if (key != "전체" && value) {
         for (var review in reviews) {
           if (review.serviceType == key) {
