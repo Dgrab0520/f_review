@@ -1,18 +1,19 @@
+import 'dart:convert';
+
 import 'package:f_review/model/review_model.dart';
 import 'package:f_review/model/search_result_model.dart';
+import 'package:f_review/ui/name_page/name_page.dart';
 import 'package:f_review/ui/profile_page/profile_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:numeral/fun.dart';
 
+import '../constants.dart';
 import '../ui/search_page/widget/search_sub.dart';
 
 class SearchPageController extends GetxController {
-  final _searchResult = <SearchResultModel>[
-    SearchResultModel(type: "tag", name: "하남", subTitle: "1234"),
-    SearchResultModel(type: "place", name: "하남돼지", subTitle: "1234"),
-    SearchResultModel(
-        type: "user", name: "하남이", subTitle: "안녕하세요 하남의 대표 하남이입니다.", userId: 0),
-  ].obs;
+  final _searchResult = <SearchResultModel>[].obs;
   List<SearchResultModel> get searchResult => _searchResult;
   set searchResult(val) => _searchResult.value = val;
 
@@ -20,36 +21,66 @@ class SearchPageController extends GetxController {
   get searchType => _searchType.value;
   set searchType(val) => _searchType.value = val;
 
-  getSearchResult(String keyword, String type) {
+  final _searchKeyword = "".obs;
+  get searchKeyword => _searchKeyword.value;
+  set searchKeyword(val) => _searchKeyword.value = val;
+
+  getSearchResult(String keyword, String type) async {
+    searchKeyword = keyword;
+    searchTextController.text = keyword;
+    isTextField = false;
     print(keyword);
     print(type);
     searchType = type;
-    switch (type) {
-      case "tag":
-        searchResult = [
-          SearchResultModel(type: "tag", name: "하남", subTitle: "1234")
-        ];
-        break;
-      case "place":
-        searchResult = [
-          SearchResultModel(type: "place", name: "하남돼지", subTitle: "1234")
-        ];
-        break;
-      case "user":
-        searchResult = [
-          SearchResultModel(
-              type: "user",
-              name: "하남이",
-              subTitle: "안녕하세요 하남의 대표 하남이입니다.",
-              userId: 0)
-        ];
-        break;
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_SEARCH_RESULT";
+      map['keyword'] = keyword;
+      map['type'] = type;
+      final response = await http
+          .post(Uri.parse("$kBaseUrl/flu_review_search.php"), body: map);
+      print('Search Response : ${response.body}');
+      if (200 == response.statusCode) {
+        searchResult = parseResponse(response.body);
+      }
+    } catch (e) {
+      print("exception : $e");
+      searchResult = <SearchResultModel>[];
     }
-    // TODO:검색어 : keyword, 타입 : type(태그,장소,계정)
   }
 
-  getPlace(String placeName) {
-    // TODO:장소 reviewModel 불러오기
+  static List<SearchResultModel> parseResponse(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<SearchResultModel>((json) => SearchResultModel.fromJson(json))
+        .toList();
+  }
+
+  Future<ReviewModel?> getPlace(int placeId) async {
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_REVIEW_PLACE_SEARCH";
+      map['userId'] = "331";
+      map['placeId'] = placeId.toString();
+      final response =
+          await http.post(Uri.parse("$kBaseUrl/flu_review.php"), body: map);
+      print('Tag Search Response : ${response.body}');
+      if (200 == response.statusCode) {
+        return parseResponseSearch(response.body);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print("exception : $e");
+      return null;
+    }
+  }
+
+  static ReviewModel parseResponseSearch(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<ReviewModel>((json) => ReviewModel.fromJson(json))
+        .toList()[0];
   }
 
   onTapAction(int index) {
@@ -60,7 +91,11 @@ class SearchPageController extends GetxController {
         ));
         break;
       case "place":
-        // TODO:장소이름으로 검색 후 결과 reviewModel Get.to(NamePage(reviewModel:reviewModel);
+        getPlace(searchResult[index].userId!).then((value) {
+          if (value != null) {
+            Get.to(NamePage(reviewModel: value));
+          }
+        });
         break;
       case "user":
         Get.to(ProfilePage(userId: searchResult[index].userId!));
@@ -86,13 +121,54 @@ class SearchPageController extends GetxController {
   int get tagCount => _tagCount.value;
   set tagCount(val) => _tagCount.value = val;
 
-  getTagPost(String tag) {
-    // TODO:해당 태그 게시물 검색
-    getTagPostCount(tag);
+  final _isTagLoading = false.obs;
+  get isTagLoading => _isTagLoading.value;
+  set isTagLoading(val) => _isTagLoading.value = val;
+
+  getTagPost(String tag) async {
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_SEARCH_TAG";
+      map['userId'] = "331";
+      map['tag'] = tag;
+      final response =
+          await http.post(Uri.parse("$kBaseUrl/flu_review.php"), body: map);
+      print('Tag Search Response : ${response.body}');
+      if (200 == response.statusCode) {
+        tagPost = parseResponseTag(response.body);
+        getTagPostCount(tag);
+      }
+    } catch (e) {
+      print("exception : $e");
+      tagPost = <ReviewModel>[];
+      isTagLoading = true;
+    }
   }
 
-  getTagPostCount(String tag) {
-    // TODO:해당 태그 게시물 총 게시물 수
+  getTagPostCount(String tag) async {
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_TAG_COUNT";
+      map['tag'] = tag;
+      final response = await http
+          .post(Uri.parse("$kBaseUrl/flu_review_tag_count.php"), body: map);
+      print('Tag Count Response : ${response.body}');
+      if (200 == response.statusCode) {
+        tagCount = int.parse(response.body);
+        isTagLoading = true;
+      }
+    } catch (e) {
+      print("exception : $e");
+      tagCount = 0;
+      isTagLoading = true;
+    }
+  }
+
+  static List<ReviewModel> parseResponseTag(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<ReviewModel>((json) => ReviewModel.fromJson(json))
+        .toList();
   }
 
   static const _crossCount = [2, 1, 1, 2, 2, 1, 1, 2];
@@ -101,5 +177,13 @@ class SearchPageController extends GetxController {
   get crossCount => _crossCount;
   get mainCount => _mainCount;
 
+  final _isTextField = false.obs;
+  get isTextField => _isTextField.value;
+  set isTextField(val) => _isTextField.value = val;
+
+  final searchTextController = TextEditingController();
+  final FocusNode focusNode = FocusNode();
+
   ///Search Sub Page 변수, 함수
+
 }

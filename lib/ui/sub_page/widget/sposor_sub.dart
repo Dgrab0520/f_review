@@ -1,22 +1,19 @@
+import 'package:f_review/constants.dart';
+import 'package:f_review/model/sponsor_model.dart';
 import 'package:f_review/ui/sub_page/sub_page.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class SponsorSub extends StatefulWidget {
-  const SponsorSub({
-    Key? key,
-    required this.area,
-    required this.service,
-  }) : super(key: key);
+class SponsorSub extends StatelessWidget {
+  const SponsorSub(
+      {Key? key,
+      required this.sponsorModel,
+      required this.area,
+      required this.service})
+      : super(key: key);
+  final SponsorModel sponsorModel;
   final String area;
   final String service;
-
-  @override
-  _SponsorSubState createState() => _SponsorSubState();
-}
-
-class _SponsorSubState extends State<SponsorSub> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,67 +25,39 @@ class _SponsorSubState extends State<SponsorSub> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Image.asset('assets/m_poster.jpg'),
-                  SizedBox(height: 20),
+                  Image.network(
+                      '$kBaseUrl/sponsor_img/${sponsorModel.contentImage}'),
+                  const SizedBox(height: 20),
                   Center(
                     child: Container(
-                      decoration: BoxDecoration(color: Color(0xFfEAE5F9)),
+                      decoration: const BoxDecoration(color: Color(0xFfEAE5F9)),
                       child: Text(
-                        '메가커피 [하남 미사점] 아메리카노 무료쿠폰 20잔',
-                        style: TextStyle(
+                        sponsorModel.title,
+                        style: const TextStyle(
                           fontSize: 17,
                           fontFamily: 'NotoSansKR-Bold',
                         ),
                       ),
                     ),
                   ),
-                  SizedBox(height: 15),
+                  const SizedBox(height: 15),
                   Center(
                     child: Text(
-                      '안녕하세요 플루닛입니다',
-                      style: TextStyle(
+                      sponsorModel.content,
+                      style: const TextStyle(
                         fontSize: 15,
                         fontFamily: 'NotoSansKR-Medium',
                       ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
-                  SizedBox(height: 2),
-                  Center(
-                    child: Text(
-                      '하남 지역 베스트 리뷰에 선정되신 분들 중에',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: 'NotoSansKR-Medium',
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 2),
-                  Center(
-                    child: Text(
-                      '메가커피 [하남 미사점] 아메리카노 무료 쿠폰 20잔을',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: 'NotoSansKR-Medium',
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 2),
-                  Center(
-                    child: Text(
-                      '추첨을 통해 드립니다.',
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontFamily: 'NotoSansKR-Medium',
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 50),
+                  const SizedBox(height: 50),
                   Container(
-                    padding: EdgeInsets.only(left: 10, right: 10),
+                    padding: const EdgeInsets.only(left: 10, right: 10),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                      children: const [
                         Text(
                           '* 유의사항',
                           style: TextStyle(
@@ -135,7 +104,7 @@ class _SponsorSubState extends State<SponsorSub> {
                       ],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                 ],
               ),
               Positioned(
@@ -144,7 +113,7 @@ class _SponsorSubState extends State<SponsorSub> {
                 child: InkWell(
                   onTap: () {
                     Get.back();
-                    Get.to(SubPage(area: widget.area, service: widget.service));
+                    Get.to(SubPage(area: area, service: service));
                   },
                   child: Image.asset(
                     'assets/cross.png',

@@ -1,6 +1,5 @@
 import 'package:f_review/constants.dart';
 import 'package:f_review/controller/profile_page_controller.dart';
-import 'package:f_review/model/review_model.dart';
 import 'package:f_review/ui/name_page/name_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -14,25 +13,14 @@ class ProfileReviewWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Get.to(
-            NamePage(
-              reviewModel: ReviewModel(
-                id: 1,
-                profileImage: "profileImage",
-                userName: "userName",
-                date: DateTime.now(),
-                placeName: "placeName",
-                placeId: 0,
-                review: "review",
-                heartCount: 0,
-                tags: [],
-                images: [],
-                isHeart: false,
-              ),
-            ),
-            arguments: profilePageController.categoryPressed['전체']!
-                ? profilePageController.reviews[index]
-                : profilePageController.selectedReviews[index]);
+        profilePageController
+            .getReviewFromProfile(
+                profilePageController.reviews[index].reviewId, 331)
+            .then((value) {
+          if (value != null) {
+            Get.to(NamePage(reviewModel: value));
+          }
+        });
       },
       child: Container(
         padding: const EdgeInsets.only(top: 5, right: 10, left: 10, bottom: 5),

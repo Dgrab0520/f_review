@@ -16,10 +16,13 @@ class MainPage extends StatelessWidget {
   final mainPageController = Get.put(MainPageController());
   @override
   Widget build(BuildContext context) {
-    mainPageController.setAllCategories();
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
+    Future.delayed(Duration.zero, () {
+      mainPageController.setAllCategories();
+      mainPageController.getSearchAutoCompleteResult();
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      ));
+    });
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -29,9 +32,17 @@ class MainPage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          title: Image.asset(
-            'assets/logo.png',
-            width: 40,
+          title: InkWell(
+            onTap: () {
+              mainPageController.scrollController.animateTo(
+                  mainPageController.scrollController.position.minScrollExtent,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut);
+            },
+            child: Image.asset(
+              'assets/logo.png',
+              width: 40,
+            ),
           ),
           centerTitle: true,
           leading: Container(
@@ -43,7 +54,7 @@ class MainPage extends StatelessWidget {
             InkWell(
               onTap: () {
                 Get.to(ProfilePage(
-                  userId: 0,
+                  userId: 331,
                 ));
               },
               child: Container(
@@ -56,6 +67,7 @@ class MainPage extends StatelessWidget {
           ],
         ),
         body: SingleChildScrollView(
+          controller: mainPageController.scrollController,
           child: Container(
             color: Colors.white,
             child: Column(
@@ -73,23 +85,23 @@ class MainPage extends StatelessWidget {
                         children: [
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text('리뷰 페이지',
+                            children: const [
+                              Text('리뷰 페이지',
                                   style: TextStyle(
                                     fontSize: 23,
                                     fontFamily: 'NotoSansKR-Bold',
                                   )),
-                              const Text(
+                              Text(
                                 "실제로 작성한 리뷰를 참고하세요.",
                                 style: TextStyle(
                                   color: Color(0xFF8D8D8D),
                                   fontSize: 12,
                                 ),
                               ),
-                              const SizedBox(height: 40),
+                              SizedBox(height: 40),
                             ],
                           ),
-                          SizedBox(width: 50),
+                          const SizedBox(width: 50),
                           InkWell(
                             onTap: () {
                               Get.to(CouponPage());
@@ -98,10 +110,10 @@ class MainPage extends StatelessWidget {
                               width: 60,
                               height: 25,
                               decoration: BoxDecoration(
-                                color: Color(0xFF363057),
+                                color: const Color(0xFF363057),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: Text(
                                   '쿠폰',
                                   style: TextStyle(
@@ -124,12 +136,16 @@ class MainPage extends StatelessWidget {
                             flex: 1,
                             child: InkWell(
                               onTap: () {
-                                Get.to(SearchPage(
-                                  keyword: mainPageController.controller.text,
-                                  type: 'tag',
-                                ));
-                                mainPageController.controller.clear();
-                                FocusScope.of(context).unfocus();
+                                if (mainPageController.controller.text == "") {
+                                  if (!Get.isSnackbarOpen) {
+                                    Get.snackbar("오류", "검색어를 입력해주세요");
+                                  }
+                                } else {
+                                  Get.to(SearchPage(
+                                    keyword: mainPageController.controller.text,
+                                    type: 'tag',
+                                  ));
+                                }
                               },
                               child: const SizedBox(
                                 height: 25,
@@ -182,7 +198,7 @@ class MainPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      const Text('CATEGORY REVIEW',
+                      const Text('CATEGORY',
                           style: TextStyle(
                             fontSize: 15,
                             fontFamily: 'NotoSansKR-Bold',

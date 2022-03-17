@@ -1,10 +1,10 @@
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:f_review/constants.dart';
 import 'package:f_review/controller/profile_page_controller.dart';
+import 'package:f_review/controller/review_page_controller.dart';
 import 'package:f_review/ui/profile_page/widget/bookmark_page.dart';
 import 'package:f_review/ui/profile_page/widget/profile_edit_dialog.dart';
 import 'package:f_review/ui/profile_page/widget/profile_review_widget.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:numeral/numeral.dart';
@@ -18,8 +18,12 @@ class ProfilePage extends StatelessWidget {
   final profilePageController = Get.put(ProfilePageController());
   @override
   Widget build(BuildContext context) {
-    profilePageController.getProfileReviews(331);
-    profilePageController.getProfileInfo(331);
+    Future.delayed(Duration.zero, () {
+      profilePageController.selectedValue = "최신순";
+      profilePageController.getProfileReviews(userId, "ORDER BY id DESC");
+      profilePageController.getProfileInfo(userId);
+    });
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -46,7 +50,7 @@ class ProfilePage extends StatelessWidget {
         actions: [
           InkWell(
             onTap: () {
-              Get.to(const BookmarkPage());
+              Get.to(BookmarkPage());
             },
             child: Container(
                 padding: const EdgeInsets.only(right: 10, left: 10),
@@ -73,19 +77,23 @@ class ProfilePage extends StatelessWidget {
                   Flexible(
                     child: Row(
                       children: [
-                        Image.network(
-                            '$kBaseUrl/user_profile/${profilePageController.profileInfo.profileImg}',
-                            width: 50),
+                        Obx(
+                          () => Image.network(
+                              '$kBaseUrl/user_profile/${profilePageController.profileInfo.profileImg}',
+                              width: 50),
+                        ),
                         const SizedBox(width: 10),
                         Flexible(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                profilePageController.profileInfo.userId,
-                                style: const TextStyle(
-                                    fontSize: 14,
-                                    fontFamily: 'NotoSansKR-Bold'),
+                              Obx(
+                                () => Text(
+                                  profilePageController.profileInfo.userId,
+                                  style: const TextStyle(
+                                      fontSize: 14,
+                                      fontFamily: 'NotoSansKR-Bold'),
+                                ),
                               ),
                               Row(
                                 children: [
@@ -227,9 +235,16 @@ class ProfilePage extends StatelessWidget {
               const SizedBox(height: 30),
               InkWell(
                 onTap: () {
-                  Get.to(ReviewPage(
+                  final reviewPageController = Get.put(ReviewPageController());
+                  reviewPageController.varInit();
+                  reviewPageController.getSearchAutoCompleteResult();
+                  var result = Get.to(ReviewPage(
                     index: 0,
                   ));
+                  if (result != null) {
+                    profilePageController.getProfileReviews(
+                        userId, "ORDER BY id DESC");
+                  }
                 },
                 child: Container(
                   width: Get.width,
@@ -337,7 +352,8 @@ class ProfilePage extends StatelessWidget {
                               .toList(),
                           value: profilePageController.selectedValue,
                           onChanged: (value) {
-                            profilePageController.setItem(value.toString());
+                            profilePageController.setItem(
+                                value.toString(), userId);
                           },
                           buttonHeight: 40,
                           buttonWidth: 75,

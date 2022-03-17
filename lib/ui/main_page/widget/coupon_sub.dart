@@ -95,7 +95,7 @@ w+DJoSx81QQpD8gY/BXjovadVtVROALaFFvdmN64sw==
           InkWell(
             onTap: () {
               Get.to(ProfilePage(
-                userId: 0,
+                userId: 331,
               ));
             },
             child: Container(

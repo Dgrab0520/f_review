@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../search_page/widget/search_sub.dart';
+import '../../../controller/profile_page_controller.dart';
+import 'bookmark_widget.dart';
 
-class BookmarkPage extends StatefulWidget {
-  const BookmarkPage({Key? key}) : super(key: key);
+class BookmarkPage extends StatelessWidget {
+  BookmarkPage({Key? key}) : super(key: key);
 
-  @override
-  _BookmarkPageState createState() => _BookmarkPageState();
-}
-
-class _BookmarkPageState extends State<BookmarkPage> {
+  final ProfilePageController profilePageController =
+      Get.put(ProfilePageController());
   @override
   Widget build(BuildContext context) {
+    Future.delayed(Duration.zero, () {
+      profilePageController.getSaved(331);
+    });
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -22,23 +23,22 @@ class _BookmarkPageState extends State<BookmarkPage> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          title: Center(
-            child: Text(
-              '저장',
-              style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontFamily: 'NotoSansKR-Medium',
-              ),
+          title: const Text(
+            '저장',
+            style: TextStyle(
+              color: Colors.black,
+              fontSize: 20,
+              fontFamily: 'NotoSansKR-Medium',
             ),
           ),
+          centerTitle: true,
           leading: InkWell(
             onTap: () {
               Get.back();
             },
             child: Container(
-              padding: EdgeInsets.only(left: 10),
-              child: Icon(
+              padding: const EdgeInsets.only(left: 10),
+              child: const Icon(
                 Icons.arrow_back_ios,
                 color: Color(0xFF362C5E),
                 size: 23,
@@ -51,7 +51,7 @@ class _BookmarkPageState extends State<BookmarkPage> {
               onTap: () {},
               child: Container(
                 padding: const EdgeInsets.only(right: 10),
-                child: SizedBox(
+                child: const SizedBox(
                   height: 25,
                   child: Icon(
                     Icons.search,
@@ -62,72 +62,23 @@ class _BookmarkPageState extends State<BookmarkPage> {
             ),
           ],
         ),
-        body: Column(
-          children: [
-            ListView(
-              scrollDirection: Axis.vertical,
-              shrinkWrap: true,
-              children: [
-                InkWell(
-                  onTap: () {},
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage('assets/bookmark_1.png'),
-                    ),
-                    title: Text(
-                      '마시랑게',
-                      style: TextStyle(
-                        fontFamily: 'NotoSansKR-Medium',
-                      ),
-                    ),
-                    subtitle: Text(
-                      '전라북도 전주시 완산구 전동성당길 100 2층',
-                      style: TextStyle(),
-                    ),
-                    trailing: Icon(Icons.keyboard_arrow_right),
-                  ),
+        body: Obx(
+          () => profilePageController.isBookmarkLoading
+              ? profilePageController.savedPlace.isNotEmpty
+                  ? ListView.builder(
+                      scrollDirection: Axis.vertical,
+                      shrinkWrap: true,
+                      itemCount: profilePageController.savedPlace.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return BookmarkWidget(
+                            bookmarkModel:
+                                profilePageController.savedPlace[index]);
+                      },
+                    )
+                  : const Text("저장된 장소가 없습니다")
+              : const Center(
+                  child: CircularProgressIndicator(),
                 ),
-                new Divider(
-                  height: 1.0,
-                  indent: 1.0,
-                ),
-                InkWell(
-                  onTap: () {
-                    Get.to(SearchSub(
-                      tag: '다님길',
-                    ));
-                  },
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage('assets/bookmark_2.png'),
-                    ),
-                    title: Text('다님길'),
-                    subtitle: Text('서울 노원구 공릉로41나길 31 1층'),
-                    trailing: Icon(Icons.keyboard_arrow_right),
-                  ),
-                ),
-                new Divider(
-                  height: 1.0,
-                  indent: 1.0,
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundImage: AssetImage('assets/bookmark_3.png'),
-                    ),
-                    title: Text('리브인오후'),
-                    subtitle: Text('서울 노원구 동일로178길 39-30 1층'),
-                    trailing: Icon(Icons.keyboard_arrow_right),
-                  ),
-                ),
-                new Divider(
-                  height: 1.0,
-                  indent: 1.0,
-                ),
-              ],
-            ),
-          ],
         ),
       ),
     );

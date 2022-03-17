@@ -48,7 +48,7 @@ class BestReviewSub extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     Get.to(ProfilePage(
-                      userId: 0,
+                      userId: 331,
                     ));
                   },
                   child: Row(
@@ -56,22 +56,36 @@ class BestReviewSub extends StatelessWidget {
                     children: [
                       Row(
                         children: [
-                          Image.network(
-                              "$kBaseUrl/user_profile/${reviewController.bestReview[index].profileImage}",
-                              fit: BoxFit.cover,
-                              width: 40,
-                              height: 40),
+                          InkWell(
+                            onTap: () {
+                              Get.to(ProfilePage(
+                                  userId: reviewController
+                                      .bestReview[index].userId));
+                            },
+                            child: Image.network(
+                                "$kBaseUrl/user_profile/${reviewController.bestReview[index].profileImage}",
+                                fit: BoxFit.cover,
+                                width: 40,
+                                height: 40),
+                          ),
                           const SizedBox(width: 10),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
-                              Text(
-                                reviewController.bestReview[index].userName,
-                                style: const TextStyle(
-                                  color: Color(0xFf2a2a2a),
-                                  fontSize: 15,
-                                  fontFamily: 'NotoSansKR-Bold',
+                              InkWell(
+                                onTap: () {
+                                  Get.to(ProfilePage(
+                                      userId: reviewController
+                                          .bestReview[index].userId));
+                                },
+                                child: Text(
+                                  reviewController.bestReview[index].userName,
+                                  style: const TextStyle(
+                                    color: Color(0xFf2a2a2a),
+                                    fontSize: 15,
+                                    fontFamily: 'NotoSansKR-Bold',
+                                  ),
                                 ),
                               ),
                               Row(

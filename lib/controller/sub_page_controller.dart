@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:f_review/constants.dart';
 import 'package:f_review/model/review_model.dart';
 import 'package:f_review/model/sponsor_model.dart';
+import 'package:f_review/review_heart_count.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
@@ -47,7 +48,7 @@ class SubPageController extends GetxController {
   get isReviewLoading => _isReviewLoading.value;
   set isReviewLoading(val) => _isReviewLoading.value = val;
 
-  getReviews(String area, String type) async {
+  getReviews(String area, String type, String orderBy) async {
     isReviewLoading = false;
     try {
       var map = <String, dynamic>{};
@@ -55,6 +56,7 @@ class SubPageController extends GetxController {
       map['area'] = area;
       map['type'] = type;
       map['userId'] = "331";
+      map['orderBy'] = orderBy;
       final response =
           await http.post(Uri.parse("$kBaseUrl/flu_review.php"), body: map);
       print('Reviews Response : ${response.body}');
@@ -71,10 +73,6 @@ class SubPageController extends GetxController {
 
   //리뷰
 
-  getReviewImages(int reviewId) {}
-
-  getReviewTags(int reviewId) {}
-
   final _selectedValue = "최신순".obs;
   set selectedValue(value) => _selectedValue.value = value;
   get selectedValue => _selectedValue.value;
@@ -87,39 +85,46 @@ class SubPageController extends GetxController {
   set items(value) => _items.value = value;
   List<String> get items => _items;
 
-  setItem(String value) {
+  setItem(String value, String area, String type) {
     selectedValue = value;
     switch (value) {
       case "최신순":
+        getReviews(area, type, "ORDER BY id DESC");
         break;
       case "추천순":
+        getReviews(area, type, "ORDER BY heartCount DESC");
         break;
     }
-    // TODO:리뷰 정렬
-  }
-
-  getReviewsSort(String area, String type, String sort) async {
-    //TODO: 리뷰 정렬
   }
   //정렬
 
-  final _sponsorList = <SponsorModel>[
-    SponsorModel(
-        id: 1,
-        title: '[하남 미사점] 1만원 무료쿠폰 10명',
-        thumbnail: 'assets/sponsor_1.png',
-        contentImage: 'contentImage'),
-    SponsorModel(
-        id: 2,
-        title: '[하남 미사점] 에이드 무료쿠폰 20명',
-        thumbnail: 'assets/sponsor_2.png',
-        contentImage: 'contentImage'),
-  ].obs;
+  final _sponsorList = <SponsorModel>[].obs;
   set sponsorList(value) => _sponsorList.value = value;
   List<SponsorModel> get sponsorList => _sponsorList;
 
-  getSponsors() async {
-    // TODO:스폰서 광고 불러오기
+  final _isSponsorLoading = false.obs;
+  get isSponsorLoading => _isSponsorLoading.value;
+  set isSponsorLoading(val) => _isSponsorLoading.value = val;
+
+  getSponsors(String area, String serviceType) async {
+    isSponsorLoading = false;
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_SPONSOR";
+      map['area'] = area;
+      map['serviceType'] = serviceType;
+      final response = await http
+          .post(Uri.parse("$kBaseUrl/flu_review_sponsor.php"), body: map);
+      print('Sponsor Response : ${response.body}');
+      if (200 == response.statusCode) {
+        sponsorList = parseResponseSponsor(response.body);
+        isSponsorLoading = true;
+      }
+    } catch (e) {
+      print("exception : $e");
+      sponsorList = <SponsorModel>[];
+      isSponsorLoading = true;
+    }
   }
 
   //스폰서
@@ -127,31 +132,54 @@ class SubPageController extends GetxController {
   var controller = TextEditingController();
 
   bestReviewCheck(int index) {
+    print("best");
     bestReview[index].isHeart = !bestReview[index].isHeart;
     if (bestReview[index].isHeart) {
       bestReview[index].heartCount++;
-      // TODO:베스트 리뷰 좋아요 증가
+      ReviewHeartCount().reviewHeartCount(bestReview[index].id, 331, true);
+      for (int i = 0; i < reviews.length; i++) {
+        if (reviews[i].id == bestReview[index].id) {
+          reviews[i].heartCount++;
+          reviews[i].isHeart = true;
+        }
+      }
     } else {
       bestReview[index].heartCount--;
-      // TODO:베스트 리뷰 좋아요 감소
+      ReviewHeartCount().reviewHeartCount(bestReview[index].id, 331, false);
+      for (int i = 0; i < reviews.length; i++) {
+        if (reviews[i].id == bestReview[index].id) {
+          reviews[i].heartCount--;
+          reviews[i].isHeart = false;
+        }
+      }
     }
     _bestReview.refresh();
+    _reviews.refresh();
   }
 
   reviewsCheck(int index) {
     reviews[index].isHeart = !reviews[index].isHeart;
     if (reviews[index].isHeart) {
       reviews[index].heartCount++;
-      // TODO:리뷰 좋아요 증가
+      ReviewHeartCount().reviewHeartCount(reviews[index].id, 331, true);
+      for (int i = 0; i < bestReview.length; i++) {
+        if (bestReview[i].id == reviews[index].id) {
+          bestReview[i].heartCount++;
+          bestReview[i].isHeart = true;
+        }
+      }
     } else {
       reviews[index].heartCount--;
-      // TODO:리뷰 좋아요 감소
+      ReviewHeartCount().reviewHeartCount(reviews[index].id, 331, false);
+      for (int i = 0; i < bestReview.length; i++) {
+        if (bestReview[i].id == reviews[index].id) {
+          bestReview[i].heartCount--;
+          bestReview[i].isHeart = false;
+        }
+      }
     }
+    _bestReview.refresh();
     _reviews.refresh();
-  }
-
-  onHashClick() {
-    // TODO:태그 클릭시 검색 페이지로
   }
 
   static List<ReviewModel> parseResponse(String responseBody) {
@@ -160,4 +188,13 @@ class SubPageController extends GetxController {
         .map<ReviewModel>((json) => ReviewModel.fromJson(json))
         .toList();
   }
+
+  static List<SponsorModel> parseResponseSponsor(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<SponsorModel>((json) => SponsorModel.fromJson(json))
+        .toList();
+  }
+
+  final ScrollController scrollController = ScrollController();
 }

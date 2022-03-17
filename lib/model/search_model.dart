@@ -11,6 +11,14 @@ class SearchModel {
   final String name;
   final String subTitle;
 
+  factory SearchModel.fromJson(Map<String, dynamic> json) {
+    return SearchModel(
+      type: json['type'],
+      name: json['name'],
+      subTitle: json['subTitle'],
+    );
+  }
+
   @override
   String toString() {
     return '$name, $subTitle';

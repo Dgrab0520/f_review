@@ -13,7 +13,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../date_data.dart';
-import '../../model/profile_review_model.dart';
 import '../search_page/widget/search_sub.dart';
 
 class NamePage extends StatelessWidget {
@@ -26,24 +25,29 @@ class NamePage extends StatelessWidget {
   final namePageController = Get.put(NamePageController());
   @override
   Widget build(BuildContext context) {
-    if (reviewModel.id == 0) {
-      ProfileReviewModel profileReviewModel = Get.arguments;
-      print(profileReviewModel);
-      //TODO: 서버에서 reviewId로 reviewModel 불러오기
-    }
-    namePageController.mainReview = reviewModel;
-    namePageController.getPlace(reviewModel.placeId);
-    namePageController.getReviews(reviewModel.placeId);
+    Future.delayed(Duration.zero, () {
+      namePageController.mainReview = reviewModel;
+      namePageController.getPlace(reviewModel.placeId); //장소 정보 불러오기
+      namePageController.getReviews(reviewModel.placeId, reviewModel.id,
+          "ORDER BY id DESC"); //같은 곳 다른 리뷰 불러오기
+    });
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Center(
-            child: Image.asset(
-          'assets/logo.png',
-          width: 40,
-        )),
+        title: InkWell(
+          onTap: () {
+            namePageController.scrollController.animateTo(
+                namePageController.scrollController.position.minScrollExtent,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut);
+          },
+          child: Image.asset(
+            'assets/logo.png',
+            width: 40,
+          ),
+        ),
         centerTitle: true,
         leading: Container(
             padding: const EdgeInsets.only(left: 10),
@@ -62,7 +66,7 @@ class NamePage extends StatelessWidget {
           InkWell(
             onTap: () {
               Get.to(ProfilePage(
-                userId: 0,
+                userId: 331,
               ));
             },
             child: Container(
@@ -75,6 +79,8 @@ class NamePage extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
+        controller: namePageController.scrollController,
+        physics: const BouncingScrollPhysics(),
         child: Container(
           color: Colors.white,
           child: Column(
@@ -149,7 +155,11 @@ class NamePage extends StatelessWidget {
                         Obx(
                           () => InkWell(
                             onTap: () {
-                              namePageController.placeCheck();
+                              namePageController.placeCheck(
+                                  namePageController.mainReview.placeId,
+                                  331,
+                                  namePageController.mainReview.images[0],
+                                  namePageController.mainReview.id);
                             },
                             child: Column(
                               children: [
@@ -187,10 +197,16 @@ class NamePage extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                Image.network(
-                                    "$kBaseUrl/review_img/${reviewModel.profileImage}",
-                                    width: 40,
-                                    height: 40),
+                                InkWell(
+                                  onTap: () {
+                                    Get.to(ProfilePage(
+                                        userId: reviewModel.userId));
+                                  },
+                                  child: Image.network(
+                                      "$kBaseUrl/review_img/${reviewModel.profileImage}",
+                                      width: 40,
+                                      height: 40),
+                                ),
                                 const SizedBox(width: 10),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -199,8 +215,7 @@ class NamePage extends StatelessWidget {
                                     InkWell(
                                       onTap: () {
                                         Get.to(ProfilePage(
-                                          userId: 0,
-                                        ));
+                                            userId: reviewModel.userId));
                                       },
                                       child: Text(
                                         reviewModel.userName,
@@ -377,7 +392,7 @@ class NamePage extends StatelessWidget {
                         const SizedBox(width: 10),
                         Obx(
                           () => Text(
-                            namePageController.placeModel.reviewCount
+                            (namePageController.placeModel.reviewCount - 1)
                                 .toString(),
                             style: const TextStyle(
                               fontFamily: 'NotoSansKR-Bold',

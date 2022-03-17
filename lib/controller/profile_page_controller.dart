@@ -1,13 +1,16 @@
 import 'dart:convert';
 
 import 'package:collection/collection.dart';
+import 'package:f_review/model/bookmark_model.dart';
 import 'package:f_review/model/profile_model.dart';
 import 'package:f_review/model/profile_review_model.dart';
+import 'package:f_review/model/review_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 import '../constants.dart';
+import '../review_heart_count.dart';
 
 class ProfilePageController extends GetxController {
   final _reviews = <ProfileReviewModel>[].obs;
@@ -18,12 +21,13 @@ class ProfilePageController extends GetxController {
   get isReviewsLoading => _isReviewsLoading.value;
   set isReviewsLoading(val) => _isReviewsLoading.value = val;
 
-  getProfileReviews(int id) async {
+  getProfileReviews(int id, String orderBy) async {
     isReviewsLoading = false;
     try {
       var map = <String, dynamic>{};
       map['action'] = "GET_REVIEW_PROFILE";
       map['userId'] = id.toString();
+      map['orderBy'] = orderBy;
       final response =
           await http.post(Uri.parse("$kBaseUrl/flu_review.php"), body: map);
       print('Profile Reviews Response : ${response.body}');
@@ -42,7 +46,8 @@ class ProfilePageController extends GetxController {
 
   reviewsHeartChange(int index) {
     reviews[index].isHeart = !reviews[index].isHeart;
-    //TODO:좋아요 저장
+    ReviewHeartCount()
+        .reviewHeartCount(reviews[index].reviewId, 331, reviews[index].isHeart);
     _reviews.refresh();
   }
   //리뷰
@@ -53,7 +58,8 @@ class ProfilePageController extends GetxController {
 
   selectedReviewsHeartChange(int index) {
     selectedReviews[index].isHeart = !selectedReviews[index].isHeart;
-    //TODO:좋아요 저장
+    ReviewHeartCount().reviewHeartCount(
+        selectedReviews[index].reviewId, 331, selectedReviews[index].isHeart);
     _selectedReviews.refresh();
   }
   //선택한 카테고리 리뷰
@@ -121,26 +127,23 @@ class ProfilePageController extends GetxController {
   ].obs;
   set items(value) => _items.value = value;
   List<String> get items => _items;
-  setItem(String value) {
+  setItem(String value, int userId) {
     selectedValue = value;
     switch (value) {
       case "최신순":
+        getProfileReviews(userId, "ORDER BY id DESC");
         break;
       case "추천순":
+        getProfileReviews(userId, "ORDER BY heartCount DESC");
         break;
     }
-    // TODO:리뷰 정렬
-  }
-
-  getProfileReviewsSort(int id, String sort) async {
-    //TODO:프로필 페이지에서 리뷰 불러오기(정렬)
   }
 
 //정렬
 
   final _profileInfo = ProfileModel(
     userId: "userId",
-    profileImg: "profileImg",
+    profileImg: "defaultImage.png",
     profile: "profile",
     heartCount: 0,
     imageCount: 0,
@@ -167,9 +170,22 @@ class ProfilePageController extends GetxController {
 
   final profileContentController = TextEditingController();
 
-  profileEdit() {
+  profileEdit(int userId) async {
     profileInfo.profile = profileContentController.text;
     _profileInfo.refresh();
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "WRITE_PROFILE";
+      map['userId'] = userId.toString();
+      map['profile'] = profileInfo.profile;
+      final response = await http
+          .post(Uri.parse("$kBaseUrl/flu_review_profile.php"), body: map);
+      print('Write Profile Response : ${response.body}');
+      if (200 == response.statusCode) {
+      } else {}
+    } catch (e) {
+      print("exception : $e");
+    }
     Get.back();
   }
 
@@ -188,6 +204,54 @@ class ProfilePageController extends GetxController {
     return first + " " + second;
   }
 
+  final _savedPlace = <BookmarkModel>[].obs;
+  List<BookmarkModel> get savedPlace => _savedPlace;
+  set savedPlace(val) => _savedPlace.value = val;
+
+  final _isBookmarkLoading = false.obs;
+  get isBookmarkLoading => _isBookmarkLoading.value;
+  set isBookmarkLoading(val) => _isBookmarkLoading.value = val;
+
+  getSaved(int id) async {
+    isBookmarkLoading = false;
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_SAVED_PLACE";
+      map['userId'] = id.toString();
+      final response = await http
+          .post(Uri.parse("$kBaseUrl/flu_review_saved.php"), body: map);
+      print('Saved Place Response : ${response.body}');
+      if (200 == response.statusCode) {
+        savedPlace = parseResponseSaved(response.body);
+        isBookmarkLoading = true;
+      } else {}
+    } catch (e) {
+      print("exception : $e");
+      savedPlace = <BookmarkModel>[];
+      isBookmarkLoading = true;
+    }
+  }
+
+  Future<ReviewModel?> getReviewFromProfile(int reviewId, int userId) async {
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_REVIEW_FROM_PROFILE";
+      map['reviewId'] = reviewId.toString();
+      map['userId'] = userId.toString();
+      final response =
+          await http.post(Uri.parse("$kBaseUrl/flu_review.php"), body: map);
+      print('Review Response : ${response.body}');
+      if (200 == response.statusCode) {
+        return parseResponseReviewModel(response.body);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print("exception : $e");
+      return null;
+    }
+  }
+
   static List<ProfileReviewModel> parseResponse(String responseBody) {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed
@@ -199,6 +263,20 @@ class ProfilePageController extends GetxController {
     final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
     return parsed
         .map<ProfileModel>((json) => ProfileModel.fromJson(json))
+        .toList()[0];
+  }
+
+  static List<BookmarkModel> parseResponseSaved(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<BookmarkModel>((json) => BookmarkModel.fromJson(json))
+        .toList();
+  }
+
+  static ReviewModel parseResponseReviewModel(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<ReviewModel>((json) => ReviewModel.fromJson(json))
         .toList()[0];
   }
 }

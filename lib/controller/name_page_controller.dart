@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:f_review/model/place_model.dart';
 import 'package:f_review/model/review_model.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
 
 import '../constants.dart';
+import '../review_heart_count.dart';
 
 class NamePageController extends GetxController {
   final _placeModel = PlaceModel(
@@ -38,14 +40,33 @@ class NamePageController extends GetxController {
     }
   }
 
-  placeCheck() {
+  placeCheck(int placeId, int userId, String thumbnail, int reviewId) {
     placeModel.isSave = !placeModel.isSave;
     _placeModel.refresh();
     if (placeModel.isSave) {
-      //TODO:장소 저장
+      savePlace(placeId, userId, thumbnail, reviewId, placeModel.isSave);
       if (!Get.isSnackbarOpen) {
         Get.snackbar("성공", "장소를 저장했습니다");
       }
+    }
+  }
+
+  savePlace(int placeId, int userId, String thumbnail, int reviewId,
+      bool isSave) async {
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "SAVE_PLACE";
+      map['placeId'] = placeId.toString();
+      map['userId'] = userId.toString();
+      map['thumbnail'] = thumbnail;
+      map['reviewId'] = reviewId.toString();
+      map['isSave'] = isSave ? "1" : "0";
+      final response =
+          await http.post(Uri.parse("$kBaseUrl/flu_place.php"), body: map);
+      print('Place Save Response : ${response.body}');
+      if (200 == response.statusCode) {}
+    } catch (e) {
+      print("exception : $e");
     }
   }
 
@@ -53,6 +74,7 @@ class NamePageController extends GetxController {
 
   final _mainReview = ReviewModel(
     id: 0,
+    userId: 0,
     profileImage: "profileImage",
     userName: "userName",
     date: DateTime.now(),
@@ -66,18 +88,35 @@ class NamePageController extends GetxController {
   ).obs;
   ReviewModel get mainReview => _mainReview.value;
   set mainReview(val) => _mainReview.value = val;
-  getMainReview(int reviewId) async {
-    //TODO:프로필에서 사진 클릭시 reviewId로 메인 리뷰 불러오기
+
+  Future<ReviewModel?> getMainReview(int reviewId) async {
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_REVIEW_SAVED";
+      map['reviewId'] = reviewId.toString();
+      map['userId'] = "331";
+      final response =
+          await http.post(Uri.parse("$kBaseUrl/flu_review.php"), body: map);
+      print('Place Reviews Response : ${response.body}');
+      if (200 == response.statusCode) {
+        return parseResponseOnce(response.body);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print("exception : $e");
+      return null;
+    }
   }
 
   mainHeartChange() {
     mainReview.isHeart = !mainReview.isHeart;
     if (mainReview.isHeart) {
       mainReview.heartCount++;
-      // TODO:메인 리뷰 좋아요 증가
+      ReviewHeartCount().reviewHeartCount(mainReview.id, 331, true);
     } else {
       mainReview.heartCount--;
-      // TODO:메인 리뷰 좋아요 감소
+      ReviewHeartCount().reviewHeartCount(mainReview.id, 331, false);
     }
     _mainReview.refresh();
   }
@@ -91,7 +130,7 @@ class NamePageController extends GetxController {
   get isAnotherReviewLoading => _isAnotherReviewLoading.value;
   set isAnotherReviewLoading(val) => _isAnotherReviewLoading.value = val;
 
-  getReviews(int placeId) async {
+  getReviews(int placeId, int mainReviewId, String orderBy) async {
     print(placeId);
     isAnotherReviewLoading = false;
     try {
@@ -99,7 +138,10 @@ class NamePageController extends GetxController {
       map['action'] = "GET_REVIEW_PLACE";
       map['placeId'] = placeId.toString();
       map['userId'] = "331";
-      final response = await http.post(Uri.parse("$kBaseUrl/flu_review.php"), body: map);
+      map['mainReviewId'] = mainReviewId.toString();
+      map['orderBy'] = orderBy;
+      final response =
+          await http.post(Uri.parse("$kBaseUrl/flu_review.php"), body: map);
       print('Place Reviews Response : ${response.body}');
       if (200 == response.statusCode) {
         anotherReviews = parseResponse(response.body);
@@ -116,10 +158,10 @@ class NamePageController extends GetxController {
     anotherReviews[index].isHeart = !anotherReviews[index].isHeart;
     if (anotherReviews[index].isHeart) {
       anotherReviews[index].heartCount++;
-      // TODO:리뷰 좋아요 증가
+      ReviewHeartCount().reviewHeartCount(anotherReviews[index].id, 331, true);
     } else {
       anotherReviews[index].heartCount--;
-      // TODO:리뷰 좋아요 감소
+      ReviewHeartCount().reviewHeartCount(anotherReviews[index].id, 331, false);
     }
     _anotherReviews.refresh();
   }
@@ -141,21 +183,19 @@ class NamePageController extends GetxController {
     selectedValue = value;
     switch (value) {
       case "최신순":
+        getReviews(mainReview.placeId, mainReview.id, "ORDER BY id DESC");
         break;
       case "추천순":
+        getReviews(
+            mainReview.placeId, mainReview.id, "ORDER BY heartCount DESC");
         break;
     }
-    // TODO:리뷰 정렬
-  }
-
-  getReviewsSort(int id, String sort) async {
-    //TODO:프로필 페이지에서 리뷰 불러오기(정렬)
   }
   //정렬
 
   void launchURL(String placeName) async {
     //구글 맵 검색
-    if (!await launch("https://www.google.com/maps/search/$placeName}")) {
+    if (!await launch("https://www.google.com/maps/search/$placeName")) {
       throw 'Could not launch $placeName';
     }
   }
@@ -166,4 +206,13 @@ class NamePageController extends GetxController {
         .map<ReviewModel>((json) => ReviewModel.fromJson(json))
         .toList();
   }
+
+  static ReviewModel parseResponseOnce(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<ReviewModel>((json) => ReviewModel.fromJson(json))
+        .toList()[0];
+  }
+
+  final ScrollController scrollController = ScrollController();
 }
