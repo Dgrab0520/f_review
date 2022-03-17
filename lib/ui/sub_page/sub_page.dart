@@ -20,22 +20,32 @@ class SubPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    subPageController.getBestReviews(area, service);
-    subPageController.getReviews(area, service);
-    subPageController.getSponsors(area, service);
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
+    Future.delayed(Duration.zero, () {
+      subPageController.getBestReviews(area, service);
+      subPageController.getReviews(area, service, "ORDER BY id DESC");
+      subPageController.getSponsors(area, service);
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      ));
+    });
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Center(
-            child: Image.asset(
-          'assets/logo.png',
-          width: 40,
-        )),
+        title: InkWell(
+          onTap: () {
+            subPageController.scrollController.animateTo(
+                subPageController.scrollController.position.minScrollExtent,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut);
+          },
+          child: Image.asset(
+            'assets/logo.png',
+            width: 40,
+          ),
+        ),
         centerTitle: true,
         leading: Container(
             padding: const EdgeInsets.only(left: 10),
@@ -68,6 +78,7 @@ class SubPage extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
+        controller: subPageController.scrollController,
         child: Container(
           color: Colors.white,
           child: Column(
@@ -124,19 +135,25 @@ class SubPage extends StatelessWidget {
                     SizedBox(
                       height: 100,
                       width: Get.width,
-                      child: Obx(
-                        () => ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            itemCount: subPageController.sponsorList.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return SponsorWidget(
-                                sponsorModel:
-                                    subPageController.sponsorList[index],
-                                area: area,
-                                service: service,
-                              );
-                            }),
-                      ),
+                      child: Obx(() => subPageController.isSponsorLoading
+                          ? subPageController.sponsorList.isNotEmpty
+                              ? ListView.builder(
+                                  scrollDirection: Axis.horizontal,
+                                  itemCount:
+                                      subPageController.sponsorList.length,
+                                  itemBuilder:
+                                      (BuildContext context, int index) {
+                                    return SponsorWidget(
+                                      sponsorModel:
+                                          subPageController.sponsorList[index],
+                                      area: area,
+                                      service: service,
+                                    );
+                                  })
+                              : const Center(child: Text("스폰서가 없습니다"))
+                          : const Center(
+                              child: CircularProgressIndicator(),
+                            )),
                     ),
                     const SizedBox(height: 15),
                     Row(
@@ -262,7 +279,8 @@ class SubPage extends StatelessWidget {
                                   .toList(),
                               value: subPageController.selectedValue,
                               onChanged: (value) {
-                                subPageController.setItem(value.toString());
+                                subPageController.setItem(
+                                    value.toString(), area, service);
                               },
                               buttonHeight: 40,
                               buttonWidth: 75,
@@ -292,7 +310,9 @@ class SubPage extends StatelessWidget {
                                   child: Text("리뷰가 없습니다"),
                                 )
                           : const Center(
-                              child: CircularProgressIndicator(),
+                              child: SizedBox(
+                                  height: 500,
+                                  child: CircularProgressIndicator()),
                             ),
                     ),
                   ],

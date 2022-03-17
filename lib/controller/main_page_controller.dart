@@ -34,8 +34,8 @@ class MainPageController extends GetxController {
   set serviceList(val) => _serviceList.value = val;
   //서비스 카테고리
 
-  final _selectedArea = ["전체", "하남", "강동", "송파"];
-  final _selectedSerVice = ["전체", "카페", "맛집", "헤어샵", "네일샵", "전자제품", "도서", "공방"];
+  final _selectedArea = ["하남", "강동", "송파"];
+  final _selectedSerVice = ["카페", "맛집", "헤어샵", "네일샵", "전자제품", "도서", "공방"];
   //선택된 카테고리
 
   final _categoryList = <CategoryModel>[].obs;
@@ -174,4 +174,6 @@ class MainPageController extends GetxController {
         .map<SearchModel>((json) => SearchModel.fromJson(json))
         .toList();
   }
+
+  final ScrollController scrollController = ScrollController();
 }

@@ -1,8 +1,14 @@
+import 'dart:convert';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
+
+import '../constants.dart';
+import '../model/search_model.dart';
 
 class ReviewPageController extends GetxController {
   final _images = [
@@ -197,6 +203,16 @@ class ReviewPageController extends GetxController {
 
   //컨트롤러
 
+  varInit() {
+    values = <String>[];
+    selectedValue = "지역";
+    selectedValue2 = "카테고리";
+    files = <File>[];
+    fileNames = <String>[];
+    controller.clear();
+    controller2.clear();
+  }
+
   final _values = <String>[].obs;
   List<String> get values => _values;
   set values(val) => _values.value = val;
@@ -255,6 +271,16 @@ class ReviewPageController extends GetxController {
   List<File> get files => _files;
   set files(val) => _files.value = val;
 
+  final _fileNames = <String>[].obs;
+  List<String> get fileNames => _fileNames;
+  set fileNames(val) => _fileNames.value = val;
+
+  static const _chars =
+      'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+  final Random _rnd = Random();
+  String getRandomString() => String.fromCharCodes(Iterable.generate(
+      10, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
+
   getPictures() async {
     FilePickerResult? result = await FilePicker.platform
         .pickFiles(allowMultiple: true, type: FileType.image);
@@ -265,9 +291,16 @@ class ReviewPageController extends GetxController {
           .map((i, path) => MapEntry(i, File(path!)))
           .values
           .toList());
+      fileNames.addAll(result.paths
+          .asMap()
+          .map((key, value) => MapEntry(key, getRandomString() + ".gif"))
+          .values
+          .toList());
       if (files.length > 10) {
         files.removeRange(10, files.length);
+        fileNames.removeRange(10, fileNames.length);
         _files.refresh();
+        _fileNames.refresh();
       }
     } else {
       // User canceled the picker
@@ -276,17 +309,144 @@ class ReviewPageController extends GetxController {
 
   removePicture(int index) {
     files.removeAt(index);
+    fileNames.removeAt(index);
     _files.refresh();
+    _fileNames.refresh();
     print(files);
   }
   //사진 첨부&삭제
 
-  writeReview() async {
-    // TODO:리뷰 작성하기
+  final _address = "경기도 하남시 이것저것".obs;
+  get address => _address.value;
+  set address(val) => _address.value = val;
+
+  reviewAction() {
+    existPlace().then((value) {
+      if (value != "") {
+        print(value);
+        writeReview(value);
+      } else {
+        writePlace().then((value) {
+          if (value != "") {
+            writeReview(value);
+          }
+        });
+      }
+    });
+  }
+
+  writeReview(String placeId) async {
+    try {
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.parse("$kBaseUrl/flu_review_write.php"),
+      );
+      request.fields['action'] = "WRITE_REVIEW";
+      request.fields['userId'] = "331";
+      request.fields['review'] = controller2.text;
+      request.fields['tagCount'] = values.length.toString();
+      request.fields['imageCount'] = files.length.toString();
+      request.fields['placeId'] = placeId;
+
+      for (int i = 0; i < values.length; i++) {
+        request.fields['tag$i'] = values[i];
+      }
+      for (int i = 0; i < files.length; i++) {
+        request.fields['imageNames$i'] = fileNames[i];
+        request.files
+            .add(await http.MultipartFile.fromPath("images$i", files[i].path));
+      }
+      print(request.fields);
+      print(request.files);
+      print(request);
+      http.Response response =
+          await http.Response.fromStream(await request.send());
+      print("Review Write Response : ${response.body}");
+      if (response.statusCode == 200) {
+        if (response.body == "success") {
+          Get.back(result: true);
+          Get.snackbar("성공", "리뷰를 저장했습니다");
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<String> writePlace() async {
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "WRITE_PLACE";
+      map['placeName'] = controller.text;
+      map['serviceType'] = selectedValue2;
+      map['address'] = address;
+      final response = await http
+          .post(Uri.parse("$kBaseUrl/flu_review_write.php"), body: map);
+      print('Place Write Response : ${response.body}');
+      if (200 == response.statusCode) {
+        return jsonDecode(response.body);
+      } else {
+        return "";
+      }
+    } catch (e) {
+      print("exception : $e");
+      return "";
+    }
+  }
+
+  Future<String> existPlace() async {
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "SELECT_PLACE";
+      map['placeName'] = controller.text;
+      map['address'] = address;
+      final response = await http
+          .post(Uri.parse("$kBaseUrl/flu_review_write.php"), body: map);
+      print('Exists Place Response : ${response.body}');
+      if (200 == response.statusCode) {
+        if (response.body != "null") {
+          return jsonDecode(response.body)['id'];
+        } else {
+          return "";
+        }
+      } else {
+        return "";
+      }
+    } catch (e) {
+      print("exception : $e");
+      return "";
+    }
   }
 
   searchPlace() {
     // TODO:행안부 API
     //https://blog.naver.com/PostView.nhn?blogId=lmj_java&logNo=222085429172
   }
+
+  final _searchResult = <SearchModel>[].obs;
+  List<SearchModel> get searchResult => _searchResult;
+  set searchResult(val) => _searchResult.value = val;
+
+  getSearchAutoCompleteResult() async {
+    try {
+      var map = <String, dynamic>{};
+      map['action'] = "GET_HASH";
+      final response = await http
+          .post(Uri.parse("$kBaseUrl/flu_review_autocomplete.php"), body: map);
+      print('Auto Complete Words Response : ${response.body}');
+      if (200 == response.statusCode) {
+        searchResult = parseResponse(response.body);
+      }
+    } catch (e) {
+      print("exception : $e");
+    }
+  }
+
+  static List<SearchModel> parseResponse(String responseBody) {
+    final parsed = json.decode(responseBody).cast<Map<String, dynamic>>();
+    return parsed
+        .map<SearchModel>((json) => SearchModel.fromJson(json))
+        .toList();
+  }
+//자동 완성
 }

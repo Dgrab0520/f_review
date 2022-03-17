@@ -1,10 +1,10 @@
 import 'package:card_swiper/card_swiper.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:f_review/controller/review_page_controller.dart';
+import 'package:f_review/ui/review_page/widget/hash_tag_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:material_tag_editor/tag_editor.dart';
 
 class ReviewPage extends StatelessWidget {
   ReviewPage({Key? key, required this.index}) : super(key: key);
@@ -353,56 +353,7 @@ class ReviewPage extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 7),
-                      Container(
-                        padding: const EdgeInsets.only(
-                          left: 10,
-                          right: 10,
-                        ),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF8F5FF),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Obx(() => TagEditor(
-                              length: reviewPageController.values.length,
-                              controller:
-                                  reviewPageController.textEditingController,
-                              focusNode: reviewPageController.focusNode,
-                              delimiters: const [',', ' ', ' ', ' '],
-                              hasAddButton: false,
-                              resetTextOnSubmitted: true,
-                              textStyle:
-                                  const TextStyle(color: Color(0xFF2a2a2a)),
-                              onSubmitted: (outstandingValue) {
-                                reviewPageController.onSubmit(outstandingValue);
-                              },
-                              inputDecoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: '태그 입력...',
-                                hintStyle: TextStyle(
-                                  color: Color(
-                                    0xFF888888,
-                                  ),
-                                  fontFamily: 'family: NotoSansKR-Regular',
-                                  fontSize: 13,
-                                ),
-                              ),
-                              onTagChanged: (newValue) {
-                                reviewPageController.onTagChanged(newValue);
-                              },
-                              tagBuilder: (context, index) => _Chip(
-                                index: index,
-                                label: reviewPageController.values[index],
-                                onDeleted: (index) {
-                                  reviewPageController.valueDelete(index);
-                                },
-                              ),
-                              // InputFormatters example, this disallow \ and /
-                              inputFormatters: [
-                                FilteringTextInputFormatter.deny(
-                                    RegExp(r'[/\\]'))
-                              ],
-                            )),
-                      ),
+                      HashTagWidget(),
                       const SizedBox(height: 30),
                       const Text(
                         '사진',
@@ -498,7 +449,7 @@ class ReviewPage extends StatelessWidget {
                           ),
                           InkWell(
                             onTap: () {
-                              reviewPageController.writeReview();
+                              reviewPageController.reviewAction();
                             },
                             child: Container(
                               width: 120,
@@ -529,34 +480,6 @@ class ReviewPage extends StatelessWidget {
           ),
         ),
       ),
-    );
-  }
-}
-
-class _Chip extends StatelessWidget {
-  const _Chip({
-    required this.label,
-    required this.onDeleted,
-    required this.index,
-  });
-
-  final String label;
-  final ValueChanged<int> onDeleted;
-  final int index;
-
-  @override
-  Widget build(BuildContext context) {
-    return Chip(
-      backgroundColor: const Color(0xFFEAE5F9),
-      labelPadding: const EdgeInsets.only(left: 8.0),
-      label: Text("#$label"),
-      deleteIcon: const Icon(
-        Icons.close,
-        size: 18,
-      ),
-      onDeleted: () {
-        onDeleted(index);
-      },
     );
   }
 }

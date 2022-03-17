@@ -13,7 +13,10 @@ class SearchPage extends StatelessWidget {
   final searchPageController = Get.put(SearchPageController());
   @override
   Widget build(BuildContext context) {
-    searchPageController.getSearchResult(keyword, type);
+    Future.delayed(Duration.zero, () {
+      searchPageController.getSearchResult(keyword, type);
+    });
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(

@@ -11,7 +11,9 @@ class BookmarkPage extends StatelessWidget {
       Get.put(ProfilePageController());
   @override
   Widget build(BuildContext context) {
-    profilePageController.getSaved(331);
+    Future.delayed(Duration.zero, () {
+      profilePageController.getSaved(331);
+    });
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();

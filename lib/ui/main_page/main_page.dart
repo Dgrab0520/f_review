@@ -16,11 +16,13 @@ class MainPage extends StatelessWidget {
   final mainPageController = Get.put(MainPageController());
   @override
   Widget build(BuildContext context) {
-    mainPageController.setAllCategories();
-    mainPageController.getSearchAutoCompleteResult();
-    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-    ));
+    Future.delayed(Duration.zero, () {
+      mainPageController.setAllCategories();
+      mainPageController.getSearchAutoCompleteResult();
+      SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      ));
+    });
     return GestureDetector(
       onTap: () {
         FocusScope.of(context).unfocus();
@@ -30,9 +32,17 @@ class MainPage extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          title: Image.asset(
-            'assets/logo.png',
-            width: 40,
+          title: InkWell(
+            onTap: () {
+              mainPageController.scrollController.animateTo(
+                  mainPageController.scrollController.position.minScrollExtent,
+                  duration: const Duration(milliseconds: 300),
+                  curve: Curves.easeInOut);
+            },
+            child: Image.asset(
+              'assets/logo.png',
+              width: 40,
+            ),
           ),
           centerTitle: true,
           leading: Container(
@@ -57,6 +67,7 @@ class MainPage extends StatelessWidget {
           ],
         ),
         body: SingleChildScrollView(
+          controller: mainPageController.scrollController,
           child: Container(
             color: Colors.white,
             child: Column(
@@ -99,10 +110,10 @@ class MainPage extends StatelessWidget {
                               width: 60,
                               height: 25,
                               decoration: BoxDecoration(
-                                color: Color(0xFF363057),
+                                color: const Color(0xFF363057),
                                 borderRadius: BorderRadius.circular(10),
                               ),
-                              child: Center(
+                              child: const Center(
                                 child: Text(
                                   '쿠폰',
                                   style: TextStyle(
@@ -125,10 +136,16 @@ class MainPage extends StatelessWidget {
                             flex: 1,
                             child: InkWell(
                               onTap: () {
-                                Get.to(SearchPage(
-                                  keyword: mainPageController.controller.text,
-                                  type: 'tag',
-                                ));
+                                if (mainPageController.controller.text == "") {
+                                  if (!Get.isSnackbarOpen) {
+                                    Get.snackbar("오류", "검색어를 입력해주세요");
+                                  }
+                                } else {
+                                  Get.to(SearchPage(
+                                    keyword: mainPageController.controller.text,
+                                    type: 'tag',
+                                  ));
+                                }
                               },
                               child: const SizedBox(
                                 height: 25,

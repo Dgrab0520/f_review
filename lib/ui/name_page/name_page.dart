@@ -13,7 +13,6 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 import '../../date_data.dart';
-import '../../model/profile_review_model.dart';
 import '../search_page/widget/search_sub.dart';
 
 class NamePage extends StatelessWidget {
@@ -26,31 +25,29 @@ class NamePage extends StatelessWidget {
   final namePageController = Get.put(NamePageController());
   @override
   Widget build(BuildContext context) {
-    if (reviewModel.id == 0) {
-      ProfileReviewModel profileReviewModel = Get.arguments;
-      print(profileReviewModel);
-      namePageController
-          .getMainReview(profileReviewModel.reviewId)
-          .then((value) {
-        if (value != null) {
-          namePageController.mainReview = value;
-        }
-      });
-    }
-    namePageController.mainReview = reviewModel;
-    namePageController.getPlace(reviewModel.placeId); //장소 정보 불러오기
-    namePageController.getReviews(
-        reviewModel.placeId, reviewModel.id); //같은 곳 다른 리뷰 불러오기
+    Future.delayed(Duration.zero, () {
+      namePageController.mainReview = reviewModel;
+      namePageController.getPlace(reviewModel.placeId); //장소 정보 불러오기
+      namePageController.getReviews(reviewModel.placeId, reviewModel.id,
+          "ORDER BY id DESC"); //같은 곳 다른 리뷰 불러오기
+    });
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         backgroundColor: Colors.white,
         elevation: 0,
-        title: Center(
-            child: Image.asset(
-          'assets/logo.png',
-          width: 40,
-        )),
+        title: InkWell(
+          onTap: () {
+            namePageController.scrollController.animateTo(
+                namePageController.scrollController.position.minScrollExtent,
+                duration: const Duration(milliseconds: 300),
+                curve: Curves.easeInOut);
+          },
+          child: Image.asset(
+            'assets/logo.png',
+            width: 40,
+          ),
+        ),
         centerTitle: true,
         leading: Container(
             padding: const EdgeInsets.only(left: 10),
@@ -82,6 +79,8 @@ class NamePage extends StatelessWidget {
         ],
       ),
       body: SingleChildScrollView(
+        controller: namePageController.scrollController,
+        physics: const BouncingScrollPhysics(),
         child: Container(
           color: Colors.white,
           child: Column(
@@ -156,7 +155,11 @@ class NamePage extends StatelessWidget {
                         Obx(
                           () => InkWell(
                             onTap: () {
-                              namePageController.placeCheck();
+                              namePageController.placeCheck(
+                                  namePageController.mainReview.placeId,
+                                  331,
+                                  namePageController.mainReview.images[0],
+                                  namePageController.mainReview.id);
                             },
                             child: Column(
                               children: [

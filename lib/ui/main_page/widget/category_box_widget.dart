@@ -1,5 +1,6 @@
 import 'package:f_review/controller/main_page_controller.dart';
 import 'package:f_review/model/category_model.dart';
+import 'package:f_review/ui/sub_page/sub_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -27,6 +28,8 @@ class CategoryBoxWidget extends StatelessWidget {
                 area: category.area,
                 service: category.service,
               ));
+            } else {
+              Get.to(SubPage(area: category.area, service: category.service));
             }
           });
         },
