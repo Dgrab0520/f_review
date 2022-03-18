@@ -35,37 +35,49 @@ class CategoryBoxWidget extends StatelessWidget {
           });
         },
         child: Container(
-          padding: const EdgeInsets.only(left: 10, bottom: 10),
           width: Get.width,
           height: 200,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
-            color: Colors.black,
             image: DecorationImage(
               image: NetworkImage("$kBaseUrl/category_img/${category.image}"),
               fit: BoxFit.cover,
-              colorFilter: ColorFilter.mode(
-                  Colors.black.withOpacity(0.8), BlendMode.dstATop),
             ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Text(
-                '${category.area} ${category.service} 리뷰',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontFamily: 'NotoSansKR-Medium',
+              Expanded(child: Container()),
+              Container(
+                width: Get.width,
+                padding: const EdgeInsets.only(left: 10, bottom: 10, top: 7),
+                decoration: BoxDecoration(
+                  borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10)),
+                  color: Colors.black.withOpacity(0.4),
                 ),
-              ),
-              Text(
-                '${category.area} ${category.service} 리뷰를 참고해보세요!',
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 11,
-                  fontFamily: 'NotoSansKR-Regular',
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '${category.area} ${category.service} 리뷰',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontFamily: 'NotoSansKR-Medium',
+                      ),
+                    ),
+                    Text(
+                      '${category.area} ${category.service} 리뷰를 참고해보세요!',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 11,
+                        fontFamily: 'NotoSansKR-Regular',
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
