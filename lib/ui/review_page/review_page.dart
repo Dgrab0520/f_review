@@ -2,9 +2,12 @@ import 'package:card_swiper/card_swiper.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:f_review/controller/review_page_controller.dart';
 import 'package:f_review/ui/review_page/widget/hash_tag_widget.dart';
+import 'package:f_review/ui/review_page/widget/search_address_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+
+import '../../controller/address_search_controller.dart';
 
 class ReviewPage extends StatelessWidget {
   ReviewPage({Key? key, required this.index}) : super(key: key);
@@ -273,6 +276,13 @@ class ReviewPage extends StatelessWidget {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: TextField(
+                              onTap: () {
+                                final addressSearchController =
+                                    Get.put(AddressSearchController());
+                                addressSearchController.addressInit();
+                                Get.to(SearchAddressWidget());
+                                FocusScope.of(context).unfocus();
+                              },
                               controller: reviewPageController.controller,
                               decoration: const InputDecoration(
                                 hintText: '매장이름을 입력해주세요',
@@ -295,6 +305,20 @@ class ReviewPage extends StatelessWidget {
                                       BorderSide(color: Colors.transparent),
                                 ),
                               )),
+                        ),
+                      ),
+                      Obx(
+                        () => Padding(
+                          padding: const EdgeInsets.only(left: 20.0),
+                          child: Text(
+                            reviewPageController.address == ""
+                                ? ""
+                                : "주소 : " + reviewPageController.address,
+                            style: const TextStyle(
+                              color: Color(0xFFBFBFBF),
+                              fontSize: 13,
+                            ),
+                          ),
                         ),
                       ),
                       const SizedBox(height: 30),

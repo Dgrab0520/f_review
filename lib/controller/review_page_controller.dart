@@ -211,6 +211,7 @@ class ReviewPageController extends GetxController {
     fileNames = <String>[];
     controller.clear();
     controller2.clear();
+    address = "";
   }
 
   final _values = <String>[].obs;
@@ -316,7 +317,7 @@ class ReviewPageController extends GetxController {
   }
   //사진 첨부&삭제
 
-  final _address = "경기도 하남시 이것저것".obs;
+  final _address = "".obs;
   get address => _address.value;
   set address(val) => _address.value = val;
 
@@ -416,11 +417,6 @@ class ReviewPageController extends GetxController {
       print("exception : $e");
       return "";
     }
-  }
-
-  searchPlace() {
-    // TODO:행안부 API
-    //https://blog.naver.com/PostView.nhn?blogId=lmj_java&logNo=222085429172
   }
 
   final _searchResult = <SearchModel>[].obs;
