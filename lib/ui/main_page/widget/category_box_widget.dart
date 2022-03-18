@@ -1,3 +1,4 @@
+import 'package:f_review/constants.dart';
 import 'package:f_review/controller/main_page_controller.dart';
 import 'package:f_review/model/category_model.dart';
 import 'package:f_review/ui/sub_page/sub_page.dart';
@@ -39,9 +40,12 @@ class CategoryBoxWidget extends StatelessWidget {
           height: 200,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
+            color: Colors.black,
             image: DecorationImage(
-              image: AssetImage(category.image),
+              image: NetworkImage("$kBaseUrl/category_img/${category.image}"),
               fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                  Colors.black.withOpacity(0.8), BlendMode.dstATop),
             ),
           ),
           child: Column(

@@ -137,10 +137,6 @@ class MainPageController extends GetxController {
   }
   //자동 완성
 
-  getCategoryImage() async {
-    // TODO:카테고리 썸네일 이미지 불러오기
-  }
-
   Future<SponsorModel?> getSponsorOnce(String area, String serviceType) async {
     try {
       var map = <String, dynamic>{};

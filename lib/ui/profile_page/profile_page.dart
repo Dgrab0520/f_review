@@ -329,6 +329,9 @@ class ProfilePage extends StatelessWidget {
                                     )),
                               );
                             }))),
+                    const SizedBox(
+                      width: 7,
+                    ),
                     Obx(
                       () => DropdownButtonHideUnderline(
                         child: DropdownButton2(
