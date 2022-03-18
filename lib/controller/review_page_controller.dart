@@ -4,8 +4,10 @@ import 'dart:math';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
+import 'package:path_provider/path_provider.dart';
 
 import '../constants.dart';
 import '../model/search_model.dart';
@@ -209,6 +211,8 @@ class ReviewPageController extends GetxController {
     selectedValue2 = "카테고리";
     files = <File>[];
     fileNames = <String>[];
+    compressedFiles = <File>[];
+    compressedSmallFiles = <File>[];
     controller.clear();
     controller2.clear();
     address = "";
@@ -276,6 +280,14 @@ class ReviewPageController extends GetxController {
   List<String> get fileNames => _fileNames;
   set fileNames(val) => _fileNames.value = val;
 
+  final _compressedFiles = <File>[].obs;
+  List<File> get compressedFiles => _compressedFiles;
+  set compressedFiles(val) => _compressedFiles.value = val;
+
+  final _compressedSmallFiles = <File>[].obs;
+  List<File> get compressedSmallFiles => _compressedSmallFiles;
+  set compressedSmallFiles(val) => _compressedSmallFiles.value = val;
+
   static const _chars =
       'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
   final Random _rnd = Random();
@@ -283,6 +295,7 @@ class ReviewPageController extends GetxController {
       10, (_) => _chars.codeUnitAt(_rnd.nextInt(_chars.length))));
 
   getPictures() async {
+    getTempDir();
     FilePickerResult? result = await FilePicker.platform
         .pickFiles(allowMultiple: true, type: FileType.image);
 
@@ -297,11 +310,23 @@ class ReviewPageController extends GetxController {
           .map((key, value) => MapEntry(key, getRandomString() + ".gif"))
           .values
           .toList());
+
+      for (var path in result.paths) {
+        compressFile(File(path!), getRandomString()).then((value) {
+          compressedFiles.add(value!);
+        });
+        compressFileSmall(File(path), getRandomString()).then((value) {
+          compressedSmallFiles.add(value!);
+        });
+      }
+
       if (files.length > 10) {
         files.removeRange(10, files.length);
         fileNames.removeRange(10, fileNames.length);
+        compressedFiles.removeRange(10, compressedFiles.length);
         _files.refresh();
         _fileNames.refresh();
+        _compressedFiles.refresh();
       }
     } else {
       // User canceled the picker
@@ -311,8 +336,10 @@ class ReviewPageController extends GetxController {
   removePicture(int index) {
     files.removeAt(index);
     fileNames.removeAt(index);
+    compressedFiles.removeAt(index);
     _files.refresh();
     _fileNames.refresh();
+    _compressedFiles.refresh();
     print(files);
   }
   //사진 첨부&삭제
@@ -336,6 +363,7 @@ class ReviewPageController extends GetxController {
     });
   }
 
+  //region
   writeReview(String placeId) async {
     try {
       var request = http.MultipartRequest(
@@ -356,6 +384,10 @@ class ReviewPageController extends GetxController {
         request.fields['imageNames$i'] = fileNames[i];
         request.files
             .add(await http.MultipartFile.fromPath("images$i", files[i].path));
+        request.files.add(await http.MultipartFile.fromPath(
+            "compressedImages$i", compressedFiles[i].path));
+        request.files.add(await http.MultipartFile.fromPath(
+            "smallCompressedImages$i", compressedSmallFiles[i].path));
       }
       print(request.fields);
       print(request.files);
@@ -373,6 +405,7 @@ class ReviewPageController extends GetxController {
       print(e);
     }
   }
+  //리뷰 저장
 
   Future<String> writePlace() async {
     try {
@@ -394,6 +427,7 @@ class ReviewPageController extends GetxController {
       return "";
     }
   }
+  //db에 같은 장소가 저장되있지 않는 경우 장소 저장
 
   Future<String> existPlace() async {
     try {
@@ -418,6 +452,10 @@ class ReviewPageController extends GetxController {
       return "";
     }
   }
+  //db에 같은 장소가 저장되어 있는지 확인
+
+  //endregion
+  //리뷰 올리기
 
   final _searchResult = <SearchModel>[].obs;
   List<SearchModel> get searchResult => _searchResult;
@@ -445,4 +483,48 @@ class ReviewPageController extends GetxController {
         .toList();
   }
 //자동 완성
+
+  final _filePath = "".obs;
+  get filePath => _filePath.value;
+  set filePath(val) => _filePath.value = val;
+
+  getTempDir() async {
+    Directory tempDir = await getTemporaryDirectory();
+    String tempPath = tempDir.path;
+    filePath = tempPath;
+  }
+
+  Future<File?> compressFileSmall(File file, String name) async {
+    print("Small CompressFile");
+    final result = await FlutterImageCompress.compressWithFile(
+      file.absolute.path,
+      minWidth: 70,
+      minHeight: 70,
+      quality: 60,
+    );
+    String path = filePath + name;
+    print("original : ${file.lengthSync()}");
+    print("compress : ${result?.length}");
+    final buffer = result!.buffer;
+
+    return File(path).writeAsBytes(
+        buffer.asUint8List(result.offsetInBytes, result.lengthInBytes));
+  }
+
+  Future<File?> compressFile(File file, String name) async {
+    print("CompressFile");
+    final result = await FlutterImageCompress.compressWithFile(
+      file.absolute.path,
+      minWidth: 160,
+      minHeight: 90,
+      quality: 60,
+    );
+    String path = filePath + name;
+    print("original : ${file.lengthSync()}");
+    print("compress : ${result?.length}");
+    final buffer = result!.buffer;
+
+    return File(path).writeAsBytes(
+        buffer.asUint8List(result.offsetInBytes, result.lengthInBytes));
+  }
 }
